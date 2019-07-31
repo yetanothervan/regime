@@ -7,7 +7,7 @@
         xmlns:ingredientsGrid="clr-namespace:Regime.Win.IngredientsGrid"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid d:DataContext="{d:DesignInstance {x:Type local:MainWindowVM}}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
@@ -21,7 +21,7 @@
                 <MenuItem Header="Открыть MealTypes.json..."></MenuItem>
                 <MenuItem Header="Открыть Persons.json..."></MenuItem>
                 <Separator/>
-                <MenuItem Header="Выход"></MenuItem>
+                <MenuItem Header="Выход" Visibility="{Binding JsonVisibility}"></MenuItem>
             </MenuItem>
             <MenuItem Header="День">
                 <MenuItem Header="Добавить день..."></MenuItem>
@@ -34,6 +34,7 @@
             </TabItem>
             <TabItem Header="Блюда"></TabItem>
         </TabControl>
+        <TextBlock Grid.Row="1" Background="White" Visibility="{Binding JsonVisibility}">oeuoeu</TextBlock>
     </Grid>
 </Window>
 
