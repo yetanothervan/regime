@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Autofac;
 
 namespace Regime.Win.IngredientsGrid
 {
@@ -23,7 +24,10 @@ namespace Regime.Win.IngredientsGrid
         public IngredientsGrid()
         {
             InitializeComponent();
-            DataContext = new IngredientsGridVM(() => { TheGrid.Items?.Refresh(); });
+            if (App.IsDesignMode) return;
+            var model = App.Container.Resolve<IngredientsGridVM>();
+            model.RefreshGrid =() => { TheGrid.Items?.Refresh(); };
+            DataContext = model;
         }
     }
 }

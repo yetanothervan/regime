@@ -8,14 +8,13 @@ namespace Regime.Win.IngredientsGrid
 {
     public class IngredientsGridVM : BindableBase
     {
-        private readonly Action _refreshGrid;
+        public Action RefreshGrid { get; set; }
         public List<Ingredient> Ingredients { get; set; }
 
         public Ingredient SelectedIngredient { get; set; }
 
-        public IngredientsGridVM(Action refreshGrid)
+        public IngredientsGridVM()
         {
-            _refreshGrid = refreshGrid;
             Ingredients = new List<Ingredient>()
             {
                 new Ingredient()
@@ -52,7 +51,7 @@ namespace Regime.Win.IngredientsGrid
                 {
                     var ing = Ingredients.Find(i => i.Id == dlgModel.MyIngredient.Id);
                     ing.CopyPropertiesFrom(dlgModel.MyIngredient);
-                    _refreshGrid?.Invoke();
+                    RefreshGrid?.Invoke();
                 }
             });
             AddIngredientCommand = new DelegateCommand(() =>
@@ -63,7 +62,7 @@ namespace Regime.Win.IngredientsGrid
                 if (result.HasValue && result == true)
                 {
                     Ingredients.Add(dlgModel.MyIngredient);
-                    _refreshGrid?.Invoke();
+                    RefreshGrid?.Invoke();
                 }
             });
         }

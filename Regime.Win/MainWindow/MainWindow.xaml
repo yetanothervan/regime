@@ -1,0 +1,42 @@
+﻿<Window x:Class="Regime.Win.MainWindow.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Regime.Win.MainWindow"
+        xmlns:ingredientsGrid="clr-namespace:Regime.Win.IngredientsGrid"
+        xmlns:mainWindow="clr-namespace:Regime.Win.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid d:DataContext="{d:DesignInstance {x:Type mainWindow:MainWindowVM}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Menu>
+            <MenuItem Header="Файл">
+                <MenuItem Header="Открыть Regime.json..." Command="{Binding SelectIngredientsFileCommand}"></MenuItem>
+                <Separator/>
+                <MenuItem Header="Открыть Ingredients.json..." Command="{Binding SelectIngredientsFileCommand}"></MenuItem>
+                <MenuItem Header="Открыть Dishes.json..." Command="{Binding SelectIngredientsFileCommand}"></MenuItem>
+                <MenuItem Header="Открыть MealTypes.json..." Command="{Binding SelectIngredientsFileCommand}"></MenuItem>
+                <MenuItem Header="Открыть Persons.json..." Command="{Binding SelectIngredientsFileCommand}"></MenuItem>
+                <Separator/>
+                <MenuItem Header="Выход" Command="{Binding ExitCommand}"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="День" Visibility="{Binding MenuVisibility}">
+                <MenuItem Header="Добавить день..."></MenuItem>
+            </MenuItem>
+        </Menu>
+        <TabControl Grid.Row="1">
+            <TabItem Header="Меню"></TabItem>
+            <TabItem Header="Ингредиенты">
+                <ingredientsGrid:IngredientsGrid></ingredientsGrid:IngredientsGrid>
+            </TabItem>
+            <TabItem Header="Блюда"></TabItem>
+        </TabControl>
+        <TextBlock Grid.Row="1" Background="White" Visibility="{Binding JsonVisibility}"
+                   Text="{Binding VisibilityText}"/>
+    </Grid>
+</Window>
+

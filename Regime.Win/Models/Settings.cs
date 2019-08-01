@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Regime.Win
+namespace Regime.Win.Models
 {
     public class Settings
     {
