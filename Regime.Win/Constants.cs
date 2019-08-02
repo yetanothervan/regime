@@ -8,6 +8,7 @@ namespace Regime.Win
 {
     public static class Constants
     {
+        public const string SettingsPath = "settings.json";
         public const string IngredientsFileName = "ingredients.json";
         public const string RegimeFileName = "regime.json";
         public const string DishesFileName = "dishes.json";

@@ -31,7 +31,27 @@ namespace Regime.Win.MainWindow
             SelectIngredientsFileCommand = new DelegateCommand(() =>
             {
                 if (FileDlg(Constants.IngredientsFileName, out var path))
-                    ;
+                    _settings.SetIngredientsPath(path);
+            });
+            SelectDishesFileCommand = new  DelegateCommand(() =>
+            {
+                if (FileDlg(Constants.DishesFileName, out var path))
+                    _settings.SetDishesPath(path);
+            });
+            SelectMealTypesFileCommand = new DelegateCommand(() =>
+            {
+                if (FileDlg(Constants.MealTypesFileName, out var path))
+                    _settings.SetMealTypesPath(path);
+            });
+            SelectPersonsFileCommand = new DelegateCommand(() =>
+            {
+                if (FileDlg(Constants.PersonsFileName, out var path))
+                    _settings.SetPersonsPath(path);
+            });
+            SelectRegimeFileCommand = new DelegateCommand(() =>
+            {
+                if (FileDlg(Constants.RegimeFileName, out var path))
+                    _settings.SetRegimePath(path);
             });
         }
 
@@ -39,7 +59,6 @@ namespace Regime.Win.MainWindow
         {
             var dlg = new OpenFileDialog
             {
-                InitialDirectory = "",
                 DefaultExt = ".json",
                 Filter = $"{filename}|{filename}",
                 Multiselect = false

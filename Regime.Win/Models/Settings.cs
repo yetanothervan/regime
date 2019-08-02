@@ -10,5 +10,8 @@ namespace Regime.Win.Models
     {
         public string PathRegime { get; set; }
         public string PathIngredients { get; set; }
+        public string PathMealTypes { get; set; }
+        public string PathPersons { get; set; }
+        public string PathDishes { get; set; }
     }
 }

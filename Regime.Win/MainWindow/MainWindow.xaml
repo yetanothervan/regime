@@ -15,12 +15,12 @@
         </Grid.RowDefinitions>
         <Menu>
             <MenuItem Header="Файл">
-                <MenuItem Header="Открыть Regime.json..." Command="{Binding SelectIngredientsFileCommand}"></MenuItem>
+                <MenuItem Header="Открыть Regime.json..." Command="{Binding SelectRegimeFileCommand}"></MenuItem>
                 <Separator/>
                 <MenuItem Header="Открыть Ingredients.json..." Command="{Binding SelectIngredientsFileCommand}"></MenuItem>
-                <MenuItem Header="Открыть Dishes.json..." Command="{Binding SelectIngredientsFileCommand}"></MenuItem>
-                <MenuItem Header="Открыть MealTypes.json..." Command="{Binding SelectIngredientsFileCommand}"></MenuItem>
-                <MenuItem Header="Открыть Persons.json..." Command="{Binding SelectIngredientsFileCommand}"></MenuItem>
+                <MenuItem Header="Открыть Dishes.json..." Command="{Binding SelectDishesFileCommand}"></MenuItem>
+                <MenuItem Header="Открыть MealTypes.json..." Command="{Binding SelectMealTypesFileCommand}"></MenuItem>
+                <MenuItem Header="Открыть Persons.json..." Command="{Binding SelectPersonsFileCommand}"></MenuItem>
                 <Separator/>
                 <MenuItem Header="Выход" Command="{Binding ExitCommand}"></MenuItem>
             </MenuItem>
