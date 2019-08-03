@@ -1,42 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using Prism.Commands;
 using Prism.Mvvm;
 using Regime.Domain;
+using Regime.Win.Services;
 
 namespace Regime.Win.IngredientsGrid
 {
-    public class IngredientsGridVM : BindableBase
+    public class IngredientsGridVM : BindableBase, IDisposable
     {
+        public DataProviderService DataProvider { get; private set; }
         public Action RefreshGrid { get; set; }
-        public List<Ingredient> Ingredients { get; set; }
-
         public Ingredient SelectedIngredient { get; set; }
 
-        public IngredientsGridVM()
+        public void Dispose()
         {
-            Ingredients = new List<Ingredient>()
-            {
-                new Ingredient()
-                {
-                    Caption = "oeuo",
-                    Carbon100 = 100,
-                    Fat100 = 20.5m,
-                    Id = Guid.NewGuid(),
-                    Kkal100 = 300,
-                    Protein100 = 2.2m
-                },
-                new Ingredient()
-                {
-                    Caption = "thdthd",
-                    Carbon100 = 200,
-                    Fat100 = 21.5m,
-                    Id = Guid.NewGuid(),
-                    Kkal100 = 100,
-                    Protein100 = 1.1m
-                }
-            };
+            if (DataProvider != null) DataProvider.IngredientsChanged -= DataProviderOnIngredientsChanged;
+        }
+
+        public IngredientsGridVM(DataProviderService dataProvider)
+        {
+            DataProvider = dataProvider;
+            DataProvider.IngredientsChanged += DataProviderOnIngredientsChanged;
+
             SetupCommands();
+        }
+
+        private void DataProviderOnIngredientsChanged(object sender, EventArgs eventArgs)
+        {
+            RefreshGrid?.Invoke();
         }
 
         private void SetupCommands()
@@ -49,9 +42,7 @@ namespace Regime.Win.IngredientsGrid
                 var result = dlg.ShowDialog();
                 if (result.HasValue && result == true)
                 {
-                    var ing = Ingredients.Find(i => i.Id == dlgModel.MyIngredient.Id);
-                    ing.CopyPropertiesFrom(dlgModel.MyIngredient);
-                    RefreshGrid?.Invoke();
+                    DataProvider.UpdateIngredient(dlgModel.MyIngredient);
                 }
             });
             AddIngredientCommand = new DelegateCommand(() =>
@@ -60,14 +51,23 @@ namespace Regime.Win.IngredientsGrid
                 var dlg = new IngredientDlg(dlgModel);
                 var result = dlg.ShowDialog();
                 if (result.HasValue && result == true)
+                    DataProvider.UpdateIngredient(dlgModel.MyIngredient);
+            });
+            DeleteRowCommand = new DelegateCommand(() =>
+            {
+                if (SelectedIngredient == null) return;
+                var dialogResult = 
+                    MessageBox.Show($"Вы действительно хотите удалить {SelectedIngredient.Caption}", 
+                        "Are you sure?", MessageBoxButton.OKCancel);
+                if (dialogResult == MessageBoxResult.OK)
                 {
-                    Ingredients.Add(dlgModel.MyIngredient);
-                    RefreshGrid?.Invoke();
+                    DataProvider.DeleteIngredient(SelectedIngredient);
                 }
             });
         }
-
+        
         public DelegateCommand EditRowCommand { get; set; }
         public DelegateCommand AddIngredientCommand { get; set; }
+        public DelegateCommand DeleteRowCommand { get; set; }
     }
 }

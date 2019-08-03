@@ -38,6 +38,9 @@
     <Reference Include="Autofac, Version=4.9.3.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>packages\Autofac.4.9.3\lib\net45\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>packages\CommonServiceLocator.2.0.4\lib\net46\CommonServiceLocator.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -46,6 +49,7 @@
       <HintPath>packages\Prism.Core.7.2.0.1367\lib\net45\Prism.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
@@ -70,11 +74,34 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Constants.cs" />
+    <Compile Include="DishesGrid\DishDlg.xaml.cs">
+      <DependentUpon>DishDlg.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DishesGrid\DishDlgVM.cs" />
+    <Compile Include="DishesGrid\DishesGrid.xaml.cs">
+      <DependentUpon>DishesGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DishesGrid\DishesGridVM.cs" />
+    <Compile Include="DishesGrid\DishItem.xaml.cs">
+      <DependentUpon>DishItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Services\DataProviderService.cs" />
     <Compile Include="MainWindow\MainWindowVM.cs" />
     <Compile Include="ObjectExtensionMethods.cs" />
     <Compile Include="Services\SettingsService.cs" />
+    <Page Include="DishesGrid\DishDlg.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DishesGrid\DishesGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DishesGrid\DishItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="IngredientsGrid\IngredientDlg.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -137,5 +164,6 @@
       <Name>Regime.Domain</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

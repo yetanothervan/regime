@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Regime.Win.MainWindow"
         xmlns:ingredientsGrid="clr-namespace:Regime.Win.IngredientsGrid"
         xmlns:mainWindow="clr-namespace:Regime.Win.MainWindow"
+        xmlns:dishesGrid="clr-namespace:Regime.Win.DishesGrid"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid d:DataContext="{d:DesignInstance {x:Type mainWindow:MainWindowVM}}">
@@ -33,7 +34,9 @@
             <TabItem Header="Ингредиенты">
                 <ingredientsGrid:IngredientsGrid></ingredientsGrid:IngredientsGrid>
             </TabItem>
-            <TabItem Header="Блюда"></TabItem>
+            <TabItem Header="Блюда">
+                <dishesGrid:DishesGrid></dishesGrid:DishesGrid>
+            </TabItem>
         </TabControl>
         <TextBlock Grid.Row="1" Background="White" Visibility="{Binding JsonVisibility}"
                    Text="{Binding VisibilityText}"/>

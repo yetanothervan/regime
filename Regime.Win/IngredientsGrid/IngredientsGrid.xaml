@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
         <DataGrid AutoGenerateColumns="True" SelectedItem="{Binding SelectedIngredient}"
                   CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True"
-                  ItemsSource="{Binding Ingredients}"
+                  ItemsSource="{Binding DataProvider.Ingredients}"
                   x:Name="TheGrid">
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="MouseDoubleClick">
@@ -25,6 +25,7 @@
         <WrapPanel Grid.Row="1">
             <Button Margin="10" Command="{Binding AddIngredientCommand}">Добавить...</Button>
             <Button Margin="10" Command="{Binding EditRowCommand}">Редактировать...</Button>
+            <Button Margin="10" Command="{Binding DeleteRowCommand}">Удалить</Button>
         </WrapPanel>
     </Grid>
 </UserControl>
