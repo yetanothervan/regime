@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Windows;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -56,6 +58,21 @@ namespace Regime.Win.IngredientsGrid
             DeleteRowCommand = new DelegateCommand(() =>
             {
                 if (SelectedIngredient == null) return;
+                var dishes = DataProvider.Dishes.Where(d => d.Items.Any(i => i.IngredientId == SelectedIngredient.Id)).ToList();
+                if (dishes.Any())
+                {
+                    var sb = new StringBuilder();
+                    foreach (var dish in dishes)
+                    {
+                        sb.Append(dish.Caption);
+                        sb.Append(", ");
+                    }
+
+                    var dishesStr = sb.ToString().Trim(' ', ',');
+                    MessageBox.Show($"Ингредиент удалить нельзя, т.к. он входит в состав блюд: {dishesStr}");
+                    return;
+                }
+                
                 var dialogResult = 
                     MessageBox.Show($"Вы действительно хотите удалить {SelectedIngredient.Caption}", 
                         "Are you sure?", MessageBoxButton.OKCancel);

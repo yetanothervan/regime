@@ -85,6 +85,8 @@
     <Compile Include="DishesGrid\DishItem.xaml.cs">
       <DependentUpon>DishItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\DishItemViewModel.cs" />
+    <Compile Include="Models\DishViewModel.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Services\DataProviderService.cs" />
     <Compile Include="MainWindow\MainWindowVM.cs" />

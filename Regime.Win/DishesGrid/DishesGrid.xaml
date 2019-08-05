@@ -12,7 +12,13 @@
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ListBox ItemsSource="{Binding Dishes}" HorizontalContentAlignment="Stretch">
+        <ListBox ItemsSource="{Binding Dishes}" 
+                 SelectedIndex="{Binding SelectedDishIndex}" x:Name="TheListBox" HorizontalContentAlignment="Stretch">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding EditDishCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <local:DishItem/>
@@ -21,6 +27,8 @@
         </ListBox>
         <WrapPanel Grid.Row="1">
             <Button Margin="10" Command="{Binding AddDishCommand}">Добавить...</Button>
+            <Button Margin="10" Command="{Binding EditDishCommand}">Редактировать...</Button>
+            <Button Margin="10" Command="{Binding DeleteDishCommand}">Удалить</Button>
         </WrapPanel>
     </Grid>
 </UserControl>

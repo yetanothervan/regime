@@ -98,7 +98,7 @@ namespace Regime.Win.Services
             list.Remove(itm);
             SaveIngredients();
         }
-
+        
         void SaveIngredients()
         {
             string newIngs = JsonConvert.SerializeObject(Ingredients, Formatting.Indented);
@@ -110,17 +110,36 @@ namespace Regime.Win.Services
             OnIngredientsChanged();
         }
 
-        private string _ingredientsPath = String.Empty;
-        public bool LoadIngredientsFrom(string path)
+        public void UpdateDish(Dish dish)
         {
-            var json = LoadJsonFrom<Ingredient>(path);
-            if (json == null) return false;
-            Ingredients = json;
-            _ingredientsPath = path;
-            return true;
+            if (!(Dishes is List<Dish> list)) return;
+            if (!list.Exists(i => i.Id == dish.Id)) list.Add(dish);
+            else
+            {
+                var itm = list.Find(i => i.Id == dish.Id);
+                itm.Caption = dish.Caption;
+                itm.Items = new List<DishItem>(dish.Items.Select(
+                    a => new DishItem()
+                    {
+                        Weigth = a.Weigth,
+                        IngredientId = a.IngredientId
+                    }));
+            }
+
+            SaveDishes();
         }
 
-
+        void SaveDishes()
+        {
+            string newDishes = JsonConvert.SerializeObject(Dishes, Formatting.Indented);
+            using (var fs = File.Create(_dishesPath))
+            using (var sw = new StreamWriter(fs))
+            {
+                sw.Write(newDishes);
+            }
+            OnDishesChanged();
+        }
+        
         List<T> LoadJsonFrom<T>(string path)
         {
             if (!File.Exists(path)) return null;
@@ -138,6 +157,16 @@ namespace Regime.Win.Services
             });
             if (errorOccured) return null;
             return loaded ?? new List<T>();
+        }
+
+        private string _ingredientsPath = String.Empty;
+        public bool LoadIngredientsFrom(string path)
+        {
+            var json = LoadJsonFrom<Ingredient>(path);
+            if (json == null) return false;
+            Ingredients = json;
+            _ingredientsPath = path;
+            return true;
         }
 
         private string _regimePath = String.Empty;

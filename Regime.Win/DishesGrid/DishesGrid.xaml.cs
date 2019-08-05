@@ -13,6 +13,12 @@ namespace Regime.Win.DishesGrid
             InitializeComponent();
             if (App.IsDesignMode) return;
             var model = App.Container.Resolve<DishesGridVM>();
+            model.RefreshGrid =
+                () =>
+                {
+                    TheListBox.ItemsSource = null;
+                    TheListBox.ItemsSource = model.Dishes;
+                };
             DataContext = model;
         }
     }
