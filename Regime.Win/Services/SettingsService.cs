@@ -122,5 +122,10 @@ namespace Regime.Win.Services
                 OnSettingsChanged(new EventArgs());
             }
         }
+
+        public void SetDefaults()
+        {
+            _dataProvider.SetPersonsAndMealTypes();
+        }
     }
 }

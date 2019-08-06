@@ -11,8 +11,6 @@ namespace Regime.Win.Services
     public class DataProviderService
     {
         private IReadOnlyList<Ingredient> _ingredients;
-        private IReadOnlyList<MealType> _mealTypes;
-        private IReadOnlyList<Person> _persons;
         private IReadOnlyList<Dish> _dishes;
         private IReadOnlyList<Day> _regime;
         
@@ -28,29 +26,9 @@ namespace Regime.Win.Services
 
         public event EventHandler IngredientsChanged;
 
-        public IReadOnlyList<MealType> MealTypes
-        {
-            get => _mealTypes;
-            private set
-            {
-                _mealTypes = value; 
-                OnMealTypesChanged();
-            }
-        }
+        public IReadOnlyList<MealType> MealTypes { get; private set; }
 
-        public event EventHandler MealTypesChanged;
-
-        public IReadOnlyList<Person> Persons
-        {
-            get => _persons;
-            private set
-            {
-                _persons = value; 
-                OnPersonsChanged();
-            }
-        }
-
-        public event EventHandler PersonsChanged;
+        public IReadOnlyList<Person> Persons { get; private set; }
 
         public IReadOnlyList<Dish> Dishes
         {
@@ -75,6 +53,41 @@ namespace Regime.Win.Services
         }
 
         public event EventHandler RegimeChanged;
+
+        public void SetPersonsAndMealTypes()
+        {
+            if (Persons.Count != 0) return;
+
+            Persons = new List<Person>()
+            {
+                new Person() {Id = Guid.NewGuid(), KkalTarget = 2000, Name = "Саша"},
+                new Person() {Id = Guid.NewGuid(), KkalTarget = 1500, Name = "Лена"}
+            };
+            string personsStr = JsonConvert.SerializeObject(Persons, Formatting.Indented);
+            using (var fs = File.Create(_personsPath))
+            using (var sw = new StreamWriter(fs))
+            {
+                sw.Write(personsStr);
+            }
+
+            MealTypes = new List<MealType>()
+            {
+                new MealType() {Id = Guid.NewGuid(), Caption = "Завтрак Саша",
+                    CarbonPart = 0.5m, FatPart = 0.3m, ProteinPart = 0.2m, KkalTotal = 500},
+                new MealType() {Id = Guid.NewGuid(), Caption = "Обед Саша", CarbonPart = 0.5m, FatPart = 0.3m, ProteinPart = 0.2m, KkalTotal = 700},
+                new MealType() {Id = Guid.NewGuid(), Caption = "Ужин Саша", CarbonPart = 0.5m, FatPart = 0.3m, ProteinPart = 0.2m, KkalTotal = 400},
+                new MealType() {Id = Guid.NewGuid(), Caption = "Перекус Саша", CarbonPart = 0.5m, FatPart = 0.3m, ProteinPart = 0.2m, KkalTotal = 200},
+
+                new MealType() {Id = Guid.NewGuid(), Caption = "Завтрак Лена", CarbonPart = 0.5m, FatPart = 0.3m, ProteinPart = 0.2m, KkalTotal = 500},
+                new MealType() {Id = Guid.NewGuid(), Caption = "Ужин Лена", CarbonPart = 0.5m, FatPart = 0.3m, ProteinPart = 0.2m, KkalTotal = 400}
+            };
+            string mealStrings = JsonConvert.SerializeObject(MealTypes, Formatting.Indented);
+            using (var fs = File.Create(_mealTypePath))
+            using (var sw = new StreamWriter(fs))
+            {
+                sw.Write(mealStrings);
+            }
+        }
 
         public void UpdateIngredient(Ingredient ing)
         {
@@ -213,17 +226,7 @@ namespace Regime.Win.Services
         {
             IngredientsChanged?.Invoke(this, EventArgs.Empty);
         }
-
-        protected virtual void OnMealTypesChanged()
-        {
-            MealTypesChanged?.Invoke(this, EventArgs.Empty);
-        }
-
-        protected virtual void OnPersonsChanged()
-        {
-            PersonsChanged?.Invoke(this, EventArgs.Empty);
-        }
-
+        
         protected virtual void OnDishesChanged()
         {
             DishesChanged?.Invoke(this, EventArgs.Empty);

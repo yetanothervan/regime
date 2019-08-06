@@ -12,6 +12,7 @@ namespace Regime.Win.Models
     {
         public DishViewModel()
         {
+            Dish = new Dish() {Id = Guid.NewGuid()};
             Items = new ObservableCollection<DishItemViewModel>();
         }
         public Dish Dish { get; set; }
@@ -20,7 +21,7 @@ namespace Regime.Win.Models
             get
             {
                 var sb = new StringBuilder();
-                foreach (var item in Items)
+                foreach (var item in Items.OrderByDescending(i => i.Weight))
                     sb.Append($"{item.Ingredient.Caption} {item.Weight} г,");
                 return sb.ToString().TrimEnd(',');
             }

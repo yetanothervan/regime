@@ -74,6 +74,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Constants.cs" />
+    <Compile Include="DayControl\DayControl.xaml.cs">
+      <DependentUpon>DayControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DishesGrid\DishDlg.xaml.cs">
       <DependentUpon>DishDlg.xaml</DependentUpon>
     </Compile>
@@ -85,6 +88,17 @@
     <Compile Include="DishesGrid\DishItem.xaml.cs">
       <DependentUpon>DishItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MealControl\MealControl.xaml.cs">
+      <DependentUpon>MealControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MealControl\MealControlVM.cs" />
+    <Compile Include="MealTypeDlg\MealTypeDlg.xaml.cs">
+      <DependentUpon>MealTypeDlg.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MealTypeDlg\MealTypeDlgVM.cs" />
+    <Compile Include="MenuGrid\MenuGrid.xaml.cs">
+      <DependentUpon>MenuGrid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\DishItemViewModel.cs" />
     <Compile Include="Models\DishViewModel.cs" />
     <Compile Include="Models\Settings.cs" />
@@ -92,6 +106,10 @@
     <Compile Include="MainWindow\MainWindowVM.cs" />
     <Compile Include="ObjectExtensionMethods.cs" />
     <Compile Include="Services\SettingsService.cs" />
+    <Page Include="DayControl\DayControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DishesGrid\DishDlg.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -132,6 +150,18 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MealControl\MealControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MealTypeDlg\MealTypeDlg.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MenuGrid\MenuGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

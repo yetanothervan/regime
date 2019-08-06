@@ -53,6 +53,7 @@ namespace Regime.Win.MainWindow
                 if (FileDlg(Constants.RegimeFileName, out var path))
                     _settings.SetRegimePath(path);
             });
+            CreatePersonsCommand = new DelegateCommand(() => { _settings.SetDefaults(); });
         }
 
         bool FileDlg(string filename, out string path)
@@ -121,5 +122,6 @@ namespace Regime.Win.MainWindow
         public DelegateCommand SelectPersonsFileCommand { get; set; }
         public DelegateCommand SelectRegimeFileCommand { get; set; }
         public DelegateCommand ExitCommand { get; set; }
+        public DelegateCommand CreatePersonsCommand { get; set; }
     }
 }
