@@ -8,7 +8,7 @@ using Regime.Domain;
 
 namespace Regime.Win.Models
 {
-    public class DishViewModel
+    public class DishViewModel : IEquatable<DishViewModel>
     {
         public DishViewModel()
         {
@@ -18,27 +18,40 @@ namespace Regime.Win.Models
         public Dish Dish { get; set; }
         public ObservableCollection<DishItemViewModel> Items { get; set; }
         public string IngredientsString {
-            get
-            {
-                var sb = new StringBuilder();
-                foreach (var item in Items.OrderByDescending(i => i.Weight))
-                    sb.Append($"{item.Ingredient.Caption} {item.Weight} г,");
-                return sb.ToString().TrimEnd(',');
-            }
-            private set { }
+            get => GetMultiplyedIngredientStr(1);
+            private set {}
         }
+
+        public string GetMultiplyedIngredientStr(decimal value)
+        {
+            var sb = new StringBuilder();
+            foreach (var item in Items.OrderByDescending(i => i.Weight))
+                sb.Append($"{item.Ingredient.Caption} {item.Weight * value} г, ");
+            return sb.ToString().TrimEnd(',',' ');
+        }
+
+        public decimal TotalKkal => Items.Sum(i => i.Ingredient.Kkal100 / 100 * i.Weight);
+        public decimal TotalProtein => Items.Sum(i => i.Ingredient.Protein100 / 100 * i.Weight);
+        public decimal TotalFat => Items.Sum(i => i.Ingredient.Fat100 / 100 * i.Weight);
+        public decimal TotalCarbon => Items.Sum(i => i.Ingredient.Carbon100 / 100 * i.Weight);
+
 
         public string TotalSummary
         {
-            get
-            {
-                var kkal = Items.Sum(i => i.Ingredient.Kkal100 / 100 * i.Weight);
-                var protein = Items.Sum(i => i.Ingredient.Protein100 / 100 * i.Weight);
-                var fat = Items.Sum(i => i.Ingredient.Fat100 / 100 * i.Weight);
-                var carbon = Items.Sum(i => i.Ingredient.Carbon100 / 100 * i.Weight);
-                return $"ККал: {kkal}, Блк: {protein}, Жир: {fat}, Угл: {carbon}";
-            }
+            get => $"ККал: {TotalKkal}, Блк: {TotalProtein}, Жир: {TotalFat}, Угл: {TotalCarbon}";
             private set { }
+        }
+        
+        public bool Equals(DishViewModel other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Dish.Id.Equals(other.Dish.Id);
+        }
+
+        public override int GetHashCode()
+        {
+            return (Dish != null ? Dish.Id.GetHashCode() : 0);
         }
     }
 }

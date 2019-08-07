@@ -2,9 +2,11 @@
 using System.Text;
 using System.Windows;
 using System.Windows.Media.Media3D;
+using Autofac;
 using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Mvvm;
+using Regime.Domain;
 using Regime.Win.Services;
 
 namespace Regime.Win.MainWindow
@@ -54,6 +56,11 @@ namespace Regime.Win.MainWindow
                     _settings.SetRegimePath(path);
             });
             CreatePersonsCommand = new DelegateCommand(() => { _settings.SetDefaults(); });
+            AddDayCommand = new DelegateCommand(() =>
+            {
+                var dataProviderService = App.Container.Resolve<DataProviderService>();
+                dataProviderService.AddDayToRegime(new Day(){Id = Guid.NewGuid()});
+            });
         }
 
         bool FileDlg(string filename, out string path)
@@ -116,6 +123,7 @@ namespace Regime.Win.MainWindow
             set => SetProperty(ref _menuVisibility, value);
         }
 
+        public DelegateCommand AddDayCommand { get; set; }
         public DelegateCommand SelectIngredientsFileCommand { get; set; }
         public DelegateCommand SelectDishesFileCommand { get; set; }
         public DelegateCommand SelectMealTypesFileCommand { get; set; }

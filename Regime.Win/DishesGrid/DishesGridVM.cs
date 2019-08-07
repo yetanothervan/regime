@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Prism.Commands;
 using Prism.Mvvm;
 using Regime.Domain;
@@ -22,35 +23,17 @@ namespace Regime.Win.DishesGrid
         {
             _dataProvider = dataProvider;
             dataProvider.DishesChanged += DataProviderOnDishesChanged;
-            LoadDishesIncludedIngredients();
+            Dishes = Util.LoadDishesIncludedIngredients(_dataProvider);
             SetupCommand();
             
         }
 
         private void DataProviderOnDishesChanged(object sender, EventArgs eventArgs)
         {
-            LoadDishesIncludedIngredients();
+            Dishes = Util.LoadDishesIncludedIngredients(_dataProvider);
             RefreshGrid?.Invoke();
         }
-
-        private void LoadDishesIncludedIngredients()
-        {
-            Dishes = _dataProvider.Dishes.Select(d => new DishViewModel()
-            {
-                Dish = d
-            }).OrderBy(d => d.Dish.Caption).ToList();
-            foreach (var dish in Dishes)
-            {
-                foreach (var dishItem in dish.Dish.Items)
-                {
-                    var ingredient = _dataProvider.Ingredients.FirstOrDefault(i => i.Id == dishItem.IngredientId);
-                    dish.Items.Add(ingredient == null
-                        ? new DishItemViewModel() {Ingredient = new Ingredient() {Caption = "!Unknown!"}}
-                        : new DishItemViewModel() {Ingredient = ingredient, Weight = dishItem.Weigth});
-                }
-            }
-        }
-
+        
 
         private void SetupCommand()
         {
@@ -96,29 +79,32 @@ namespace Regime.Win.DishesGrid
             DeleteDishCommand = new DelegateCommand(() =>
             {
                 if (SelectedDishIndex == -1) return;
-
-                /*var dishes = DataProvider.Dishes.Where(d => d.Items.Any(i => i.IngredientId == SelectedIngredient.Id)).ToList();
-                if (dishes.Any())
+                var current = Dishes[SelectedDishIndex];
+                var days =
+                    _dataProvider.Regime.Where(d => d.Meals.Any(m => m.Items.Any(i => i.DishId == current.Dish.Id)))
+                        .ToList();
+                
+                if (days.Any())
                 {
                     var sb = new StringBuilder();
-                    foreach (var dish in dishes)
+                    foreach (var day in days)
                     {
-                        sb.Append(dish.Caption);
+                        sb.Append(day.Caption);
                         sb.Append(", ");
                     }
 
-                    var dishesStr = sb.ToString().Trim(' ', ',');
-                    MessageBox.Show($"Ингредиент удалить нельзя, т.к. он входит в состав блюд: {dishesStr}");
+                    var daysStr = sb.ToString().Trim(' ', ',');
+                    MessageBox.Show($"Блюдо удалить нельзя, т.к. он входит в меню дней: {daysStr}");
                     return;
                 }
 
                 var dialogResult =
-                    MessageBox.Show($"Вы действительно хотите удалить {SelectedIngredient.Caption}",
+                    MessageBox.Show($"Вы действительно хотите удалить {current.Dish.Caption}",
                         "Are you sure?", MessageBoxButton.OKCancel);
                 if (dialogResult == MessageBoxResult.OK)
                 {
-                    DataProvider.DeleteIngredient(SelectedIngredient);
-                }*/
+                    _dataProvider.DeleteDish(current.Dish);
+                }
             });
         }
 

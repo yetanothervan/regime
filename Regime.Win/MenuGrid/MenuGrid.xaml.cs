@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Autofac;
+using Regime.Win.DishesGrid;
 
 namespace Regime.Win.MenuGrid
 {
@@ -23,6 +25,14 @@ namespace Regime.Win.MenuGrid
         public MenuGrid()
         {
             InitializeComponent();
+            if (App.IsDesignMode) return;
+            var model = App.Container.Resolve<MenuGridVM>();
+            model.RefreshGrid = () =>
+            {
+                TheList.ItemsSource = null;
+                TheList.ItemsSource = model.Days;
+            };
+            DataContext = model;
         }
     }
 }

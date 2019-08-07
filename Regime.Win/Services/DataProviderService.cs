@@ -142,6 +142,16 @@ namespace Regime.Win.Services
             SaveDishes();
         }
 
+        public void DeleteDish(Dish dish)
+        {
+            if (!(Dishes is List<Dish> list)) return;
+            if (!list.Exists(i => i.Id == dish.Id)) return;
+
+            var itm = list.Find(i => i.Id == dish.Id);
+            list.Remove(itm);
+            SaveDishes();
+        }
+
         void SaveDishes()
         {
             string newDishes = JsonConvert.SerializeObject(Dishes, Formatting.Indented);
@@ -152,7 +162,33 @@ namespace Regime.Win.Services
             }
             OnDishesChanged();
         }
-        
+
+        public void AddDayToRegime(Day day)
+        {
+            if (!(Regime is List<Day> list)) return;
+            list.Add(day);
+            SaveRegime();
+            OnRegimeChanged();
+        }
+
+        void SaveRegime()
+        {
+            string newRegime = JsonConvert.SerializeObject(Regime, Formatting.Indented);
+            using (var fs = File.Create(_regimePath))
+            using (var sw = new StreamWriter(fs))
+            {
+                sw.Write(newRegime);
+            }
+        }
+
+        public void UpdateDay(Day day)
+        {
+            if (!(Regime is List<Day> list)) return;
+            var itm = list.Find(i => i.Id == day.Id);
+                itm.Caption = day.Caption;
+            SaveRegime();
+        }
+
         List<T> LoadJsonFrom<T>(string path)
         {
             if (!File.Exists(path)) return null;

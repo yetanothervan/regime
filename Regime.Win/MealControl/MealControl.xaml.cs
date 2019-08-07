@@ -24,9 +24,6 @@ namespace Regime.Win.MealControl
         public MealControl()
         {
             InitializeComponent();
-            if (App.IsDesignMode) return;
-            var model = App.Container.Resolve<MealControlVM>();
-            DataContext = model;
         }
     }
 }

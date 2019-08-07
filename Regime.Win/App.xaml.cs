@@ -7,6 +7,7 @@ using Regime.Win.DishesGrid;
 using Regime.Win.IngredientsGrid;
 using Regime.Win.MainWindow;
 using Regime.Win.MealControl;
+using Regime.Win.MenuGrid;
 using Regime.Win.Services;
 
 namespace Regime.Win
@@ -38,6 +39,7 @@ namespace Regime.Win
             builder.RegisterType<SettingsService>().AsSelf().SingleInstance();
             builder.RegisterType<DishesGridVM>().AsSelf();
             builder.RegisterType<MealControlVM>().AsSelf();
+            builder.RegisterType<MenuGridVM>().AsSelf();
             Container = builder.Build();
             var model = Container.Resolve<MainWindowVM>();
             var view = new MainWindow.MainWindow { DataContext = model };
