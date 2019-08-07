@@ -52,6 +52,40 @@
             <TextBlock Grid.Column="2" TextWrapping="Wrap" Text="{Binding DishSummary}"></TextBlock>
             <Button Grid.Column="3" Margin="5" Width="25" Command="{Binding AddDishCommand}" Content="+"/>
         </Grid>
-        <TextBlock Grid.Row="3" HorizontalAlignment="Right" Margin="5" Text="{Binding MealSummary}"/>
+        <Grid Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="15"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding TotalKkalString}" Margin="3"
+                       Foreground="{Binding KkalBrush}"></TextBlock>
+            <ProgressBar Grid.Row="1" Grid.Column="0"  Value="{Binding Path=TotalKkal,Mode=OneWay}" 
+                         Maximum="{Binding Meal.MealType.KkalTotal}" Margin="3"
+                         Foreground="{Binding KkalBrush}"/>
+            
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding TotalKkalProteinString}" Margin="3"
+                       Foreground="{Binding KkalProteinBrush}"></TextBlock>
+            <ProgressBar Grid.Row="1" Grid.Column="1"  Value="{Binding Path=TotalKkalProtein,Mode=OneWay}" 
+                         Maximum="{Binding Meal.MealType.ProteinMax}" Margin="3"
+                         Foreground="{Binding KkalProteinBrush}"/>
+            
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding TotalKkalFatString}" Margin="3"
+                       Foreground="{Binding KkalFatBrush}"></TextBlock>
+            <ProgressBar Grid.Row="1" Grid.Column="2"  Value="{Binding Path=TotalKkalFat,Mode=OneWay}" 
+                         Maximum="{Binding Meal.MealType.FatMax}" Margin="3"
+                         Foreground="{Binding KkalFatBrush}"/>
+            
+            <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding TotalKkalCarbonString}" Margin="3"
+                       Foreground="{Binding KkalCarbonBrush}"></TextBlock>
+            <ProgressBar Grid.Row="1" Grid.Column="3"  Value="{Binding Path=TotalKkalCarbon,Mode=OneWay}" 
+                         Maximum="{Binding Meal.MealType.CarbonMax}" Margin="3"
+                         Foreground="{Binding KkalCarbonBrush}"/>
+        </Grid>
     </Grid>
 </UserControl>

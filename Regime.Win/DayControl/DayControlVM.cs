@@ -78,7 +78,26 @@ namespace Regime.Win.DayControl
 
         private void Recalc()
         {
-            
+            RaisePropertyChanged(nameof(DaySummary));
+        }
+
+        public string DaySummary
+        {
+            get
+            {
+                var sb = new StringBuilder();
+                sb.AppendLine("Баланс:");
+                var persons = Meals.Select(m => m.Meal.Person).Distinct().ToList();
+                foreach (var person in persons)
+                {
+                    var total = Meals.Sum(i => i.TotalKkal);
+                    var target = person.KkalTarget;
+                    sb.AppendLine($"{person.Name}: ККал: {total:F} / {target:F} ({target - total:F})");
+                }
+
+                return sb.ToString();
+            }
+            set { }
         }
 
         public ObservableCollection<MealControlVM> Meals { get; set; }

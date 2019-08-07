@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace Regime.Domain
 {
@@ -33,5 +34,9 @@ namespace Regime.Domain
 
         public static bool operator ==(MealType a, MealType b) => Equals(a, b);
         public static bool operator !=(MealType a, MealType b) => !Equals(a, b);
+
+        [JsonIgnore] public decimal ProteinMax => KkalTotal * ProteinPart;
+        [JsonIgnore] public decimal FatMax => KkalTotal * FatPart;
+        [JsonIgnore] public decimal CarbonMax => KkalTotal * CarbonPart;
     }
 }

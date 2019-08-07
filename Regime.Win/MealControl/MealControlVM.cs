@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Media;
 using Prism.Commands;
 using Prism.Mvvm;
 using Regime.Domain;
@@ -59,6 +57,7 @@ namespace Regime.Win.MealControl
                     Meal.Person = dlgModel.Person;
                     Meal.MealType = dlgModel.MealType;
                     MyDay.SaveDay();
+                    UpdateSummary();
                 }
             });
             AddDishCommand = new DelegateCommand(() =>
@@ -69,13 +68,13 @@ namespace Regime.Win.MealControl
                     Portion = Portion
                 });
                 MyDay.SaveDay();
-                RaisePropertyChanged(nameof(MealSummary));
+                UpdateSummary();
             });
             DeleteMealItemCommand = new DelegateCommand<MealItemViewModel>(item =>
             {
                 Meal.Items.Remove(item);
                 MyDay.SaveDay();
-                RaisePropertyChanged(nameof(MealSummary));
+                UpdateSummary();
             });
         }
 
@@ -86,7 +85,6 @@ namespace Regime.Win.MealControl
             set
             {
                 SetProperty(ref _portion, value);
-                RaisePropertyChanged(nameof(MealSummary));
                 RaisePropertyChanged(nameof(DishSummary));
             }
         }
@@ -104,18 +102,52 @@ namespace Regime.Win.MealControl
             }
         }
 
-        public string MealSummary
+        public decimal TotalKkal => Meal.Items.Sum(i => i.KKal);
+        public decimal TotalProtein => Meal.Items.Sum(i => i.Protein);
+        public decimal TotalFat => Meal.Items.Sum(i => i.Fat);
+        public decimal TotalCarbon => Meal.Items.Sum(i => i.Carbon);
+
+        public decimal TotalNutrients
         {
             get
             {
-                var k = Meal.Items.Sum(i => i.KKal);
-                var p = Meal.Items.Sum(i => i.Protein);
-                var f = Meal.Items.Sum(i => i.Fat);
-                var c = Meal.Items.Sum(i => i.Carbon);
-                return $"ККал: {k:F}, Блк: {p:F}, Жир: {f:F}, Угл: {c:F}";
+                var total = TotalProtein + TotalFat + TotalCarbon;
+                return total == 0 ? -1 : total;
             }
-            private set { }
         }
+
+        public decimal TotalKkalProtein => TotalKkal / TotalNutrients * TotalProtein;
+        public decimal TotalKkalFat => TotalKkal / TotalNutrients * TotalFat;
+        public decimal TotalKkalCarbon => TotalKkal / TotalNutrients * TotalCarbon;
+
+        public string TotalKkalString => $"ККал: {TotalKkal:F}/{Meal.MealType.KkalTotal}";
+        public string TotalKkalProteinString 
+            => $"ККал * Блк: {TotalKkalProtein:F} / {Meal.MealType.ProteinMax}";
+        public string TotalKkalFatString
+            => $"ККал * Жир: {TotalKkalFat:F} / {Meal.MealType.FatMax}";
+        public string TotalKkalCarbonString
+            => $"ККал * Угл: {TotalKkalCarbon:F} / {Meal.MealType.CarbonMax}";
+
+        private void UpdateSummary()
+        {
+            RaisePropertyChanged(nameof(TotalKkalString));
+            RaisePropertyChanged(nameof(TotalKkalProteinString));
+            RaisePropertyChanged(nameof(TotalKkalFatString));
+            RaisePropertyChanged(nameof(TotalKkalCarbonString));
+            RaisePropertyChanged(nameof(TotalKkal));
+            RaisePropertyChanged(nameof(TotalKkalProtein));
+            RaisePropertyChanged(nameof(TotalKkalFat));
+            RaisePropertyChanged(nameof(TotalKkalCarbon));
+            RaisePropertyChanged(nameof(KkalBrush));
+            RaisePropertyChanged(nameof(KkalProteinBrush));
+            RaisePropertyChanged(nameof(KkalFatBrush));
+            RaisePropertyChanged(nameof(KkalCarbonBrush));
+        }
+
+        public Brush KkalBrush => TotalKkal > Meal.MealType.KkalTotal ? Brushes.Red : Brushes.Black;
+        public Brush KkalProteinBrush => TotalKkalProtein > Meal.MealType.ProteinMax ? Brushes.Red : Brushes.Black;
+        public Brush KkalFatBrush => TotalKkalFat > Meal.MealType.FatMax ? Brushes.Red : Brushes.Black;
+        public Brush KkalCarbonBrush => TotalKkalCarbon > Meal.MealType.CarbonMax ? Brushes.Red : Brushes.Black;
 
         public DishViewModel SelectedDishViewModel
         {
@@ -124,7 +156,6 @@ namespace Regime.Win.MealControl
             {
                 SetProperty(ref _selectedDishViewModel, value);
                 RaisePropertyChanged(nameof(DishSummary));
-                RaisePropertyChanged(nameof(MealSummary));
             }
         }
         
