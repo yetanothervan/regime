@@ -46,7 +46,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <ComboBox Grid.Column="0" Margin="5" ItemsSource="{Binding Dishes}" 
-                      SelectedItem="{Binding SelectedDishViewModel}" DisplayMemberPath="Dish.Caption"/>
+                      SelectedItem="{Binding SelectedDishViewModel}" DisplayMemberPath="Dish.Caption" x:Name="TheListBox"/>
             <xctk:DecimalUpDown Grid.Column="1" FormatString="F2" Minimum="0" Margin="5" AllowSpin="True" MouseWheelActiveTrigger="MouseOver"
                                 Value="{Binding Portion, UpdateSourceTrigger=PropertyChanged}" Increment=".1"/>
             <TextBlock Grid.Column="2" TextWrapping="Wrap" Text="{Binding DishSummary}"></TextBlock>

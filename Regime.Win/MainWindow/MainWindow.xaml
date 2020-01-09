@@ -8,6 +8,7 @@
         xmlns:mainWindow="clr-namespace:Regime.Win.MainWindow"
         xmlns:dishesGrid="clr-namespace:Regime.Win.DishesGrid"
         xmlns:menuGrid="clr-namespace:Regime.Win.MenuGrid"
+        xmlns:dashboard="clr-namespace:Regime.Win.Dashboard"
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="1024">
     <Grid d:DataContext="{d:DesignInstance {x:Type mainWindow:MainWindowVM}}">
@@ -33,7 +34,7 @@
         </Menu>
         <TabControl Grid.Row="1">
             <TabItem Header="Меню">
-                <menuGrid:MenuGrid></menuGrid:MenuGrid>
+                <dashboard:Dashboard/>
             </TabItem>
             <TabItem Header="Блюда">
                 <dishesGrid:DishesGrid></dishesGrid:DishesGrid>

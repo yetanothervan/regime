@@ -90,7 +90,7 @@ namespace Regime.Win.DayControl
                 var persons = Meals.Select(m => m.Meal.Person).Distinct().ToList();
                 foreach (var person in persons)
                 {
-                    var total = Meals.Sum(i => i.TotalKkal);
+                    var total = Meals.Where(p=>p.Meal.Person.Id==person.Id).Sum(i => i.TotalKkal);
                     var target = person.KkalTarget;
                     sb.AppendLine($"{person.Name}: ККал: {total:F} / {target:F} ({target - total:F})");
                 }

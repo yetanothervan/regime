@@ -81,6 +81,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Constants.cs" />
+    <Compile Include="Dashboard\Dashboard.xaml.cs">
+      <DependentUpon>Dashboard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dashboard\DashboardVM.cs" />
+    <Compile Include="Dashboard\DayList\DayListVM.cs" />
+    <Compile Include="Dashboard\DayList\DayList.xaml.cs">
+      <DependentUpon>DayList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DayControl\DayControl.xaml.cs">
       <DependentUpon>DayControl.xaml</DependentUpon>
     </Compile>
@@ -116,6 +124,14 @@
     <Compile Include="ObjectExtensionMethods.cs" />
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Util.cs" />
+    <Page Include="Dashboard\Dashboard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dashboard\DayList\DayList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DayControl\DayControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

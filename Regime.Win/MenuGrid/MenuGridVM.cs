@@ -28,6 +28,11 @@ namespace Regime.Win.MenuGrid
 
         public void LoadDays()
         {
+            if (_dataProvider.Regime == null)
+            {
+                Days = new List<DayControlVM>();
+                return;
+            }
             Days = _dataProvider.Regime.Select(d => new DayControlVM(_dataProvider, d)).ToList();
         }
     }

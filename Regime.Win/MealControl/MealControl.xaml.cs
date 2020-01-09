@@ -24,6 +24,18 @@ namespace Regime.Win.MealControl
         public MealControl()
         {
             InitializeComponent();
+            DataContextChanged += (sender, args) =>
+            {
+                if (DataContext is MealControlVM model)
+                {
+                    model.ComboUpdate = () =>
+                    {
+                        TheListBox.ItemsSource = null;
+                        TheListBox.ItemsSource = model.Dishes;
+                        TheListBox.SelectedValue = model.Dishes.FirstOrDefault();
+                    };
+                }
+            };
         }
     }
 }

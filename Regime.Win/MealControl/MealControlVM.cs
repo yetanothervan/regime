@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Media;
@@ -27,6 +28,12 @@ namespace Regime.Win.MealControl
             MyDay = myDay;
             Dishes = Util.LoadDishesIncludedIngredients(_dataProvider);
             _selectedDishViewModel = Dishes.FirstOrDefault();
+
+            _dataProvider.DishesChanged += (sender, args) =>
+            {
+                Dishes = Util.LoadDishesIncludedIngredients(_dataProvider);
+                ComboUpdate();
+            };
             Meal = new MealViewModel()
             {
                 MealType = _dataProvider.MealTypes.FirstOrDefault(m => m.Id == meal.MealTypeId),
@@ -162,6 +169,7 @@ namespace Regime.Win.MealControl
         public DelegateCommand SelectTypeCommand { get; set; }
         public DelegateCommand AddDishCommand { get; set; }
         public DelegateCommand<MealItemViewModel> DeleteMealItemCommand { get; set; }
+        public Action ComboUpdate { get; set; }
     }
     
     public class MealItemViewModel

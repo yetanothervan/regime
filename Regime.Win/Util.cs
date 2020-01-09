@@ -13,6 +13,7 @@ namespace Regime.Win
     {
         public static List<DishViewModel> LoadDishesIncludedIngredients(DataProviderService dataProvider)
         {
+            if (dataProvider.Dishes == null) return new List<DishViewModel>();
             var dishes = dataProvider.Dishes.Select(d => new DishViewModel()
             {
                 Dish = d
