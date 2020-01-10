@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ration", "Domain\Ration\Rat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{ADDAD180-9CEB-490D-8D89-898F3868D57A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{1DEC8140-8B33-403D-89D3-183E54D99984}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dtos", "Infrastructure\Dtos\Dtos.csproj", "{6F8C4203-4247-4F04-8104-C0C24CA7B520}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,10 @@ Global
 		{ADDAD180-9CEB-490D-8D89-898F3868D57A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADDAD180-9CEB-490D-8D89-898F3868D57A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADDAD180-9CEB-490D-8D89-898F3868D57A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F8C4203-4247-4F04-8104-C0C24CA7B520}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F8C4203-4247-4F04-8104-C0C24CA7B520}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F8C4203-4247-4F04-8104-C0C24CA7B520}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F8C4203-4247-4F04-8104-C0C24CA7B520}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,6 +44,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{E6E41774-C61C-43E1-AEAF-6AC827A7A7B4} = {FFC6465C-12EE-47CD-B243-2A0075863382}
 		{45799B65-3458-41CB-A78F-97F3BC3DA6EC} = {FFC6465C-12EE-47CD-B243-2A0075863382}
+		{6F8C4203-4247-4F04-8104-C0C24CA7B520} = {1DEC8140-8B33-403D-89D3-183E54D99984}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C4DADC5C-237A-4B7B-AFE5-080BD82B144E}

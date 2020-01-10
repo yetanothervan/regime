@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MainShellComponent } from './containers/main-shell.component';
+import { MainShellComponent } from './containers/main-shell/main-shell.component';
 import { MainRoutingModule } from './main-routing.module';
 import { StoreModule } from '@ngrx/store';
 import { reducer } from './state/main.reducer';
