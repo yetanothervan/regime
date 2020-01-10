@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { MainShellComponent } from './containers/main-shell.component';
 
 const routes: Routes = [
   {
     path: '',
-    // component: EditorComponent
+    component: MainShellComponent
   }
 ];
 
@@ -12,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class EditorRoutingModule { }
+export class MainRoutingModule { }
