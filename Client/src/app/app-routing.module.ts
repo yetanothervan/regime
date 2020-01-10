@@ -9,7 +9,11 @@ const routes: Routes = [
   children: [
     { path: '', pathMatch: 'full', redirectTo: 'main'},
     { path: 'main',
-    loadChildren: () => import('./main/main.module').then(m => m.MainModule) }
+    loadChildren: () => import('./main/main.module').then(m => m.MainModule) },
+    { path: 'dishes',
+    loadChildren: () => import('./dishes/dishes.module').then(m => m.DishesModule) },
+    { path: 'ingredients',
+    loadChildren: () => import('./ingredients/ingredients.module').then(m => m.IngredientsModule) }
   ]}
 ];
 
