@@ -3,11 +3,12 @@ import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 
 import { AppRoutingModule } from './app-routing.module';
+import { RootComponent } from './shell/root.component';
 import { ShellComponent } from './shell/shell.component';
 
 @NgModule({
   declarations: [
-    ShellComponent
+    RootComponent, ShellComponent
   ],
   imports: [
     BrowserModule,
@@ -15,6 +16,6 @@ import { ShellComponent } from './shell/shell.component';
     StoreModule.forRoot({})
   ],
   providers: [],
-  bootstrap: [ShellComponent]
+  bootstrap: [RootComponent]
 })
 export class AppModule { }

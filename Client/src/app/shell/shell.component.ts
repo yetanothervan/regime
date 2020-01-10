@@ -6,5 +6,4 @@ import { Component } from '@angular/core';
   styleUrls: ['./shell.component.sass']
 })
 export class ShellComponent {
-  title = 'Regime';
 }

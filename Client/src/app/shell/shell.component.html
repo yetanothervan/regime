@@ -1,2 +1,15 @@
+<style>
+    .selected-menu {
+        background-color: blue;
+        color: whitesmoke;
+    }    
+    a {
+        margin: 5px;
+        padding: 5px;
+    }
+</style>
 <h1>The Regime begins</h1>
+<a href="" [routerLink]="['/home/main']" routerLinkActive="selected-menu">Main</a>
+<a href="" [routerLink]="['/home/dishes']" routerLinkActive="selected-menu">Dishes</a>
+<a href="" [routerLink]="['/home/ingredients']" routerLinkActive="selected-menu">Ingredients</a>
 <router-outlet></router-outlet>
