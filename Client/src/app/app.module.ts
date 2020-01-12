@@ -5,6 +5,7 @@ import { StoreModule } from '@ngrx/store';
 import { AppRoutingModule } from './app-routing.module';
 import { RootComponent } from './shell/root.component';
 import { ShellComponent } from './shell/shell.component';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { ShellComponent } from './shell/shell.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot({})
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([])
   ],
   providers: [],
   bootstrap: [RootComponent]

@@ -1,1 +1,6 @@
 <p>main-shell works!</p>
+<div *ngIf="days$ | async as days">
+    <div *ngFor="let day of days">
+        <div>{{day.caption}}</div>
+</div>
+</div>

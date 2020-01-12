@@ -4,15 +4,21 @@ import { MainShellComponent } from './containers/main-shell/main-shell.component
 import { MainRoutingModule } from './main-routing.module';
 import { StoreModule } from '@ngrx/store';
 import { reducer } from './state/main.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { MainEffects } from './state/main.effects';
+import { DaysService } from './days.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [MainShellComponent],
   imports: [
     CommonModule,
     MainRoutingModule,
-    StoreModule.forFeature('main', reducer)
+    HttpClientModule,
+    StoreModule.forFeature('main', reducer),
+    EffectsModule.forFeature([MainEffects])
   ],
-  providers: [],
+  providers: [DaysService],
   bootstrap: []
 })
 export class MainModule { }

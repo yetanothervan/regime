@@ -1,10 +1,12 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromRoot from '../../state/app.state';
 import { MainActionTypes, MainActions } from './main.actions';
+import { RationDay } from 'src/app/dtos/ration-day';
+import { act } from '@ngrx/effects';
 
 // state
 export interface MainState {
-    Toggled: boolean;
+    days: RationDay[];
 }
 
 export interface State extends fromRoot.State {
@@ -12,23 +14,24 @@ export interface State extends fromRoot.State {
 }
 
 const initialState: MainState  = {
-    Toggled: true
+    days: []
 };
 
 // selectors
-const getEditorFeatureState = createFeatureSelector<MainState>('main');
-export const getToggled = createSelector(
-    getEditorFeatureState,
-    state => state.Toggled
+const getMainFeatureState = createFeatureSelector<MainState>('main');
+export const getDays = createSelector(
+    getMainFeatureState,
+    state => state.days
 );
 
 // reducer
 
 export function reducer(state = initialState, action: MainActions): MainState {
     switch (action.type) {
-        case MainActionTypes.Load: {
+        case MainActionTypes.LoadSuccess: {
             const result: MainState = {
-                ...state
+                ...state,
+                days: action.payload
             };
             return result;
         }

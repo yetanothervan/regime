@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { RationDay } from 'src/app/dtos/ration-day';
 
 export enum MainActionTypes {
     Load = '[Main] Load',
@@ -12,7 +13,7 @@ export class Load implements Action {
 }
 
 export class LoadSuccess implements Action {
-    constructor() {}
+    constructor(public payload: RationDay[]) {}
     readonly type = MainActionTypes.LoadSuccess;
 }
 
