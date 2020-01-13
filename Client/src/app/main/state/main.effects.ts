@@ -11,7 +11,7 @@ export class MainEffects {
                 private daysService: DaysService) { }
     @Effect()
     loadDays$ = this.actions$.pipe(
-        ofType(mainActions.MainActionTypes.Load),
+        ofType(mainActions.MainActionTypes.DaysLoad),
         mergeMap(
             (action: mainActions.Load) =>
                 this.daysService.getDays().pipe(

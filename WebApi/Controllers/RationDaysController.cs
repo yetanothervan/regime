@@ -26,6 +26,21 @@ namespace WebApi.Controllers
                 {
                     Caption = "The day two",
                     Id = Guid.NewGuid()
+                },
+                new RationDay()
+                {
+                    Caption = "The day three",
+                    Id = Guid.NewGuid()
+                },
+                new RationDay()
+                {
+                    Caption = "The day four",
+                    Id = Guid.NewGuid()
+                },
+                new RationDay()
+                {
+                    Caption = "The day five",
+                    Id = Guid.NewGuid()
                 }
             };
         }

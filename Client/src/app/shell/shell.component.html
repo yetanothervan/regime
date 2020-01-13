@@ -2,14 +2,39 @@
     .selected-menu {
         background-color: blue;
         color: whitesmoke;
-    }    
+    }
+
     a {
         margin: 5px;
         padding: 5px;
     }
 </style>
-<h1>The Regime begins</h1>
-<a href="" [routerLink]="['/home/main']" routerLinkActive="selected-menu">Main</a>
-<a href="" [routerLink]="['/home/dishes']" routerLinkActive="selected-menu">Dishes</a>
-<a href="" [routerLink]="['/home/ingredients']" routerLinkActive="selected-menu">Ingredients</a>
+<h1 class="display-4 my-3">The Regime begins</h1>
+<nav class="navbar navbar-light navbar-expand-md mb-3" style="background-color: #e3f2fd;">
+    <a class="navbar-brand">Regime</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+        aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a href="" class="nav-link" [routerLink]="['/home/main']" routerLinkActive="active">Main <span
+                        class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a href="" class="nav-link" [routerLink]="['/home/dishes']" routerLinkActive="active">Dishes</a>
+            </li>
+            <li class="nav-item">
+                <a href="" class="nav-link" [routerLink]="['/home/ingredients']"
+                    routerLinkActive="active">Ingredients</a>
+            </li>
+        </ul>
+        <span class="navbar-text">
+            Choose your destiny
+        </span>
+    </div>
+</nav>
+
+
 <router-outlet></router-outlet>

@@ -7,6 +7,7 @@ import { act } from '@ngrx/effects';
 // state
 export interface MainState {
     days: RationDay[];
+    selectedDay: string;
 }
 
 export interface State extends fromRoot.State {
@@ -14,7 +15,8 @@ export interface State extends fromRoot.State {
 }
 
 const initialState: MainState  = {
-    days: []
+    days: [],
+    selectedDay: null
 };
 
 // selectors
@@ -24,14 +26,26 @@ export const getDays = createSelector(
     state => state.days
 );
 
+export const getSelectedDayId = createSelector(
+    getMainFeatureState,
+    state => state.selectedDay
+);
+
 // reducer
 
 export function reducer(state = initialState, action: MainActions): MainState {
     switch (action.type) {
-        case MainActionTypes.LoadSuccess: {
+        case MainActionTypes.DaysLoadSuccess: {
             const result: MainState = {
                 ...state,
                 days: action.payload
+            };
+            return result;
+        }
+        case MainActionTypes.DaySelected: {
+            const result: MainState = {
+                ...state,
+                selectedDay: action.payload
             };
             return result;
         }

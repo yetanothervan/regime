@@ -2,24 +2,30 @@ import { Action } from '@ngrx/store';
 import { RationDay } from 'src/app/dtos/ration-day';
 
 export enum MainActionTypes {
-    Load = '[Main] Load',
-    LoadSuccess = '[Main] LoadSuccess',
-    LoadFailed = '[Main] LoadFailed'
+    DaysLoad = '[Main] Days Load',
+    DaysLoadSuccess = '[Main] Days LoadSuccess',
+    DaysLoadFailed = '[Main] Days LoadFailed',
+    DaySelected = '[Main] Days Selected'
 }
 
 export class Load implements Action {
     constructor() {}
-    readonly type = MainActionTypes.Load;
+    readonly type = MainActionTypes.DaysLoad;
 }
 
 export class LoadSuccess implements Action {
     constructor(public payload: RationDay[]) {}
-    readonly type = MainActionTypes.LoadSuccess;
+    readonly type = MainActionTypes.DaysLoadSuccess;
 }
 
 export class LoadFailed implements Action {
     constructor() {}
-    readonly type = MainActionTypes.LoadFailed;
+    readonly type = MainActionTypes.DaysLoadFailed;
 }
 
-export type MainActions = Load | LoadSuccess | LoadFailed;
+export class DaySelected implements Action {
+    constructor(public payload: string) {}
+    readonly type = MainActionTypes.DaySelected;
+}
+
+export type MainActions = Load | LoadSuccess | LoadFailed | DaySelected;
