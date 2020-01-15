@@ -1,12 +1,17 @@
-<div class="col-2">
-    <div *ngIf="days$ | async as days" class="list-group">
-        <a *ngFor="let day of days" class="list-group-item list-group-item-action p-1 px-3"
-            [ngClass]="{ active: day.id == dayId }"
-            (click)="selectDay(day.id)">
-            <div class="d-flex w-100 justify-content-between">
-                <strong class="mb-1">{{day.caption}}</strong>
-                <small>100%</small>
-            </div>
-        </a>
+<div class="row">
+    <div class="col-2">
+        <div *ngIf="days$ | async as days" class="list-group">
+            <a *ngFor="let day of days" class="list-group-item list-group-item-action p-1 px-3"
+                [ngClass]="{ active: day.id == dayId }" (click)="selectDay(day.id)">
+                <div class="d-flex w-100 justify-content-between">
+                    <strong class="mb-1">{{day.caption}}</strong>
+                    <small>100%</small>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div *ngIf="dayId"
+        class="col-4">
+        <rg-day-manager></rg-day-manager>
     </div>
 </div>

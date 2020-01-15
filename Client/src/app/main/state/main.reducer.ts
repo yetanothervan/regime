@@ -31,6 +31,14 @@ export const getSelectedDayId = createSelector(
     state => state.selectedDay
 );
 
+export const getSelectedDay = createSelector(
+    getMainFeatureState,
+    getSelectedDayId,
+    (state, dayId) => {
+        return dayId ? state.days.find(d => d.id === dayId) : null;
+    }
+  );
+
 // reducer
 
 export function reducer(state = initialState, action: MainActions): MainState {

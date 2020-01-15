@@ -6,13 +6,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Domain\Ration\Ration.csproj" />
+    <ProjectReference Include="..\Domain\SharedKernel\SharedKernel.csproj" />
+    <ProjectReference Include="..\Infrastructure\Configuration\Configuration.csproj" />
     <ProjectReference Include="..\Infrastructure\Dtos\Dtos.csproj" />
+    <ProjectReference Include="..\Infrastructure\GitStorage\GitStorage.csproj" />
+    <ProjectReference Include="..\Infrastructure\Interfaces\Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

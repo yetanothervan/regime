@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Infrastructure.GitStorage;
+using Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace WebApi
 {
@@ -26,6 +29,11 @@ namespace WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddAutoMapper(typeof(GitStorageMapperProfile));
+
+            services.AddTransient<Infrastructure.Interfaces.IConfiguration, Infrastructure.Configuration.Configuration>();
+            services.AddTransient<IIngredientsRepository, IngredientsRepository>();
 
             services.AddCors(options =>
                 options.AddPolicy(AllowLocalHostPolicy, builder => { builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin(); }));
