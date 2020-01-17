@@ -2,7 +2,6 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromRoot from '../../state/app.state';
 import { MainActionTypes, MainActions } from './main.actions';
 import { RationDay } from 'src/app/dtos/ration-day';
-import { act } from '@ngrx/effects';
 
 // state
 export interface MainState {

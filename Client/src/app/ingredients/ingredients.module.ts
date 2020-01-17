@@ -10,6 +10,8 @@ import { IngredientsService } from './ingredients.service';
 import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
+import { EffectsModule } from '@ngrx/effects';
+import { IngredientEffects } from './state/ingredients.effects';
 
 
 @NgModule({
@@ -18,10 +20,11 @@ import { MatSortModule } from '@angular/material/sort';
     CommonModule,
     HttpClientModule,
     IngredientsRoutingModule,
-    StoreModule.forFeature('ingredients', reducer),
     MatTableModule,
     MatInputModule,
-    MatSortModule
+    MatSortModule,
+    StoreModule.forFeature('ingredients', reducer),
+    EffectsModule.forFeature([IngredientEffects])
   ],
   providers: [IngredientsService],
   bootstrap: []

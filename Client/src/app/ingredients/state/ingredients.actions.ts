@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { Ingredient } from 'src/app/dtos/ingredient';
 
 export enum IngredientsActionTypes {
     Load = '[Ingredients] Load',
@@ -7,17 +8,18 @@ export enum IngredientsActionTypes {
 }
 
 export class Load implements Action {
-    constructor() {}
+    constructor() { }
     readonly type = IngredientsActionTypes.Load;
 }
 
 export class LoadSuccess implements Action {
-    constructor() {}
+    constructor(public payload: Ingredient[]) {
+    }
     readonly type = IngredientsActionTypes.LoadSuccess;
 }
 
 export class LoadFailed implements Action {
-    constructor() {}
+    constructor() { }
     readonly type = IngredientsActionTypes.LoadFailed;
 }
 

@@ -41,6 +41,23 @@
         height: 40px;
         cursor: pointer;
       }
+
+      .no-data-row {
+        height: 198px;
+
+        .no-data-cell {
+          text-align: center;
+        }
+          .no-data-cell > span {
+            display: block;
+            margin-top: 4px;
+          }
+          .no-data-cell > span.retry {
+            display: block;
+            color: red;
+            cursor: pointer;
+          }
+      }
     }
   }
 }

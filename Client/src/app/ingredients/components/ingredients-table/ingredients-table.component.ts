@@ -1,9 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { Observable } from 'rxjs';
 import { IngredientsService } from '../../ingredients.service';
-import { takeWhile } from 'rxjs/operators';
+import { takeWhile, tap } from 'rxjs/operators';
 import { Ingredient } from 'src/app/dtos/ingredient';
+import { Store, select } from '@ngrx/store';
+import * as fromIng from '../../state/ingredients.reducer';
+import * as ingActions from '../../state/ingredients.actions';
 
 @Component({
   selector: 'rg-ingredients-table',
@@ -12,16 +15,23 @@ import { Ingredient } from 'src/app/dtos/ingredient';
 })
 export class IngredientsTableComponent implements OnInit, OnDestroy {
   componentIsActive = true;
-  dataSource = new MatTableDataSource();
-  displayedColumns: string[] = ['caption', 'kkal100', 'protein100', 'fat100', 'carbon100', 'comment'];
+  public dataSource = new MatTableDataSource();
+  public displayedColumns: string[] = ['caption', 'kkal100', 'protein100', 'fat100', 'carbon100', 'comment'];
+  public noData: Ingredient[] = [{} as Ingredient];
+  public loading: boolean;
+  public error$: Observable<boolean>;
 
-  constructor(private ingredientsService: IngredientsService) { }
+  constructor(private store: Store<fromIng.IngredientsState>, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.ingredientsService.getIngredients().pipe(
-      takeWhile((tt: Ingredient[]) => this.componentIsActive)).subscribe(res => {
-        this.dataSource.data = res;
+    this.store.pipe(
+      select(fromIng.getIngredients),
+      takeWhile(() => this.componentIsActive))
+      .subscribe(res => {
+        this.dataSource = new MatTableDataSource(res);
+        this.cdr.detectChanges();
       });
+    this.store.dispatch(new ingActions.Load());
   }
 
   ngOnDestroy() {
