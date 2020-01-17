@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { RootComponent } from './shell/root.component';
 import { ShellComponent } from './shell/shell.component';
 import { EffectsModule } from '@ngrx/effects';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { EffectsModule } from '@ngrx/effects';
     StoreDevtoolsModule.instrument({
       name: 'Regime',
     }),
-    EffectsModule.forRoot([])
+    EffectsModule.forRoot([]),
+    NoopAnimationsModule
   ],
   providers: [],
   bootstrap: [RootComponent]

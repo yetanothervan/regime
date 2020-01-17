@@ -7,7 +7,7 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "sass"
+          "style": "scss"
         }
       },
       "root": "",
@@ -27,9 +27,10 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [              
+            "styles": [
+              "src/custom-theme.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.sass"
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -94,7 +95,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.sass"
+              "src/styles.scss"
             ],
             "scripts": []
           }
@@ -125,6 +126,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "Regime"
 }

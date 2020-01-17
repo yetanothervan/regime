@@ -1,0 +1,46 @@
+@import "../../../../assets/scss/global-vars";
+
+.ingredients-content {
+  .table-header {
+    margin-left: 16px;
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-between;
+
+    .header {
+      display: flex;
+      align-items: center;
+    }
+
+    .search-bar {
+      display: flex;
+
+      input {
+        width: 196px;
+
+        @media (min-width: 1920px) {
+          width: 302px;
+        }
+      }
+    }
+  }
+
+  .table-container {    
+    margin-top: 8px;
+
+    table {     
+      line-height: 17px;
+      width: 100%;
+
+      tr.mat-header-row {
+        height: 35px;
+      }
+
+      tr.ingredients-row.mat-footer-row,
+      tr.ingredients-row.mat-row {
+        height: 40px;
+        cursor: pointer;
+      }
+    }
+  }
+}

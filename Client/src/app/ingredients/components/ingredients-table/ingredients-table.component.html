@@ -1,0 +1,51 @@
+<div class="ingredients-content">
+
+    <div class="table-header">
+        <h5>
+            Ingredients
+        </h5>
+        <div class="search-bar">
+            <input placeholder="Search for ingredient..." >
+        </div>
+    </div>
+
+    <div class="table-container">
+
+        <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="caption">
+                <th mat-header-cell *matHeaderCellDef> Caption </th>
+                <td mat-cell *matCellDef="let element"> {{element.caption}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="kkal100">
+                <th mat-header-cell *matHeaderCellDef> KKal100 </th>
+                <td mat-cell *matCellDef="let element"> {{element.kkal100}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="protein100">
+                <th mat-header-cell *matHeaderCellDef> Protein100 </th>
+                <td mat-cell *matCellDef="let element"> {{element.protein100}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fat100">
+                <th mat-header-cell *matHeaderCellDef> Fat100 </th>
+                <td mat-cell *matCellDef="let element"> {{element.fat100}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="carbon100">
+                <th mat-header-cell *matHeaderCellDef> Carbon100 </th>
+                <td mat-cell *matCellDef="let element"> {{element.carbon100}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="comment">
+                <th mat-header-cell *matHeaderCellDef> Comment </th>
+                <td mat-cell *matCellDef="let element"> {{element.comment}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="ingredients-row"></tr>
+        </table>
+
+    </div>
+
+</div>
