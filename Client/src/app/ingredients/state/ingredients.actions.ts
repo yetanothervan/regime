@@ -4,7 +4,8 @@ import { Ingredient } from 'src/app/dtos/ingredient';
 export enum IngredientsActionTypes {
     Load = '[Ingredients] Load',
     LoadSuccess = '[Ingredients] LoadSuccess',
-    LoadFailed = '[Ingredients] LoadFailed'
+    LoadFailed = '[Ingredients] LoadFailed',
+    SetFilter = '[Ingredients] SetFilter'
 }
 
 export class Load implements Action {
@@ -23,4 +24,9 @@ export class LoadFailed implements Action {
     readonly type = IngredientsActionTypes.LoadFailed;
 }
 
-export type IngredientsActions = Load | LoadSuccess | LoadFailed;
+export class SetFilter implements Action {
+    constructor(public payload: string) { }
+    readonly type = IngredientsActionTypes.SetFilter;
+}
+
+export type IngredientsActions = Load | LoadSuccess | LoadFailed | SetFilter;
