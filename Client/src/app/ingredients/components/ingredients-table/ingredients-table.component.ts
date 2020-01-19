@@ -20,7 +20,7 @@ export class IngredientsTableComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  public displayedColumns: string[] = ['caption', 'kkal100', 'protein100', 'fat100', 'carbon100', 'comment'];
+  public displayedColumns: string[] = ['edit', 'caption', 'kkal100', 'protein100', 'fat100', 'carbon100', 'comment'];
 
   constructor() { }
 
