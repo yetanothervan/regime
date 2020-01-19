@@ -3,9 +3,9 @@
     <div class="table-header">        
         <header>
             <h4>
-                Ingredients {{applyedFilter == "" ? "" : "(" + applyedFilter + ")"}}            
+                Ingredients {{applyedFilter == "" ? "" : "(" + applyedFilter + ")"}}
             </h4>
-            <button type="button" class="btn btn-primary ml-3 btn-sm">Добавить<i class="fas fa-folder-plus ml-3"></i></button>
+            <button type="button" class="btn btn-primary ml-3 btn-sm"><i class="fas fa-folder-plus mr-1"></i>Добавить</button>
         </header>        
         <div class="search-bar">
             <input placeholder="Search for ingredient..." [value]="applyedFilter"
@@ -20,7 +20,9 @@
             <ng-container matColumnDef="edit">
                 <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let element">                    
-                    <button type="button" class="btn btn-primary btn-sm"><i class="fas fa-ellipsis-h"></i></button>                    
+                    <button type="button" class="btn btn-primary btn-sm" [routerLink]="['../edit', element.id]">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>                    
                 </td>
             </ng-container>
 

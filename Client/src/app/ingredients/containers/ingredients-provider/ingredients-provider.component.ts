@@ -28,7 +28,6 @@ export class IngredientsProviderComponent implements OnInit {
           return ings.filter(item => item && item.caption && item.caption.toLowerCase().includes(filter.toLowerCase()));
         })
       );
-    this.store.dispatch(new ingActions.Load());
   }
 
   filterStringChanged(str: string) {

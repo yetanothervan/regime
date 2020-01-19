@@ -13,14 +13,17 @@ import { MatSortModule } from '@angular/material/sort';
 import { EffectsModule } from '@ngrx/effects';
 import { IngredientEffects } from './state/ingredients.effects';
 import { IngredientsProviderComponent } from './containers/ingredients-provider/ingredients-provider.component';
+import { IngredientItemComponent } from './containers/ingredient-item/ingredient-item.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
-  declarations: [IngredientsShellComponent, IngredientsTableComponent, IngredientsProviderComponent],
+  declarations: [IngredientsShellComponent, IngredientsTableComponent, IngredientsProviderComponent, IngredientItemComponent],
   imports: [
     CommonModule,
     HttpClientModule,
     IngredientsRoutingModule,
+    ReactiveFormsModule,
     MatTableModule,
     MatInputModule,
     MatSortModule,

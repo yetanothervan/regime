@@ -4,7 +4,7 @@ import { IngredientsService } from '../ingredients.service';
 import * as ingActions from './ingredients.actions';
 import { mergeMap, map, filter, tap } from 'rxjs/operators';
 import { Ingredient } from 'src/app/dtos/ingredient';
-import { IngredientsState } from './ingredients.reducer';
+import { IngredientsState, getIngredientById } from './ingredients.reducer';
 
 @Injectable()
 export class IngredientEffects {
@@ -20,3 +20,4 @@ export class IngredientEffects {
                 ))
     );
 }
+

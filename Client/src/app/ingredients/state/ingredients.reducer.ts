@@ -26,6 +26,26 @@ export const getIngredients = createSelector(
     state => state.ingredients
 );
 
+export const getIngredientById = (id: string) => createSelector(
+    getIngredients,
+    ingredients => {
+    if (ingredients && ingredients.length > 0) {
+      return ingredients.find(item => {
+        return item.id === id;
+      });
+    } else {
+      return {
+          caption: '',
+          carbon100: 0,
+          comment: '',
+          fat100: 0,
+          id: '00000000-0000-0000-0000-000000000000',
+          kkal100: 0,
+          protein100: 0
+      } as Ingredient;
+    }
+  });
+
 export const getFilterString = createSelector(
     getIngredientsFeatureState,
     state => state.filterString
