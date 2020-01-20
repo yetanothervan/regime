@@ -15,7 +15,7 @@ import { map } from 'rxjs/operators';
 export class IngredientsProviderComponent implements OnInit {
 
   filteredAndSortedIngredients$: Observable<Ingredient[]>;
-  sorting$: BehaviorSubject<Sort> = new BehaviorSubject({active: 'caption', direction: 'asc'});
+  sorting$: BehaviorSubject<Sort> = new BehaviorSubject({ active: 'caption', direction: 'asc' });
   filterString$: Observable<string>;
 
   constructor(private store: Store<fromIng.IngredientsState>) {
@@ -25,7 +25,22 @@ export class IngredientsProviderComponent implements OnInit {
       this.filterString$,
       this.sorting$).pipe(
         map(([ings, filter, sort]) => {
-          return ings.filter(item => item && item.caption && item.caption.toLowerCase().includes(filter.toLowerCase()));
+          const filtered = ings.filter(item => item && item.caption && item.caption.toLowerCase().includes(filter.toLowerCase()));
+          if (!sort.active || !sort.direction) { return filtered; }
+          filtered.sort((a, b) => {
+            const keyA = a[sort.active];
+            const keyB = b[sort.active];
+            if (sort.direction === 'asc') {
+              if (keyA < keyB) { return -1; }
+              if (keyA > keyB) { return 1; }
+              return 0;
+            } else {
+              if (keyA > keyB) { return -1; }
+              if (keyA < keyB) { return 1; }
+              return 0;
+            }
+          });
+          return filtered;
         })
       );
   }
