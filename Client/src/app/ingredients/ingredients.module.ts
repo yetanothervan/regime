@@ -1,6 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { IngredientsShellComponent } from './containers/ingredients-shell/ingredients-shell.component';
 import { IngredientsRoutingModule } from './ingredients-routing.module';
 import { StoreModule } from '@ngrx/store';
@@ -15,13 +13,13 @@ import { IngredientEffects } from './state/ingredients.effects';
 import { IngredientsProviderComponent } from './containers/ingredients-provider/ingredients-provider.component';
 import { IngredientItemComponent } from './containers/ingredient-item/ingredient-item.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
   declarations: [IngredientsShellComponent, IngredientsTableComponent, IngredientsProviderComponent, IngredientItemComponent],
   imports: [
-    CommonModule,
-    HttpClientModule,
+    SharedModule,
     IngredientsRoutingModule,
     ReactiveFormsModule,
     MatTableModule,

@@ -1,25 +1,72 @@
-<div class="card border-primary">
+<div class="card border-primary m-3">
     <div class="card-header">
-        {{ ingredient?.caption }} Settings 
+        <!-- <ng-template *ngIf="ingredient?.id | ifEmpty; else elseBlock">
+            <span>Добавление нового ингредиента</span>
+        </ng-template>
+        <ng-template #elseBlock><span>Редактирование {{ingredient?.caption}}</span></ng-template> -->
+        <div *ngIf="ingredient?.id | ifEmpty; else editBlock">
+            <span>Добавление нового ингредиента</span>
+        </div>
+        <ng-template #editBlock>
+            <span>Редактирование {{ingredient?.caption}}</span>
+        </ng-template>
     </div>
-    <div class="card-body text-primary">        
+    <div class="card-body text-primary">
         <div class="card-text pr-3">
             <form novalidate [formGroup]="ingForm">
-                <div class="form-group row">
-                <label for="ingCaptionCtrl" class="col-sm-2">Ingredient</label>
-                    <input formControlName="ingCaption" #ingCaptionInputRef type="text" class="form-control col-sm-10" id="ingCaptionCtrl"                        
-                        aria-describedby="ingCaptionHelp"/>
-                    <small class="col-sm-2"></small>
-                    <small id="ingCaptionHelp" class="form-text text-muted col-sm-10">Enter the name of the ingredient</small>
+                
+                 <!-- Caption -->
+                <div class="form-group">
+                    <label for="captionCtrl">Наименование</label>
+                    <input #ingredientCaption formControlName="caption" #captionInputRef type="text"
+                        class="form-control" id="captionCtrl" aria-describedby="captionHelp" />                    
+                    <small [hidden]="false" id="captionHelp" class="form-text text-danger col-sm-10">Введите наименование ингредиента</small>
                 </div>
-                <div class="form-group row">
-                    <div class="col-sm-10">
-                        <button type="submit" class="btn btn-primary"
-                            [disabled]="!ingForm.valid">
-                          Save
+                
+                <!-- Parameters -->
+                <div class="form-row">
+                    <div class="form-group col-sm-3">
+                        <label for="kkal100Ctrl">ККал на 100 г</label>
+                        <input formControlName="kkal100" #kkal100InputRef type="text"
+                            class="form-control" id="kkal100Ctrl" aria-describedby="kkal100Help" />                        
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label for="protein100Ctrl">Белков на 100 г</label>
+                        <input formControlName="protein100" #protein100InputRef type="text"
+                            class="form-control" id="protein100Ctrl" aria-describedby="protein100Help" />                        
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label for="fat100Ctrl">Жиров на 100 г</label>
+                        <input formControlName="fat100" #fat100InputRef type="text"
+                            class="form-control" id="fat100Ctrl" aria-describedby="fat100Help" />                        
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label for="carbon100Ctrl">Углеводов на 100 г</label>
+                        <input formControlName="carbon100" #carbon100InputRef type="text"
+                            class="form-control" id="carbon100Ctrl" aria-describedby="carbon100Help" />                        
+                    </div>
+                </div>
+                
+                <!-- Comment -->
+                <div class="form-group">
+                    <label for="commentCtrl">Комментарий</label>
+                    <input formControlName="comment" #commentInputRef type="text"
+                        class="form-control" id="commentCtrl" aria-describedby="commentHelp" />                    
+                    <small [hidden]="false" id="commentHelp" class="form-text text-danger col-sm-10">Введите наименование ингредиента</small>
+                </div>
+                
+                <div class="form-row">
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary" [disabled]="!ingForm.valid">
+                            Save
                         </button>
                     </div>
-                  </div>
+                    <div class="col-auto">
+                        <button [routerLink]="'../all'" class="btn btn-secondary">
+                            Back
+                        </button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

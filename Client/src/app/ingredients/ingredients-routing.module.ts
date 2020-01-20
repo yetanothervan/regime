@@ -10,7 +10,7 @@ const routes: Routes = [
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'all' },
       { path: 'all', component: IngredientsProviderComponent },
-      { path: 'edit/:id', component: IngredientItemComponent }
+      { path: 'edit', component: IngredientItemComponent }
     ]
   }
 ];

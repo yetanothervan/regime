@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Ingredient } from 'src/app/dtos/ingredient';
 import * as fromIng from '../../state/ingredients.reducer';
@@ -14,6 +14,8 @@ import { ActivatedRoute } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IngredientItemComponent implements OnInit, OnDestroy {
+
+  @ViewChild('ingredientCaption', { static: true }) ingredientCaptionInputRef: ElementRef;
 
   ingForm: FormGroup;
   ingredient: Ingredient;
@@ -36,10 +38,15 @@ export class IngredientItemComponent implements OnInit, OnDestroy {
 
   reinitForm() {
     this.ingForm = this.fb.group({
-      ingCaption: [this.ingredient.caption, Validators.required]
+      caption: [this.ingredient.caption, Validators.required],
+      kkal100: [this.ingredient.kkal100, Validators.required],
+      protein100: [this.ingredient.protein100, Validators.required],
+      fat100: [this.ingredient.fat100, Validators.required],
+      carbon100: [this.ingredient.carbon100, Validators.required],
+      comment: [this.ingredient.comment, Validators.required],
     });
     this.cdr.detectChanges();
-    // this.dayCaptionInputRef.nativeElement.focus();
+    this.ingredientCaptionInputRef.nativeElement.focus();
   }
 
   ngOnDestroy() {

@@ -29,7 +29,7 @@ export const getIngredients = createSelector(
 export const getIngredientById = (id: string) => createSelector(
     getIngredients,
     ingredients => {
-    if (ingredients && ingredients.length > 0) {
+    if (id && ingredients && ingredients.length > 0) {
       return ingredients.find(item => {
         return item.id === id;
       });
@@ -39,7 +39,8 @@ export const getIngredientById = (id: string) => createSelector(
           carbon100: 0,
           comment: '',
           fat100: 0,
-          id: '00000000-0000-0000-0000-000000000000',
+          id: '',
+        //   id: '00000000-0000-0000-0000-000000000000',
           kkal100: 0,
           protein100: 0
       } as Ingredient;
