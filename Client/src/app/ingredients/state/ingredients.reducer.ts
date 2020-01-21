@@ -2,7 +2,6 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromRoot from '../../state/app.state';
 import { IngredientsActionTypes, IngredientsActions } from './ingredients.actions';
 import { Ingredient } from 'src/app/dtos/ingredient';
-import { stat } from 'fs';
 
 // state
 export interface IngredientsState {

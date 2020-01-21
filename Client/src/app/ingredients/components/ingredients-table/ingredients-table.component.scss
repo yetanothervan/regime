@@ -37,20 +37,44 @@
       line-height: 17px;
       width: 100%;
 
-      .mat-column-edit {
-        word-wrap: break-word !important;
-        white-space: unset !important;
-        flex: 0 0 70px !important;
-        width: 70px !important;
-        overflow-wrap: break-word;
+      %mat-column {
         word-wrap: break-word;
-      
-        word-break: break-word;
-      
+        white-space: unset;
+        overflow-wrap: break-word;
+        word-wrap: break-word;      
+        word-break: break-word;      
         -ms-hyphens: auto;
         -moz-hyphens: auto;
         -webkit-hyphens: auto;
         hyphens: auto;
+      }
+
+      %mat-nutri {
+        @extend %mat-column;
+        flex: 1 1 150px; 
+        width: 150px;
+      }
+
+      .mat-column-edit {
+        @extend %mat-column;
+        flex: 0 0 70px;
+        width: 70px;
+      }
+
+      .mat-column-caption {
+        @extend %mat-column;
+        flex: 6 1 500px;
+        width: 500px;
+      }
+
+      .mat-column-kkal100, .mat-column-protein100, .mat-column-fat100, .mat-column-carbon100 {
+        @extend %mat-nutri;
+      }
+
+      .mat-column-comment {
+        @extend %mat-column;
+        flex: 6 1 400px;
+        width: 400px;
       }
 
       tr.mat-header-row {
