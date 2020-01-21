@@ -13,13 +13,14 @@
     </div>
     <div class="card-body text-primary">
         <div class="card-text pr-3">
-            <form novalidate [formGroup]="ingForm">
+            <form novalidate (ngSubmit)="saveIngredient()" [formGroup]="ingForm">
                 
                  <!-- Caption -->
                 <div class="form-group">
                     <label for="captionCtrl">Наименование</label>
                     <input #ingredientCaption formControlName="caption" #captionInputRef type="text"
                         class="form-control" id="captionCtrl" aria-describedby="captionHelp" />                    
+                    <!-- TODO -->
                     <small [hidden]="false" id="captionHelp" class="form-text text-danger col-sm-10">Введите наименование ингредиента</small>
                 </div>
                 
@@ -50,8 +51,9 @@
                 <!-- Comment -->
                 <div class="form-group">
                     <label for="commentCtrl">Комментарий</label>
-                    <input formControlName="comment" #commentInputRef type="text"
-                        class="form-control" id="commentCtrl" aria-describedby="commentHelp" />                    
+                    <textarea formControlName="comment" #commentInputRef type="text"
+                        class="form-control" id="commentCtrl" aria-describedby="commentHelp" rows="4">
+                    </textarea>
                     <small [hidden]="false" id="commentHelp" class="form-text text-danger col-sm-10">Введите наименование ингредиента</small>
                 </div>
                 

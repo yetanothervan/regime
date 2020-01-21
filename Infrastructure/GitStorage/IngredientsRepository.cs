@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Domain.Ration.Entities;
+using Domain.Ration.Aggregates;
 using Infrastructure.Interfaces;
 
 namespace Infrastructure.GitStorage
@@ -17,7 +17,7 @@ namespace Infrastructure.GitStorage
         }
         public IReadOnlyList<Ingredient> GetIngredients()
         {
-            var path = Path.Combine(_configuration.Folder, "ingredients.json");
+            var path = Path.Combine(_configuration.Folder, _configuration.IngredientsFile);
             var list = JsonUtilities.LoadJsonFrom<Ingredient>(path);
             return list ?? new List<Ingredient>();
         }

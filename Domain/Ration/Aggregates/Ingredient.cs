@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Domain.SharedKernel;
 
-namespace Domain.Ration.Entities
+namespace Domain.Ration.Aggregates
 {
     public class Ingredient : Entity
     {

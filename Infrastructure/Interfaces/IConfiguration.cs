@@ -7,5 +7,6 @@ namespace Infrastructure.Interfaces
     public interface IConfiguration
     {
         string Folder { get; }
+        string IngredientsFile { get; }
     }
 }

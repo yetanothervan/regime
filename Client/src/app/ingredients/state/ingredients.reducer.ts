@@ -2,6 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromRoot from '../../state/app.state';
 import { IngredientsActionTypes, IngredientsActions } from './ingredients.actions';
 import { Ingredient } from 'src/app/dtos/ingredient';
+import { stat } from 'fs';
 
 // state
 export interface IngredientsState {
@@ -40,7 +41,6 @@ export const getIngredientById = (id: string) => createSelector(
           comment: '',
           fat100: 0,
           id: '',
-        //   id: '00000000-0000-0000-0000-000000000000',
           kkal100: 0,
           protein100: 0
       } as Ingredient;
@@ -66,6 +66,22 @@ export function reducer(state = initialState, action: IngredientsActions): Ingre
             const result: IngredientsState = {
                 ...state,
                 filterString: action.payload
+            };
+            return result;
+        }
+        case IngredientsActionTypes.UpdateSuccess: {
+            const updatedIngredients = state.ingredients.map(
+                i => action.payload.id === i.id ? action.payload : i);
+            const result: IngredientsState = {
+                ...state,
+                ingredients: updatedIngredients
+            };
+            return result;
+        }
+        case IngredientsActionTypes.CreateSuccess: {
+            const result: IngredientsState = {
+                ...state,
+                ingredients: [...state.ingredients, action.payload]
             };
             return result;
         }

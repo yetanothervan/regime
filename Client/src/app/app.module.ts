@@ -8,6 +8,7 @@ import { RootComponent } from './shell/root.component';
 import { ShellComponent } from './shell/shell.component';
 import { EffectsModule } from '@ngrx/effects';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
       name: 'Regime',
     }),
     EffectsModule.forRoot([]),
-    NoopAnimationsModule
+    NoopAnimationsModule,
+    SharedModule.forRoot()
   ],
   providers: [],
   bootstrap: [RootComponent]

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using AutoMapper;
 using Infrastructure.GitStorage;
 using Infrastructure.Interfaces;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -28,12 +30,15 @@ namespace WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMediatR(typeof(Startup).Assembly);
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddAutoMapper(typeof(GitStorageMapperProfile));
 
             services.AddTransient<Infrastructure.Interfaces.IConfiguration, Infrastructure.Configuration.Configuration>();
             services.AddTransient<IIngredientsRepository, IngredientsRepository>();
+            services.AddTransient<IIngredientsManager, IngredientsManager>();
 
             services.AddCors(options =>
                 options.AddPolicy(AllowLocalHostPolicy, builder => { builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin(); }));

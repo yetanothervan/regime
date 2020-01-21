@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Domain.Ration.Aggregates;
-using Domain.Ration.Entities;
 
 namespace WebApi
 {
@@ -9,8 +8,8 @@ namespace WebApi
 
         public GitStorageMapperProfile()
         {
-            CreateMap<RationDay, Infrastructure.Dtos.RationDay>();
-            CreateMap<Ingredient, Infrastructure.Dtos.Ingredient>();
+            CreateMap<RationDay, Infrastructure.Dtos.RationDay>().ReverseMap();
+            CreateMap<Ingredient, Infrastructure.Dtos.Ingredient>().ReverseMap();
         }
     }
 }

@@ -5,8 +5,8 @@ using Domain.Ration.Aggregates;
 
 namespace Infrastructure.Interfaces
 {
-    public interface IIngredientsRepository
+    public interface IIngredientsManager
     {
-        IReadOnlyList<Ingredient> GetIngredients();
+        Ingredient UpdateIngredient(Ingredient ingredient);
     }
 }
