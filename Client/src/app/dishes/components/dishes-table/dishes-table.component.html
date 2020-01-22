@@ -1,0 +1,49 @@
+<div class="dishes-content">
+
+    <div class="table-header">        
+        <header>
+            <h4>
+                Dishes {{applyedFilter == "" ? "" : "(" + applyedFilter + ")"}}
+            </h4>
+            <button type="button" class="btn btn-primary ml-3 btn-sm"
+                [routerLink]="['../edit', {id: ''}]">
+                <i class="fas fa-folder-plus mr-1"></i>Добавить
+            </button>
+        </header>        
+        <div class="search-bar">
+            <input placeholder="Search for dish..." [value]="applyedFilter"
+            (keyup)="filterStringChanged.emit($event.target.value)">
+        </div>
+    </div>
+
+    <div class="table-container">
+
+        <table mat-table [dataSource]="dataSource" matSort>
+
+            <ng-container matColumnDef="edit">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element">                    
+                    <button type="button" class="btn btn-primary btn-sm" [routerLink]="['../edit', {id: element.id}]">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>                    
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="caption">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef> Наименование </th>
+                <td mat-cell *matCellDef="let element"> {{element.caption}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="comment">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef> Комментарий </th>
+                <td mat-cell *matCellDef="let element"> {{element.comment}} </td>
+            </ng-container>            
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="dishes-row"></tr>
+            
+        </table>
+
+    </div>
+
+</div>

@@ -8,5 +8,6 @@ namespace Infrastructure.Interfaces
     {
         string Folder { get; }
         string IngredientsFile { get; }
+        string DishesFile { get; }
     }
 }

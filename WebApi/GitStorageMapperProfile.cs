@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
-using Domain.Ration.Aggregates;
+using Domain.Ration.Dish;
+using Domain.Ration.Ingredient;
+using Domain.Ration.RationDay;
 
 namespace WebApi
 {
@@ -10,6 +12,8 @@ namespace WebApi
         {
             CreateMap<RationDay, Infrastructure.Dtos.RationDay>().ReverseMap();
             CreateMap<Ingredient, Infrastructure.Dtos.Ingredient>().ReverseMap();
+            CreateMap<DishItem, Infrastructure.Dtos.DishItem>().ReverseMap();
+            CreateMap<Dish, Infrastructure.Dtos.Dish>().ReverseMap();
         }
     }
 }

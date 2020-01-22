@@ -1,9 +1,11 @@
 import { Action } from '@ngrx/store';
+import { Dish } from 'src/app/dtos/dish';
 
 export enum DishesActionTypes {
     Load = '[Dishes] Load',
     LoadSuccess = '[Dishes] LoadSuccess',
-    LoadFailed = '[Dishes] LoadFailed'
+    LoadFailed = '[Dishes] LoadFailed',
+    SetFilter = '[Dishes] SetFilter',
 }
 
 export class Load implements Action {
@@ -12,7 +14,7 @@ export class Load implements Action {
 }
 
 export class LoadSuccess implements Action {
-    constructor() {}
+    constructor(public payload: Dish[]) {}
     readonly type = DishesActionTypes.LoadSuccess;
 }
 
@@ -21,4 +23,9 @@ export class LoadFailed implements Action {
     readonly type = DishesActionTypes.LoadFailed;
 }
 
-export type DishesActions = Load | LoadSuccess | LoadFailed;
+export class SetFilter implements Action {
+    constructor(public payload: string) { }
+    readonly type = DishesActionTypes.SetFilter;
+}
+
+export type DishesActions = Load | LoadSuccess | LoadFailed | SetFilter;

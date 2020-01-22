@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Domain.Ration.Aggregates;
+using Domain.Ration.Ingredient;
 using Infrastructure.Interfaces;
 
 namespace Infrastructure.GitStorage

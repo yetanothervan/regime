@@ -34,7 +34,7 @@
         </Menu>
         <TabControl Grid.Row="1">
             <TabItem Header="Меню">
-                <dashboard:Dashboard/>
+                <menuGrid:MenuGrid></menuGrid:MenuGrid>
             </TabItem>
             <TabItem Header="Блюда">
                 <dishesGrid:DishesGrid></dishesGrid:DishesGrid>

@@ -1,9 +1,9 @@
 ﻿using System;
 using Domain.SharedKernel;
 
-namespace Domain.Ration.Aggregates
+namespace Domain.Ration.Ingredient
 {
-    public class Ingredient : Entity
+    public class Ingredient : Entity, IAggregationRoot
     {
         public Ingredient(Guid id) : base(id)
         {

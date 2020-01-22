@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Domain.SharedKernel;
 
-namespace Domain.Ration.Aggregates
+namespace Domain.Ration.RationDay
 {
-    public class RationDay : Entity
+    public class RationDay : Entity, IAggregationRoot
     {
         public RationDay(Guid id) : base(id)
         {

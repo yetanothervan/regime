@@ -23,7 +23,7 @@ namespace WebApi.CommandHandlers
         }
         public Task<Ingredient> Handle(UpdateIngredientCommand request, CancellationToken cancellationToken)
         {
-            var domIngredient = _mapper.Map<Domain.Ration.Aggregates.Ingredient>(request.Ingredient);
+            var domIngredient = _mapper.Map<Domain.Ration.Ingredient.Ingredient>(request.Ingredient);
             var result = _manager.UpdateIngredient(domIngredient);
 
             var dtoIngredient = _mapper.Map<Ingredient>(result);

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Domain.Ration.Aggregates;
+using Domain.Ration.Ingredient;
 
 namespace Infrastructure.Interfaces
 {

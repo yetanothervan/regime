@@ -32,7 +32,7 @@ namespace WebApi.Controllers
         public ActionResult<IEnumerable<Ingredient>> Get()
         {
             var list = _ingredientsRepository.GetIngredients();
-            var dest = _mapper.Map<IReadOnlyList<Domain.Ration.Aggregates.Ingredient>, Ingredient[]>(list);
+            var dest = _mapper.Map<IReadOnlyList<Domain.Ration.Ingredient.Ingredient>, Ingredient[]>(list);
             return dest;
         }
 

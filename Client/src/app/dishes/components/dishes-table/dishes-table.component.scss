@@ -1,7 +1,7 @@
 @import "../../../../assets/scss/global-vars";
 @import "../../../../assets/scss/regime.scss";
 
-.ingredients-content {
+.dishes-content {
   .table-header {
     margin-left: 16px;
     margin-top: 16px;
@@ -49,12 +49,6 @@
         hyphens: auto;
       }
 
-      %mat-nutri {
-        @extend %mat-column;
-        flex: 1 1 150px; 
-        width: 150px;
-      }
-
       .mat-column-edit {
         @extend %mat-column;
         flex: 0 0 70px;
@@ -65,10 +59,6 @@
         @extend %mat-column;
         flex: 6 1 500px;
         width: 500px;
-      }
-
-      .mat-column-kkal100, .mat-column-protein100, .mat-column-fat100, .mat-column-carbon100 {
-        @extend %mat-nutri;
       }
 
       .mat-column-comment {
@@ -82,12 +72,12 @@
         background-color: theme-color("back");
       }
 
-      tr.ingredients-row.mat-footer-row,
-      tr.ingredients-row.mat-row {
+      tr.dishes-row.mat-footer-row,
+      tr.dishes-row.mat-row {
         height: 40px;
         cursor: pointer;
       }
-      
+            
     }
   }
 }
