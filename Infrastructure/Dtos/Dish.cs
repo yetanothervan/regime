@@ -12,6 +12,7 @@ namespace Infrastructure.Dtos
         public string Caption { get; set; }
         public string Comment { get; set; }
         public DishItem[] Items { get; set; }
+        public string Category { get; set; }
 
     }
 }

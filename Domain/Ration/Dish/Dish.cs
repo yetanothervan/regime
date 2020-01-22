@@ -15,5 +15,6 @@ namespace Domain.Ration.Dish
         public List<DishItem> Items { get; set; }
         public string Caption { get; set; }
         public string Comment { get; set; }
+        public string Category { get; set; }
     }
 }

@@ -61,6 +61,12 @@
         width: 500px;
       }
 
+      .mat-column-category {
+        @extend %mat-column;
+        flex: 6 1 200px;
+        width: 500px;
+      }
+
       .mat-column-comment {
         @extend %mat-column;
         flex: 6 1 400px;

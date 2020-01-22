@@ -10,4 +10,5 @@ export class Dish {
     caption: string;
     comment: string;
     items: DishItem[];
+    category: string;
 }
