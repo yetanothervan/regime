@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as fromRoot from '../../state/app.state';
+import * as fromRoot from '../../app.state';
 import { IngredientsActionTypes, IngredientsActions } from './ingredients.actions';
 import { Ingredient } from 'src/app/dtos/ingredient';
 

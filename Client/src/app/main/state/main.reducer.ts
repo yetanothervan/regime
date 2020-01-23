@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as fromRoot from '../../state/app.state';
+import * as fromRoot from '../../app.state';
 import { MainActionTypes, MainActions } from './main.actions';
 import { RationDay } from 'src/app/dtos/ration-day';
 
