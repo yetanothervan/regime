@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import * as fromDishes from './../../state/dishes.reducer';
 import * as dishesActions from './../../state/dishes.actions';
+import * as root from 'src/app/root-store';
 
 @Component({
   selector: 'rg-dishes-provider',
@@ -18,10 +19,10 @@ export class DishesProviderComponent implements OnInit {
   sorting$: BehaviorSubject<Sort> = new BehaviorSubject({ active: 'caption', direction: 'asc' });
   filterString$: Observable<string>;
 
-  constructor(private store: Store<fromDishes.DishesState>) {
+  constructor(private store: Store<fromDishes.DishesState>, private rootStore: Store<root.RootState>) {
     this.filterString$ = this.store.select(fromDishes.getFilterString);
     this.filteredAndSortedDishes$ = combineLatest(
-      this.store.select(fromDishes.getDishes),
+      this.rootStore.select(root.getEntitiesDishes),
       this.filterString$,
       this.sorting$).pipe(
         map(([ings, filter, sort]) => {

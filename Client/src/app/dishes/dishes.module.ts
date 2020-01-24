@@ -11,7 +11,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
 import { DishesService } from './dishes.service';
 import { EffectsModule } from '@ngrx/effects';
-import { DishesEffects } from './state/dishes.effects';
 
 @NgModule({
   declarations: [DishesShellComponent, DishesTableComponent, DishesProviderComponent],
@@ -21,8 +20,7 @@ import { DishesEffects } from './state/dishes.effects';
     MatTableModule,
     MatInputModule,
     MatSortModule,
-    StoreModule.forFeature('dishes', reducer),
-    EffectsModule.forFeature([DishesEffects])
+    StoreModule.forFeature('dishes', reducer)
   ],
   providers: [DishesService],
   bootstrap: []

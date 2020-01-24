@@ -1,7 +1,4 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import * as dishesActions from './../../state/dishes.actions';
-import { DishesState } from '../../state/dishes.reducer';
-import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'rg-dishes-shell',
@@ -11,10 +8,9 @@ import { Store } from '@ngrx/store';
 })
 export class DishesShellComponent implements OnInit {
 
-  constructor(private store: Store<DishesState>) { }
+  constructor() { }
 
   ngOnInit() {
-    this.store.dispatch(new dishesActions.Load());
   }
 
 }

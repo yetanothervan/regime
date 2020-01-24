@@ -8,8 +8,12 @@ import { Dish } from '../dtos/dish';
 import { SharedFuncService } from '../shared/services/shared-func.service';
 
 @Injectable()
-export class DishesService {
+export class EntitiesService {
     private dishesUrl = environment.apiBaseUrl + environment.dishesUrl;
 
     constructor(private http: HttpClient, private shared: SharedFuncService) {}
+
+    getDishes(): Observable<Dish[]> {
+        return this.http.get<Dish[]>(this.dishesUrl);
+    }
 }

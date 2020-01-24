@@ -9,6 +9,7 @@ import { ShellComponent } from './shell/shell.component';
 import { EffectsModule } from '@ngrx/effects';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
+import { RootStoreModule } from './root-store/root-store.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { SharedModule } from './shared/shared.module';
     }),
     EffectsModule.forRoot([]),
     NoopAnimationsModule,
-    SharedModule.forRoot()
+    SharedModule.forRoot(),
+    RootStoreModule
   ],
   providers: [],
   bootstrap: [RootComponent]

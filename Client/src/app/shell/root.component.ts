@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { RootState, RootActions } from '../root-store';
 
 @Component({
   selector: 'rg-root',
@@ -6,4 +8,8 @@ import { Component } from '@angular/core';
 })
 export class RootComponent {
   title = 'Regime';
+
+  constructor(private store: Store<RootState>) {
+    store.dispatch(RootActions.dishesLoad());
+  }
 }

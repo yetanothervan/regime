@@ -1,25 +1,6 @@
-import { Action } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 import { Dish } from '../dtos/dish';
 
-export enum RootStoreActionTypes {
-    DishesLoad = '[Root] Dishes Load',
-    DishesLoadSuccess = '[Root] Dishes LoadSuccess',
-    DishesLoadFailed = '[Root] Dishes LoadFailed',
-}
-
-export class DishesLoad implements Action {
-    constructor() {}
-    readonly type = RootStoreActionTypes.DishesLoad;
-}
-
-export class DishesLoadSuccess implements Action {
-    constructor(public payload: Dish[]) {}
-    readonly type = RootStoreActionTypes.DishesLoadSuccess;
-}
-
-export class DishesLoadFailed implements Action {
-    constructor() {}
-    readonly type = RootStoreActionTypes.DishesLoadFailed;
-}
-
-export type RootActions = DishesLoad | DishesLoadSuccess | DishesLoadFailed;
+export const dishesLoad = createAction('[Root] Dishes Load');
+export const dishesLoadSuccess = createAction('[Root] Dishes LoadSuccess', props<{ dishes: Dish[] }>());
+export const dishesLoadFailed = createAction('[Root] Dishes LoadFailed');
