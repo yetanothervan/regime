@@ -4,9 +4,8 @@ import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
 import { Dish } from 'src/app/dtos/dish';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
-import * as fromDishes from './../../state/dishes.reducer';
-import * as dishesActions from './../../state/dishes.actions';
 import * as root from 'src/app/root-store';
+import * as dishes from './../../state';
 
 @Component({
   selector: 'rg-dishes-provider',
@@ -19,8 +18,8 @@ export class DishesProviderComponent implements OnInit {
   sorting$: BehaviorSubject<Sort> = new BehaviorSubject({ active: 'caption', direction: 'asc' });
   filterString$: Observable<string>;
 
-  constructor(private store: Store<fromDishes.DishesState>, private rootStore: Store<root.RootState>) {
-    this.filterString$ = this.store.select(fromDishes.getFilterString);
+  constructor(private store: Store<dishes.DishesState>, private rootStore: Store<root.RootState>) {
+    this.filterString$ = this.store.select(dishes.getFilterString);
     this.filteredAndSortedDishes$ = combineLatest(
       this.rootStore.select(root.getEntitiesDishes),
       this.filterString$,
@@ -46,8 +45,8 @@ export class DishesProviderComponent implements OnInit {
       );
   }
 
-  filterStringChanged(str: string) {
-    this.store.dispatch(new dishesActions.SetFilter(str));
+  filterStringChanged(filterString: string) {
+    this.store.dispatch(dishes.DishesActions.dishesSetFilter({filterString}));
   }
 
   sortingChanged(sorting: Sort) {

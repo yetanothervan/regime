@@ -1,12 +1,4 @@
-import { Action } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 
-export enum DishesActionTypes {
-    SetFilter = '[Dishes] SetFilter',
-}
+export const dishesSetFilter = createAction('[Dishes] SetFilter', props<{filterString: string}>());
 
-export class SetFilter implements Action {
-    constructor(public payload: string) { }
-    readonly type = DishesActionTypes.SetFilter;
-}
-
-export type DishesActions = SetFilter;
