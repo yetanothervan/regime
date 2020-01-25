@@ -10,7 +10,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
 import { DishesService } from './dishes.service';
-import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [DishesShellComponent, DishesTableComponent, DishesProviderComponent],

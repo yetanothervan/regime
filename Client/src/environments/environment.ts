@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   apiBaseUrl: 'http://localhost:5000/api/',
-  dishesUrl: 'dishes/'
+  get dishesUrl() { return this.apiBaseUrl + 'dishes/'; },
+  get ingredientsUrl() { return this.apiBaseUrl + 'ingredients/'; }
 };
 
 /*

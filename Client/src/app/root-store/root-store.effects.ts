@@ -4,6 +4,7 @@ import * as rootActions from './root-store.actions';
 import { mergeMap, map } from 'rxjs/operators';
 import { Dish } from 'src/app/dtos/dish';
 import { EntitiesService } from './entities.server';
+import { Ingredient } from '../dtos/ingredient';
 
 @Injectable()
 export class RootStoreEffects {
@@ -16,6 +17,16 @@ export class RootStoreEffects {
             (action) =>
                 this.entitiesService.getDishes().pipe(
                     map((dishes: Dish[]) => (rootActions.dishesLoadSuccess({dishes})))
+                ))
+    );
+
+    @Effect()
+    loadIngredients$ = this.actions$.pipe(
+        ofType(rootActions.ingredientsLoad),
+        mergeMap(
+            (action) =>
+                this.entitiesService.getIngredients().pipe(
+                    map((ingredients: Ingredient[]) => (rootActions.ingredientsLoadSuccess({ingredients})))
                 ))
     );
 }

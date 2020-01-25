@@ -10,20 +10,14 @@ import { SharedFuncService } from '../shared/services/shared-func.service';
 
 @Injectable()
 export class IngredientsService {
-    private ingredientsUrl = environment.apiBaseUrl + 'ingredients/';
-
     constructor(private http: HttpClient, private shared: SharedFuncService) {}
 
-    getIngredients(): Observable<Ingredient[]> {
-        return this.http.get<Ingredient[]>(this.ingredientsUrl);
-    }
-
     updateIngredient(ingredient: Ingredient): Observable<Ingredient> {
-        return this.http.post<Ingredient>(this.ingredientsUrl + 'update-ingredient', ingredient);
+        return this.http.post<Ingredient>(environment.ingredientsUrl + 'update-ingredient', ingredient);
     }
 
     createIngredient(ingredient: Ingredient): Observable<Ingredient> {
         ingredient.id = this.shared.getGuidEmpty();
-        return this.http.post<Ingredient>(this.ingredientsUrl + 'update-ingredient', ingredient);
+        return this.http.post<Ingredient>(environment.ingredientsUrl + 'update-ingredient', ingredient);
     }
 }

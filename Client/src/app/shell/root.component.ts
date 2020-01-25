@@ -11,5 +11,6 @@ export class RootComponent {
 
   constructor(private store: Store<RootState>) {
     store.dispatch(RootActions.dishesLoad());
+    store.dispatch(RootActions.ingredientsLoad());
   }
 }

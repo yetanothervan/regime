@@ -2,8 +2,8 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { Observable, Subject, combineLatest, BehaviorSubject } from 'rxjs';
 import { Ingredient } from 'src/app/dtos/ingredient';
-import * as fromIng from '../../state/ingredients.reducer';
-import * as ingActions from '../../state/ingredients.actions';
+import * as ingredients from '../../state';
+import * as root from 'src/app/root-store';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 
@@ -18,10 +18,10 @@ export class IngredientsProviderComponent implements OnInit {
   sorting$: BehaviorSubject<Sort> = new BehaviorSubject({ active: 'caption', direction: 'asc' });
   filterString$: Observable<string>;
 
-  constructor(private store: Store<fromIng.IngredientsState>) {
-    this.filterString$ = this.store.select(fromIng.getFilterString);
+  constructor(private store: Store<root.RootState>) {
+    this.filterString$ = this.store.select(ingredients.getFilterString);
     this.filteredAndSortedIngredients$ = combineLatest(
-      this.store.select(fromIng.getIngredients),
+      this.store.select(root.getEntitiesIngredients),
       this.filterString$,
       this.sorting$).pipe(
         map(([ings, filter, sort]) => {
@@ -45,8 +45,8 @@ export class IngredientsProviderComponent implements OnInit {
       );
   }
 
-  filterStringChanged(str: string) {
-    this.store.dispatch(new ingActions.SetFilter(str));
+  filterStringChanged(filterString: string) {
+    this.store.dispatch(ingredients.IngActions.ingredientsSetFilter({filterString}));
   }
 
   sortingChanged(sorting: Sort) {

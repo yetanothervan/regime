@@ -1,7 +1,4 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { IngredientsState } from '../../state/ingredients.reducer';
-import * as ingActions from '../../state/ingredients.actions';
 
 @Component({
   selector: 'rg-ingredients-shell',
@@ -10,10 +7,9 @@ import * as ingActions from '../../state/ingredients.actions';
 })
 export class IngredientsShellComponent implements OnInit {
 
-  constructor(private store: Store<IngredientsState>) { }
+  constructor() { }
 
   ngOnInit() {
-    this.store.dispatch(new ingActions.Load());
   }
 
 }

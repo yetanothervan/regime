@@ -6,14 +6,18 @@ import { Observable } from 'rxjs';
 import { environment } from './../../environments/environment';
 import { Dish } from '../dtos/dish';
 import { SharedFuncService } from '../shared/services/shared-func.service';
+import { Ingredient } from '../dtos/ingredient';
 
 @Injectable()
 export class EntitiesService {
-    private dishesUrl = environment.apiBaseUrl + environment.dishesUrl;
 
     constructor(private http: HttpClient, private shared: SharedFuncService) {}
 
+    getIngredients(): Observable<Ingredient[]> {
+        return this.http.get<Ingredient[]>(environment.ingredientsUrl);
+    }
+
     getDishes(): Observable<Dish[]> {
-        return this.http.get<Dish[]>(this.dishesUrl);
+        return this.http.get<Dish[]>(environment.dishesUrl);
     }
 }

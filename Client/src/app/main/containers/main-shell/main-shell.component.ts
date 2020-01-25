@@ -41,6 +41,6 @@ export class MainShellComponent implements OnInit, OnDestroy {
   }
 
   selectDay(dayId: string): void {
-    this.store.dispatch(new daysActions.DaySelected(dayId));
+    // this.store.dispatch(new daysActions.DaySelected(dayId));
   }
 }

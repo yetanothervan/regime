@@ -12,11 +12,11 @@ const initialState: DishesState  = {
 
 // reducer
 
-const rootReducer = createReducer(
+const dishesReducer = createReducer(
     initialState,
     on(dishesActions.dishesSetFilter, (state: DishesState, {filterString}) => ({ ...state, filterString }))
 );
 
 export function reducer(state: DishesState | undefined, action: Action) {
-    return rootReducer(state, action);
+    return dishesReducer(state, action);
 }
