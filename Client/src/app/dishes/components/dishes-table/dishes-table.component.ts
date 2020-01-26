@@ -20,7 +20,7 @@ export class DishesTableComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  public displayedColumns: string[] = ['edit', 'caption', 'comment'];
+  public displayedColumns: string[] = ['edit', 'caption', 'category', 'proteinPer', 'fatPer', 'carbonPer', 'comment'];
 
   constructor() { }
 

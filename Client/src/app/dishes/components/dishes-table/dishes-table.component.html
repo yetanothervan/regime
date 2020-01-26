@@ -41,17 +41,17 @@
 
             <ng-container matColumnDef="proteinPer">
                 <th mat-header-cell mat-sort-header *matHeaderCellDef> Белков % </th>
-                <td mat-cell *matCellDef="let element"> {{element.protein100}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.proteinPer}} </td>
             </ng-container>
 
             <ng-container matColumnDef="fatPer">
                 <th mat-header-cell mat-sort-header *matHeaderCellDef> Жира % </th>
-                <td mat-cell *matCellDef="let element"> {{element.fat100}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.fatPer}} </td>
             </ng-container>
 
             <ng-container matColumnDef="carbonPer">
                 <th mat-header-cell mat-sort-header *matHeaderCellDef> Углевовод % </th>
-                <td mat-cell *matCellDef="let element"> {{element.carbon100}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.carbonPer}} </td>
             </ng-container>
 
             <ng-container matColumnDef="comment">
