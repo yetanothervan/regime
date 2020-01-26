@@ -1,12 +1,13 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
-import { takeWhile } from 'rxjs/operators';
+import { takeWhile, startWith, map } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedFuncService } from 'src/app/shared/services/shared-func.service';
 import * as root from 'src/app/root-store';
 import { Dish } from 'src/app/dtos/dish';
 import { DishesActions } from '../../state';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'rg-dish-item',
@@ -21,6 +22,19 @@ export class DishItemComponent implements OnInit, OnDestroy {
   dish: Dish;
   componentIsActive = true;
   errorMessages = ''; // TODO
+
+  foods: any[] = [
+    { value: 'steak-0', viewValue: 'Steak' },
+    { value: 'pizza-1', viewValue: 'Pizza' },
+    { value: 'tacos-2', viewValue: 'Tacos' }
+  ];
+
+  food: any = { value: 'pizza-1', viewValue: 'Pizza' };
+
+  compareFn: ((f1: any, f2: any) => boolean) | null = this.compareByValue;
+  compareByValue(f1: any, f2: any) {
+    return f1 && f2 && f1.value === f2.value;
+  }
 
   constructor(private store: Store<root.RootState>,
               private fb: FormBuilder,
@@ -42,6 +56,7 @@ export class DishItemComponent implements OnInit, OnDestroy {
   reinitForm() {
     this.dishForm = this.fb.group({
       caption: [this.dish.caption, Validators.required],
+      selector: [this.food],
       comment: [this.dish.comment],
     });
     this.cdr.detectChanges();
@@ -55,11 +70,11 @@ export class DishItemComponent implements OnInit, OnDestroy {
         const dto = { ...this.dish, ...this.dishForm.value };
 
         if (!this.sharedFunc.ifEmpty(dto.id)) { // update
-          this.store.dispatch(DishesActions.dishesUpdate({dish: dto}));
-          this.router.navigate(['../all'], {relativeTo: this.route});
+          this.store.dispatch(DishesActions.dishesUpdate({ dish: dto }));
+          this.router.navigate(['../all'], { relativeTo: this.route });
         } else { // create
-          this.store.dispatch(DishesActions.dishesCreate({dish: dto}));
-          this.router.navigate(['../all'], {relativeTo: this.route});
+          this.store.dispatch(DishesActions.dishesCreate({ dish: dto }));
+          this.router.navigate(['../all'], { relativeTo: this.route });
         }
 
       } else { // valid

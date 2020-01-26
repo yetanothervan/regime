@@ -14,6 +14,7 @@ import { DishesEffects } from './state/dishes.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DishItemComponent } from './containers/dish-item/dish-item.component';
+import { MatSelectModule, MatSliderModule } from '@angular/material';
 
 @NgModule({
   declarations: [DishesShellComponent, DishesTableComponent, DishesProviderComponent, DishItemComponent],
@@ -24,6 +25,8 @@ import { DishItemComponent } from './containers/dish-item/dish-item.component';
     MatTableModule,
     MatInputModule,
     MatSortModule,
+    MatSelectModule,
+    MatSliderModule,
     StoreModule.forFeature('dishes', reducer),
     EffectsModule.forFeature([DishesEffects])
   ],
