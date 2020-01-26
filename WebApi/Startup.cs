@@ -40,6 +40,7 @@ namespace WebApi
             services.AddTransient<IIngredientsRepository, IngredientsRepository>();
             services.AddTransient<IIngredientsManager, IngredientsManager>();
             services.AddTransient<IDishesRepository, DishesRepository>();
+            services.AddTransient<IDishesManager, DishesManager>();
 
             services.AddCors(options =>
                 options.AddPolicy(AllowLocalHostPolicy, builder => { builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin(); }));

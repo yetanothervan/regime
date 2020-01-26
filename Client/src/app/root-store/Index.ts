@@ -4,6 +4,7 @@ import { RootState } from './root-store.reducer';
 export { RootState };
 import * as RootActions from './root-store.actions';
 import { Ingredient } from '../dtos/ingredient';
+import { Dish } from '../dtos/dish';
 export { RootActions };
 
 export interface State extends fromRoot.State {
@@ -13,11 +14,28 @@ export interface State extends fromRoot.State {
 // selectors
 const getRootFeatureState = createFeatureSelector<RootState>('root');
 
-//entities
+// entities
 export const getEntitiesDishes = createSelector(
     getRootFeatureState,
     state => state.dishes
 );
+export const getDishById = (id: string) => createSelector(
+  getEntitiesDishes,
+  dishes => {
+  if (id && dishes && dishes.length > 0) {
+    return dishes.find(item => {
+      return item.id === id;
+    });
+  } else {
+    return {
+      caption: '',
+      category: '',
+      comment: '',
+      items: [],
+      id: ''
+    } as Dish;
+  }
+});
 
 export const getEntitiesIngredients = createSelector(
     getRootFeatureState,

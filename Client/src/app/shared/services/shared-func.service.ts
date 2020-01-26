@@ -21,6 +21,7 @@ export class SharedFuncService {
         arr.sort((a, b) => {
             const keyA = a[field];
             const keyB = b[field];
+
             if (dirAsc) {
                 if (keyA < keyB) { return -1; }
                 if (keyA > keyB) { return 1; }

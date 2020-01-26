@@ -31,12 +31,13 @@ export class DishesProviderComponent implements OnInit {
         map(([dishes, ings, filter, sort]) => {
           // filter
           const filtered = dishes.filter(item => item && item.caption && item.caption.toLowerCase().includes(filter.toLowerCase()));
+          // detail
+          const detailed = shared.detailDish(filtered, ings);
           // sort
           if (sort.active && sort.direction) {
-            shared.sortMatTable(filtered, sort.active, sort.direction === 'asc');
+            shared.sortMatTable(detailed, sort.active, sort.direction === 'asc');
           }
-          // detail
-          return shared.detailDish(filtered, ings);
+          return detailed;
         })
       );
   }

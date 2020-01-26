@@ -3,8 +3,6 @@ import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { IngredientsService } from '../ingredients.service';
 import { mergeMap, map, catchError } from 'rxjs/operators';
 import { Ingredient } from 'src/app/dtos/ingredient';
-import { Observable, of } from 'rxjs';
-import { Action } from '@ngrx/store';
 import { IngActions } from './';
 import { RootActions } from 'src/app/root-store';
 

@@ -1,0 +1,46 @@
+<div class="card border-primary m-3">
+    <div class="card-header">        
+        <div *ngIf="dish?.id | ifEmpty; else editBlock">
+            <span>Добавление нового блюда</span>
+        </div>
+        <ng-template #editBlock>
+            <span>Редактирование {{dish?.caption}}</span>
+        </ng-template>
+    </div>
+    <div class="card-body text-primary">
+        <div class="card-text pr-3">
+            <form novalidate (ngSubmit)="saveDish()" [formGroup]="dishForm">
+                
+                 <!-- Caption -->
+                <div class="form-group">
+                    <label for="captionCtrl">Наименование</label>
+                    <input #dishCaption formControlName="caption" #captionInputRef type="text"
+                        class="form-control" id="captionCtrl" aria-describedby="captionHelp" />                    
+                    <!-- TODO -->
+                    <small [hidden]="false" id="captionHelp" class="form-text text-danger col-sm-10">Введите наименование блюда</small>
+                </div>
+                                
+                <!-- Comment -->
+                <div class="form-group">
+                    <label for="commentCtrl">Комментарий</label>
+                    <textarea formControlName="comment" #commentInputRef type="text"
+                        class="form-control" id="commentCtrl" aria-describedby="commentHelp" rows="4">
+                    </textarea>                    
+                </div>
+                
+                <div class="form-row">
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary" [disabled]="!dishForm.valid">
+                            Save
+                        </button>
+                    </div>
+                    <div class="col-auto">
+                        <button [routerLink]="'../all'" class="btn btn-secondary">
+                            Back
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -19,6 +19,17 @@ const initialState: RootState = {
 const rootReducer = createReducer(
     initialState,
     on(rootActions.dishesLoadSuccess, (state: RootState, { dishes }) => ({ ...state, dishes })),
+    on(rootActions.dishesUpdateSuccess, (state: RootState, { dish }) => {
+        const updatedDishes = state.dishes.map(
+            i => dish.id === i.id ? dish : i);
+        const result: RootState = {
+            ...state,
+            dishes: updatedDishes
+        };
+        return result;
+    }),
+    on(rootActions.ingredientsCreateSuccess, (state: RootState, { ingredient }) =>
+        ({ ...state, ingredients: [...state.ingredients, ingredient] })),
     on(rootActions.ingredientsLoadSuccess, (state: RootState, { ingredients }) => ({ ...state, ingredients })),
     on(rootActions.ingredientsUpdateSuccess, (state: RootState, { ingredient }) => {
         const updatedIngredients = state.ingredients.map(
