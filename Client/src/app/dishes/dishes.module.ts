@@ -26,7 +26,6 @@ import { MatSelectModule, MatSliderModule } from '@angular/material';
     MatInputModule,
     MatSortModule,
     MatSelectModule,
-    MatSliderModule,
     StoreModule.forFeature('dishes', reducer),
     EffectsModule.forFeature([DishesEffects])
   ],

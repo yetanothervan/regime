@@ -26,6 +26,9 @@ $Regime-theme: mat-light-theme($Regime-primary, $Regime-accent, $Regime-warn);
 // that you are using.
 @include angular-material-theme($Regime-theme);
 
+.mat-form-field-infix {        
+    border-top: 0 solid transparent;
+}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

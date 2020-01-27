@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { takeWhile, startWith, map } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,11 +7,13 @@ import { SharedFuncService } from 'src/app/shared/services/shared-func.service';
 import * as root from 'src/app/root-store';
 import { Dish } from 'src/app/dtos/dish';
 import { DishesActions } from '../../state';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { Ingredient } from 'src/app/dtos/ingredient';
 
 @Component({
   selector: 'rg-dish-item',
   templateUrl: './dish-item.component.html',
+  styleUrls: ['./dish-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DishItemComponent implements OnInit, OnDestroy {
@@ -22,18 +24,14 @@ export class DishItemComponent implements OnInit, OnDestroy {
   dish: Dish;
   componentIsActive = true;
   errorMessages = ''; // TODO
+  ingredients$: Observable<Ingredient[]>;
+  ingredient: Ingredient;
+  weight: number;
 
-  foods: any[] = [
-    { value: 'steak-0', viewValue: 'Steak' },
-    { value: 'pizza-1', viewValue: 'Pizza' },
-    { value: 'tacos-2', viewValue: 'Tacos' }
-  ];
 
-  food: any = { value: 'pizza-1', viewValue: 'Pizza' };
-
-  compareFn: ((f1: any, f2: any) => boolean) | null = this.compareByValue;
-  compareByValue(f1: any, f2: any) {
-    return f1 && f2 && f1.value === f2.value;
+  compareFn: ((i1: Ingredient, i2: Ingredient) => boolean) | null = this.compareByValue;
+  compareByValue(i1: Ingredient, i2: Ingredient) {
+    return i1 && i2 && i1.id === i2.id;
   }
 
   constructor(private store: Store<root.RootState>,
@@ -45,6 +43,17 @@ export class DishItemComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
+    this.ingredients$ = this.store.pipe(
+      select(root.getEntitiesIngredients),
+      map((ings) => {
+        ings.sort((a: Ingredient, b: Ingredient) => {
+          if (a.caption < b.caption) { return -1; }
+          if (a.caption > b.caption) { return 1; }
+          return 0;
+        });
+        return ings;
+      })
+    );
     this.store.pipe(select(root.getDishById(id)),
       takeWhile(() => this.componentIsActive))
       .subscribe((dish: Dish) => {
@@ -56,12 +65,29 @@ export class DishItemComponent implements OnInit, OnDestroy {
   reinitForm() {
     this.dishForm = this.fb.group({
       caption: [this.dish.caption, Validators.required],
-      selector: [this.food],
+      ingredientArray: this.fb.array([]),
       comment: [this.dish.comment],
     });
     this.cdr.detectChanges();
     this.dishCaptionInputRef.nativeElement.focus();
   }
+
+  get ingredientArray(): FormArray {
+    return this.dishForm.get('ingredientArray') as FormArray;
+  }
+
+  addIngredient(): void {
+    this.ingredientArray.push(this.addIngredientForm());
+  }
+
+  addIngredientForm(): FormGroup {
+    return this.fb.group({
+      selector: [this.ingredient],
+      weight: [this.weight]
+    });
+  }
+
+
 
   saveDish() {
     if (this.dishForm.valid) {

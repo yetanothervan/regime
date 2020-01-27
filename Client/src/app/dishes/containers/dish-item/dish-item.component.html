@@ -21,23 +21,40 @@
                         наименование блюда</small>
                 </div>
 
-                <!-- Ingredient -->
-                <div class="form-group">
-                    <mat-form-field>
-                        <mat-label>Favorite food</mat-label>
-                        <mat-select formControlName="selector" name="food"
-                            [compareWith]="compareFn">
-                            <mat-option *ngFor="let food of foods" [value]="food">
-                                {{food.viewValue}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
+
+                <div formArrayName="ingredientArray"
+                    *ngFor="let ingredientGroup of ingredientArray.controls; let i = index">
+                    <div [formGroupName]="i" class="form-row">
+
+                        <!-- Ingredient -->
+                        <div *ngIf="ingredients$ | async as ingredients" class="remove-border list-group col-sm-4">
+                            <mat-form-field id="fuck">
+                                <mat-select formControlName="selector" name="ingredient" [compareWith]="compareFn">
+                                    <mat-option *ngFor="let ingredient of ingredients" [value]="ingredient">
+                                        {{ingredient.caption}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Gramm -->
+                        <div class="col-sm-1">
+                            <input class="form-control form-control-sm" formControlName="weight" placeholder="Вес..." type="text" id="{{'weightCtrl'+i}}" />
+                        </div>
+
+                        <!-- Range -->
+                        <div class="col-sm-2">
+                            <input type="range" class="form-control form-control-sm form-control-range" id="{{'fcr'+i}}">
+                        </div>
+
+                    </div>
                 </div>
 
-                 <!-- Ingredient -->
-                 <div class="form-group">
-                    <mat-slider style="width: 300px;"></mat-slider>
-                </div>                
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary ml-3 btn-sm" (click)="addIngredient()">
+                        <i class="fas fa-folder-plus mr-1"></i>Добавить ингредиент
+                    </button>
+                </div>
 
                 <!-- Comment -->
                 <div class="form-group">
