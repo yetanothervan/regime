@@ -7,8 +7,9 @@ import { SharedFuncService } from 'src/app/shared/services/shared-func.service';
 import * as root from 'src/app/root-store';
 import { Dish } from 'src/app/dtos/dish';
 import { DishesActions } from '../../state';
-import { Observable, of } from 'rxjs';
+import { Observable, combineLatest, concat, merge } from 'rxjs';
 import { Ingredient } from 'src/app/dtos/ingredient';
+import { DishExt } from 'src/app/models/dish-ext';
 
 @Component({
   selector: 'rg-dish-item',
@@ -21,7 +22,7 @@ export class DishItemComponent implements OnInit, OnDestroy {
   @ViewChild('dishCaption', { static: true }) dishCaptionInputRef: ElementRef;
 
   dishForm: FormGroup;
-  dish: Dish;
+  dishExt: DishExt;
   componentIsActive = true;
   errorMessages = ''; // TODO
   ingredients$: Observable<Ingredient[]>;
@@ -54,19 +55,26 @@ export class DishItemComponent implements OnInit, OnDestroy {
         return ings;
       })
     );
-    this.store.pipe(select(root.getDishById(id)),
-      takeWhile(() => this.componentIsActive))
-      .subscribe((dish: Dish) => {
-        this.dish = dish;
+
+    combineLatest(
+      this.store.select(root.getEntitiesIngredients),
+      this.store.select(root.getDishById(id)))
+      .pipe(
+        takeWhile(() => this.componentIsActive))
+      .subscribe(([ingredients, dish]) => {
+        this.dishExt = new DishExt(dish, ingredients);
         this.reinitForm();
       });
   }
 
   reinitForm() {
     this.dishForm = this.fb.group({
-      caption: [this.dish.caption, Validators.required],
+      caption: [this.dishExt.caption, Validators.required],
       ingredientArray: this.fb.array([]),
-      comment: [this.dish.comment],
+      comment: [this.dishExt.comment],
+    });
+    this.dishExt.itemsExt.forEach(ing => {
+      this.addIngredient(ing.ingredient, ing.weight);
     });
     this.cdr.detectChanges();
     this.dishCaptionInputRef.nativeElement.focus();
@@ -76,24 +84,29 @@ export class DishItemComponent implements OnInit, OnDestroy {
     return this.dishForm.get('ingredientArray') as FormArray;
   }
 
-  addIngredient(): void {
-    this.ingredientArray.push(this.addIngredientForm());
+  addNewIngredient(): void {
+    this.dishExt.items.push();
+    const last = this.dishExt.itemsExt[this.dishExt.itemsExt.push() - 1];
+    this.ingredientArray.push(
+      this.fb.group({
+        selector: [last.ingredient],
+        weight: [last.weight]
+      }));
   }
 
-  addIngredientForm(): FormGroup {
-    return this.fb.group({
-      selector: [this.ingredient],
-      weight: [this.weight]
-    });
+  addIngredient(ingredient: Ingredient, weight: number): void {
+    this.ingredientArray.push(
+      this.fb.group({
+        selector: [ingredient],
+        weight: [weight]
+      }));
   }
-
-
 
   saveDish() {
     if (this.dishForm.valid) {
       if (this.dishForm.dirty) {
 
-        const dto = { ...this.dish, ...this.dishForm.value };
+        const dto = { ...this.dishExt, ...this.dishForm.value };
 
         if (!this.sharedFunc.ifEmpty(dto.id)) { // update
           this.store.dispatch(DishesActions.dishesUpdate({ dish: dto }));
