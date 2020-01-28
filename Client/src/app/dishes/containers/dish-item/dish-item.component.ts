@@ -5,11 +5,12 @@ import { takeWhile, startWith, map } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedFuncService } from 'src/app/shared/services/shared-func.service';
 import * as root from 'src/app/root-store';
-import { Dish } from 'src/app/dtos/dish';
 import { DishesActions } from '../../state';
 import { Observable, combineLatest, concat, merge } from 'rxjs';
 import { Ingredient } from 'src/app/dtos/ingredient';
 import { DishExt } from 'src/app/models/dish-ext';
+import { DishItemExt } from 'src/app/models/dish-item-ext';
+import { DishItem } from 'src/app/dtos/dish-item';
 
 @Component({
   selector: 'rg-dish-item',
@@ -19,6 +20,17 @@ import { DishExt } from 'src/app/models/dish-ext';
 })
 export class DishItemComponent implements OnInit, OnDestroy {
 
+  constructor(private store: Store<root.RootState>,
+              private fb: FormBuilder,
+              private route: ActivatedRoute,
+              private cdr: ChangeDetectorRef,
+              private sharedFunc: SharedFuncService,
+              private router: Router) { }
+
+  get ingredientArray(): FormArray {
+    return this.dishForm.get('ingredientArray') as FormArray;
+  }
+
   @ViewChild('dishCaption', { static: true }) dishCaptionInputRef: ElementRef;
 
   dishForm: FormGroup;
@@ -26,21 +38,7 @@ export class DishItemComponent implements OnInit, OnDestroy {
   componentIsActive = true;
   errorMessages = ''; // TODO
   ingredients$: Observable<Ingredient[]>;
-  ingredient: Ingredient;
   weight: number;
-
-
-  compareFn: ((i1: Ingredient, i2: Ingredient) => boolean) | null = this.compareByValue;
-  compareByValue(i1: Ingredient, i2: Ingredient) {
-    return i1 && i2 && i1.id === i2.id;
-  }
-
-  constructor(private store: Store<root.RootState>,
-              private fb: FormBuilder,
-              private route: ActivatedRoute,
-              private cdr: ChangeDetectorRef,
-              private sharedFunc: SharedFuncService,
-              private router: Router) { }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -80,13 +78,12 @@ export class DishItemComponent implements OnInit, OnDestroy {
     this.dishCaptionInputRef.nativeElement.focus();
   }
 
-  get ingredientArray(): FormArray {
-    return this.dishForm.get('ingredientArray') as FormArray;
-  }
-
   addNewIngredient(): void {
-    this.dishExt.items.push();
-    const last = this.dishExt.itemsExt[this.dishExt.itemsExt.push() - 1];
+    const newIng = new DishItemExt(new DishItem(), null);
+    const indexLast =
+      this.dishExt.itemsExt.push(newIng) - 1;
+    const last = this.dishExt.itemsExt[indexLast];
+    last.weight = 0;
     this.ingredientArray.push(
       this.fb.group({
         selector: [last.ingredient],
@@ -97,7 +94,7 @@ export class DishItemComponent implements OnInit, OnDestroy {
   addIngredient(ingredient: Ingredient, weight: number): void {
     this.ingredientArray.push(
       this.fb.group({
-        selector: [ingredient],
+        ingredient: [ingredient],
         weight: [weight]
       }));
   }
@@ -105,7 +102,6 @@ export class DishItemComponent implements OnInit, OnDestroy {
   saveDish() {
     if (this.dishForm.valid) {
       if (this.dishForm.dirty) {
-
         const dto = { ...this.dishExt, ...this.dishForm.value };
 
         if (!this.sharedFunc.ifEmpty(dto.id)) { // update

@@ -12,16 +12,20 @@ import { MatSortModule } from '@angular/material/sort';
 import { DishesService } from './dishes.service';
 import { DishesEffects } from './state/dishes.effects';
 import { EffectsModule } from '@ngrx/effects';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DishItemComponent } from './containers/dish-item/dish-item.component';
 import { MatSelectModule, MatSliderModule } from '@angular/material';
+import { DishNutrientsComponent } from './components/dish-nutrients/dish-nutrients.component';
+import { DishItemRowComponent } from './components/dish-item-row/dish-item-row.component';
 
 @NgModule({
-  declarations: [DishesShellComponent, DishesTableComponent, DishesProviderComponent, DishItemComponent],
+  declarations: [DishesShellComponent, DishesTableComponent, DishesProviderComponent, 
+    DishItemComponent, DishNutrientsComponent, DishItemRowComponent],
   imports: [
     SharedModule,
     DishesRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     MatTableModule,
     MatInputModule,
     MatSortModule,

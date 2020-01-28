@@ -1,0 +1,29 @@
+<div class="form-row">
+
+    <!-- Ingredient -->
+    <div class="list-group col-sm-5">
+        <mat-form-field>
+            <mat-select [compareWith]="compareFn" [value]="currentIngredient">
+                <mat-option *ngFor="let ingredient of ingredients" [value]="ingredient">
+                    {{ingredient.caption}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <!-- Gramm -->
+    <div class="col-sm-1">
+        <input class="form-control form-control-sm" [(ngModel)]="weight" placeholder="Вес..." type="text" />
+    </div>
+
+    <!-- Range -->
+    <div class="col-sm-2">
+        <input type="range" class="form-control form-control-sm form-control-range" [(ngModel)]="weight" min="0"
+            max="1000">
+    </div>
+
+    <!-- Nutrients -->
+    <rg-dish-nutrients class="col-sm-4" [kkal]="currentIngredient.kkal100/100*weight"
+        [protein]="currentIngredient.protein100/100*weight" [fat]="currentIngredient.fat100/100*weight"
+        [carbon]="currentIngredient.carbon100/100*weight"></rg-dish-nutrients>
+</div>
