@@ -21,11 +21,11 @@ import { DishItem } from 'src/app/dtos/dish-item';
 export class DishItemComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<root.RootState>,
-              private fb: FormBuilder,
-              private route: ActivatedRoute,
-              private cdr: ChangeDetectorRef,
-              private sharedFunc: SharedFuncService,
-              private router: Router) { }
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
+    private sharedFunc: SharedFuncService,
+    private router: Router) { }
 
   get ingredientArray(): FormArray {
     return this.dishForm.get('ingredientArray') as FormArray;
@@ -39,6 +39,11 @@ export class DishItemComponent implements OnInit, OnDestroy {
   errorMessages = ''; // TODO
   ingredients$: Observable<Ingredient[]>;
   weight: number;
+
+  totalKkal = 0;
+  totalProtein = 0;
+  totalFat = 0;
+  totalCarbon = 0;
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -74,8 +79,24 @@ export class DishItemComponent implements OnInit, OnDestroy {
     this.dishExt.itemsExt.forEach(ing => {
       this.addIngredient(ing.ingredient, ing.weight);
     });
+    this.recalculateTotal();
     this.cdr.detectChanges();
     this.dishCaptionInputRef.nativeElement.focus();
+  }
+
+  recalculateTotal(): void {
+    if (this.dishExt && this.dishExt.itemsExt) {
+      this.totalKkal = 0;
+      this.totalProtein = 0;
+      this.totalFat = 0;
+      this.totalCarbon = 0;
+      this.dishExt.itemsExt.forEach(de => {
+        this.totalKkal += de.ingredient.kkal100 / 100 * de.weight;
+        this.totalProtein += de.ingredient.protein100 / 100 * de.weight;
+        this.totalFat += de.ingredient.fat100 / 100 * de.weight;
+        this.totalCarbon += de.ingredient.carbon100 / 100 * de.weight;
+      });
+    }
   }
 
   addNewIngredient(): void {
@@ -97,6 +118,16 @@ export class DishItemComponent implements OnInit, OnDestroy {
         ingredient: [ingredient],
         weight: [weight]
       }));
+  }
+
+  ingredientChanged(i: number, ingredient: Ingredient) {
+    this.dishExt.itemsExt[i].ingredient = ingredient;
+    this.recalculateTotal();
+  }
+
+  weightChanged(i: number, weight: number) {
+    this.dishExt.itemsExt[i].weight = weight;
+    this.recalculateTotal();
   }
 
   saveDish() {

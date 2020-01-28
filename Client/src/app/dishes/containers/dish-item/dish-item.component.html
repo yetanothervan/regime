@@ -27,7 +27,9 @@
 
                         <!-- dish item row -->
                         <rg-dish-item-row class="flex-grow-1" [ingredients]="ingredients$ | async"
-                            [currentIngredient]="group.value.ingredient" [weight]="group.value.weight">
+                            [currentIngredient]="group.value.ingredient" [weight]="group.value.weight"
+                            (ingredientChanged)="ingredientChanged(i, $event)"
+                            (weightChanged)="weightChanged(i, $event)">
                         </rg-dish-item-row>
 
                         <!-- Delete ingredient button -->
@@ -52,7 +54,9 @@
                         <div class="col-sm-6" style="text-align: right;">Всего:</div>
 
                         <!-- dish item row -->
-                        <rg-dish-nutrients class="col-sm-4"></rg-dish-nutrients>
+                        <rg-dish-nutrients class="col-sm-4" [protein]="totalProtein" [fat]="totalFat"
+                            [carbon]="totalCarbon" [kkal]="totalKkal">
+                        </rg-dish-nutrients>
                     </div>
 
                     <!-- space -->

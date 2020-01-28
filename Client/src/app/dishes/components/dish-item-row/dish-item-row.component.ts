@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Ingredient } from 'src/app/dtos/ingredient';
 
@@ -8,9 +8,25 @@ import { Ingredient } from 'src/app/dtos/ingredient';
   styleUrls: ['./dish-item-row.component.scss']
 })
 export class DishItemRowComponent implements OnInit {
+
   @Input() ingredients: Ingredient[];
-  @Input() currentIngredient: Ingredient;
-  @Input() weight: number;
+
+  @Input()  get currentIngredient(): Ingredient { return this._currentIngredient; }
+  set currentIngredient(value: Ingredient) {
+    this._currentIngredient = value;
+    this.ingredientChanged.next(this._currentIngredient);
+  }
+
+  @Input() get weight(): number { return this._weight; }
+  set weight(value: number) {
+    this._weight = value;
+    this.weightChanged.next(this._weight);
+  }
+
+  @Output() weightChanged: EventEmitter<number> = new EventEmitter();
+  @Output() ingredientChanged: EventEmitter<Ingredient> = new EventEmitter();
+  _weight: number;
+  _currentIngredient: Ingredient;
 
   compareFn: ((i1: Ingredient, i2: Ingredient) => boolean) | null = this.compareByValue;
   compareByValue(i1: Ingredient, i2: Ingredient) {
