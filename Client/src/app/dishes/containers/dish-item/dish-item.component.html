@@ -33,7 +33,7 @@
                         </rg-dish-item-row>
 
                         <!-- Delete ingredient button -->
-                        <button type="button" class="btn btn-primary btn-sm mx-3 mb-3" (click)="removeIngredient()">
+                        <button type="button" class="btn btn-primary btn-sm mx-3 mb-3" (click)="removeIngredient(i)">
                             <i class="fas fa-folder-minus"></i>
                         </button>
                     </div>
@@ -45,7 +45,8 @@
                     <div class="form-row flex-grow-1">
                         <!-- Add ingredient button -->
                         <div class="form-group col-sm-2">
-                            <button type="button" class="btn btn-primary ml-3 btn-sm" (click)="addIngredient()">
+                            <button type="button" class="btn btn-primary ml-3 btn-sm" 
+                            (click)="addNewIngredient()" [disabled]="addNewButtonDisabled">
                                 <i class="fas fa-folder-plus mr-1"></i>Добавить ингредиент
                             </button>
                         </div>
@@ -75,7 +76,7 @@
 
                 <div class="form-row">
                     <div class="col-auto">
-                        <button type="submit" class="btn btn-primary" [disabled]="!dishForm.valid">
+                        <button type="submit" class="btn btn-primary" [disabled]="!dishForm.valid || addNewButtonDisabled">
                             Save
                         </button>
                     </div>

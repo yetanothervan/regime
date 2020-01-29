@@ -11,11 +11,7 @@ export class DishItemRowComponent implements OnInit {
 
   @Input() ingredients: Ingredient[];
 
-  @Input()  get currentIngredient(): Ingredient { return this._currentIngredient; }
-  set currentIngredient(value: Ingredient) {
-    this._currentIngredient = value;
-    this.ingredientChanged.next(this._currentIngredient);
-  }
+  @Input() currentIngredient: Ingredient;
 
   @Input() get weight(): number { return this._weight; }
   set weight(value: number) {
@@ -26,7 +22,6 @@ export class DishItemRowComponent implements OnInit {
   @Output() weightChanged: EventEmitter<number> = new EventEmitter();
   @Output() ingredientChanged: EventEmitter<Ingredient> = new EventEmitter();
   _weight: number;
-  _currentIngredient: Ingredient;
 
   compareFn: ((i1: Ingredient, i2: Ingredient) => boolean) | null = this.compareByValue;
   compareByValue(i1: Ingredient, i2: Ingredient) {
@@ -36,6 +31,11 @@ export class DishItemRowComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  selectionChanged(ingredient: Ingredient) {
+    this.ingredientChanged.emit(ingredient);
+    this.currentIngredient = ingredient;
   }
 
 }

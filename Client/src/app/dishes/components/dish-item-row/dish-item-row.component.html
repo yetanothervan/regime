@@ -3,9 +3,10 @@
     <!-- Ingredient -->
     <div class="list-group col-sm-5">
         <mat-form-field>
-            <mat-select [compareWith]="compareFn" [value]="currentIngredient">
+            <mat-select [compareWith]="compareFn" [value]="currentIngredient"
+                (selectionChange)="selectionChanged($event.value)">
                 <mat-option *ngFor="let ingredient of ingredients" [value]="ingredient">
-                    {{ingredient.caption}}
+                    {{ingredient?.caption}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
@@ -23,7 +24,7 @@
     </div>
 
     <!-- Nutrients -->
-    <rg-dish-nutrients class="col-sm-4" [kkal]="currentIngredient.kkal100/100*weight"
-        [protein]="currentIngredient.protein100/100*weight" [fat]="currentIngredient.fat100/100*weight"
-        [carbon]="currentIngredient.carbon100/100*weight"></rg-dish-nutrients>
+    <rg-dish-nutrients class="col-sm-4" [kkal]="currentIngredient?.kkal100/100*weight"
+        [protein]="currentIngredient?.protein100/100*weight" [fat]="currentIngredient?.fat100/100*weight"
+        [carbon]="currentIngredient?.carbon100/100*weight"></rg-dish-nutrients>
 </div>

@@ -11,6 +11,7 @@ import { Ingredient } from 'src/app/dtos/ingredient';
 import { DishExt } from 'src/app/models/dish-ext';
 import { DishItemExt } from 'src/app/models/dish-item-ext';
 import { DishItem } from 'src/app/dtos/dish-item';
+import { Dish } from 'src/app/dtos/dish';
 
 @Component({
   selector: 'rg-dish-item',
@@ -44,6 +45,7 @@ export class DishItemComponent implements OnInit, OnDestroy {
   totalProtein = 0;
   totalFat = 0;
   totalCarbon = 0;
+  addNewButtonDisabled = false;
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -67,6 +69,8 @@ export class DishItemComponent implements OnInit, OnDestroy {
       .subscribe(([ingredients, dish]) => {
         this.dishExt = new DishExt(dish, ingredients);
         this.reinitForm();
+        this.cdr.detectChanges();
+        this.dishCaptionInputRef.nativeElement.focus();
       });
   }
 
@@ -80,8 +84,6 @@ export class DishItemComponent implements OnInit, OnDestroy {
       this.addIngredient(ing.ingredient, ing.weight);
     });
     this.recalculateTotal();
-    this.cdr.detectChanges();
-    this.dishCaptionInputRef.nativeElement.focus();
   }
 
   recalculateTotal(): void {
@@ -91,6 +93,7 @@ export class DishItemComponent implements OnInit, OnDestroy {
       this.totalFat = 0;
       this.totalCarbon = 0;
       this.dishExt.itemsExt.forEach(de => {
+        if (!de || !de.ingredient) { return; }
         this.totalKkal += de.ingredient.kkal100 / 100 * de.weight;
         this.totalProtein += de.ingredient.protein100 / 100 * de.weight;
         this.totalFat += de.ingredient.fat100 / 100 * de.weight;
@@ -110,6 +113,15 @@ export class DishItemComponent implements OnInit, OnDestroy {
         selector: [last.ingredient],
         weight: [last.weight]
       }));
+    this.ingredientArray.markAsDirty();
+    this.addNewButtonDisabled = true;
+  }
+
+  removeIngredient(n: number): void {
+    this.dishExt.itemsExt.splice(n, 1);
+    this.checkAddButtonDisable();
+    this.reinitForm();
+    this.ingredientArray.markAsDirty();
   }
 
   addIngredient(ingredient: Ingredient, weight: number): void {
@@ -120,9 +132,15 @@ export class DishItemComponent implements OnInit, OnDestroy {
       }));
   }
 
+  checkAddButtonDisable() {
+    this.addNewButtonDisabled = this.dishExt.itemsExt.some(item => !item.ingredient);
+  }
+
   ingredientChanged(i: number, ingredient: Ingredient) {
     this.dishExt.itemsExt[i].ingredient = ingredient;
+    this.checkAddButtonDisable();
     this.recalculateTotal();
+    this.ingredientArray.markAsDirty();
   }
 
   weightChanged(i: number, weight: number) {
@@ -133,7 +151,18 @@ export class DishItemComponent implements OnInit, OnDestroy {
   saveDish() {
     if (this.dishForm.valid) {
       if (this.dishForm.dirty) {
-        const dto = { ...this.dishExt, ...this.dishForm.value };
+        const dto: Dish = new Dish();
+        dto.id = this.dishExt.id;
+        dto.caption = this.dishExt.caption;
+        dto.category = this.dishExt.category;
+        dto.comment = this.dishExt.comment;
+        dto.items = [];
+        this.dishExt.itemsExt.forEach(i => {
+          if (i.ingredient) {
+            dto.items.push({ ingredientId: i.ingredient.id, weight: i.weight });
+          }
+        });
+
 
         if (!this.sharedFunc.ifEmpty(dto.id)) { // update
           this.store.dispatch(DishesActions.dishesUpdate({ dish: dto }));
