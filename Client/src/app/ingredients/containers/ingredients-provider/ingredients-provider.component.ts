@@ -54,6 +54,7 @@ export class IngredientsProviderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.store.dispatch(ingredients.IngActions.ingredientsPathAllNavigated());
   }
 
 }

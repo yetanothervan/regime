@@ -32,6 +32,7 @@ export class IngredientItemComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
+    this.store.dispatch(IngActions.ingredientsPathEditNavigated({id}));
     this.store.pipe(select(root.getIngredientById(id)),
       takeWhile(() => this.componentIsActive))
       .subscribe((ing: Ingredient) => {

@@ -16,3 +16,21 @@ export const getFilterString = createSelector(
     getIngredientsFeatureState,
     state => state.filterString
 );
+
+const getUrlCurrent = createSelector(
+    getIngredientsFeatureState,
+    state => state.urlCurrent
+);
+const getUrlId = createSelector(
+    getIngredientsFeatureState,
+    state => state.idCurrent
+);
+export const getUrlCurrenWithId = createSelector(
+    getUrlCurrent,
+    getUrlId,
+    (url, id) => ({ url, id })
+);
+
+// various consts
+export const allPath = 'all';
+export const editPath = 'edit';
