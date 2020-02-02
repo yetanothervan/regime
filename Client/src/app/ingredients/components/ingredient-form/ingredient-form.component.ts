@@ -1,6 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Ingredient } from 'src/app/dtos/ingredient';
+import { debounce, map } from 'rxjs/operators';
+import { interval } from 'rxjs/internal/observable/interval';
 
 @Component({
   selector: 'rg-ingredient-form',
@@ -11,6 +13,7 @@ export class IngredientFormComponent implements OnInit {
   @ViewChild('ingredientCaption', { static: true }) ingredientCaptionInputRef: ElementRef;
   @Input() ingredient: Ingredient;
   @Output() saved: EventEmitter<Ingredient> = new EventEmitter();
+  @Output() changed: EventEmitter<Ingredient> = new EventEmitter();
 
   form: FormGroup;
   errorMessages = ''; // TODO
@@ -31,6 +34,14 @@ export class IngredientFormComponent implements OnInit {
       comment: [this.ingredient.comment],
     });
     this.ingredientCaptionInputRef.nativeElement.focus();
+
+    this.form.valueChanges.pipe(
+      debounce(() => interval(1000))
+    ).subscribe(() => {
+      const dto = { ...this.ingredient, ...this.form.value };
+      this.changed.next(dto);
+      console.log('changed');
+    });
   }
 
   saveIngredient() {

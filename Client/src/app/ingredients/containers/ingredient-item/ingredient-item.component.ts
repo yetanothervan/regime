@@ -36,6 +36,10 @@ export class IngredientItemComponent implements OnInit, OnDestroy {
     }
   }
 
+  onChanged(ingredient: Ingredient) {
+    this.store.dispatch(me.IngActions.ingredientsSetCurrentEditing({ingredient}));
+  }
+
   ngOnDestroy() {
   }
 
