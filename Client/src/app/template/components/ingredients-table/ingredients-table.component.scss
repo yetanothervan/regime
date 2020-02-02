@@ -1,0 +1,93 @@
+@import "../../../../assets/scss/global-vars";
+@import "../../../../assets/scss/regime.scss";
+
+.ingredients-content {
+  .table-header {
+    margin-left: 16px;
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-between;
+
+    h4 {
+      display: inline;
+    }
+    
+    .header {
+      display: flex;
+      align-items: center;
+    }
+
+    .search-bar {
+      display: flex;
+
+      input {
+        width: 196px;
+
+        @media (min-width: 1920px) {
+          width: 302px;
+        }
+      }
+    }
+  }
+
+  .table-container {    
+    margin-top: 8px;
+
+    table {     
+      line-height: 17px;
+      width: 100%;
+
+      %mat-column {
+        word-wrap: break-word;
+        white-space: unset;
+        overflow-wrap: break-word;
+        word-wrap: break-word;      
+        word-break: break-word;      
+        -ms-hyphens: auto;
+        -moz-hyphens: auto;
+        -webkit-hyphens: auto;
+        hyphens: auto;
+      }
+
+      %mat-nutri {
+        @extend %mat-column;
+        flex: 1 1 150px; 
+        width: 150px;
+      }
+
+      .mat-column-edit {
+        @extend %mat-column;
+        flex: 0 0 70px;
+        width: 70px;
+      }
+
+      .mat-column-caption {
+        @extend %mat-column;
+        flex: 6 1 500px;
+        width: 500px;
+      }
+
+      .mat-column-kkal100, .mat-column-protein100, .mat-column-fat100, .mat-column-carbon100 {
+        @extend %mat-nutri;
+      }
+
+      .mat-column-comment {
+        @extend %mat-column;
+        flex: 6 1 400px;
+        width: 400px;
+      }
+
+      tr.mat-header-row {
+        height: 35px;        
+        background-color: theme-color("back");
+      }
+
+      tr.ingredients-row.mat-footer-row,
+      tr.ingredients-row.mat-row {
+        height: 40px;
+        cursor: pointer;
+      }
+      
+    }
+  }
+}
