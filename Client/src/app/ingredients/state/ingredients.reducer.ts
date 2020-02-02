@@ -32,12 +32,12 @@ const ingredientsReducer = createReducer(
     initialState,
     on(ingActions.ingredientsSetFilter, (state: IngredientsState, { filterString }) => ({ ...state, filterString })),
     on(ingActions.ingredientsSetSorting, (state: IngredientsState, { sorting }) => ({ ...state, sorting })),
-    on(ingActions.ingredientsPathAllNavigated, (state: IngredientsState) => ({ ...state, urlCurrent: me.allPath })),
+    on(ingActions.ingredientsPathAllNavigated, (state: IngredientsState) =>
+        ({ ...state, urlCurrent: me.allPath, ingredientCurrent: newIngredient })),
     on(ingActions.ingredientsPathEditNavigated, (state: IngredientsState, { id }) =>
         ({ ...state, urlCurrent: me.editPath, idCurrent: id })),
     on(ingActions.ingredientsSetCurrentEditing, (state: IngredientsState, { ingredient }) =>
-        ({ ...state, ingredientCurrent: ingredient })
-    )
+        ({ ...state, ingredientCurrent: ingredient })),
 );
 
 export function reducer(state: IngredientsState | undefined, action: Action) {

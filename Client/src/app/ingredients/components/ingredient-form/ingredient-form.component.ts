@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, 
+  SimpleChanges, Input, EventEmitter, Output, OnDestroy, OnChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Ingredient } from 'src/app/dtos/ingredient';
 import { debounce, map } from 'rxjs/operators';
@@ -8,7 +9,7 @@ import { interval } from 'rxjs/internal/observable/interval';
   selector: 'rg-ingredient-form',
   templateUrl: './ingredient-form.component.html'
 })
-export class IngredientFormComponent implements OnInit {
+export class IngredientFormComponent implements OnInit, OnChanges {
 
   @ViewChild('ingredientCaption', { static: true }) ingredientCaptionInputRef: ElementRef;
   @Input() ingredient: Ingredient;
@@ -21,7 +22,11 @@ export class IngredientFormComponent implements OnInit {
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
-    if (this.ingredient) { this.reinitForm(); }
+
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.ingredient) { this.reinitForm(); }
   }
 
   reinitForm() {

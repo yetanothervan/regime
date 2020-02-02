@@ -9,6 +9,6 @@ export const ingredientsCreate = createAction('[Ingredients] Create', props<{ in
 
 export const ingredientsPathAllNavigated = createAction('[Ingredients] Navigated to All');
 export const ingredientsPathEditNavigated = createAction('[Ingredients] Navigated to Edit', props<{ id: string }>());
-export const ingredientsSetCurrentEditing = createAction('[Ingredient] StartEditing', props<{ ingredient: Ingredient }>());
+export const ingredientsSetCurrentEditing = createAction('[Ingredient] SetCurrentEditing', props<{ ingredient: Ingredient }>());
 
 export const ingredientsEmptyAction = createAction('[Ingredient] Empty');
