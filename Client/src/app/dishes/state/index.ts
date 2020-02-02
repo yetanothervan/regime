@@ -1,18 +1,50 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromRoot from '../../app.state';
-import { DishesState } from './dishes.reducer';
-export { DishesState };
-import * as DishesActions from './dishes.actions';
-export { DishesActions };
+import { TemplatePfixState } from './template.reducer';
+export { TemplatePfixState };
+import * as DishActions from './dish.actions';
+export { DishActions };
+
+// pfix TemplatePfix
+// pfix templatePfix
+// param templateParam
+
+export const templatePfixFeatureKey = 'templatePfix';
 
 export interface State extends fromRoot.State {
-    dishes: DishesState;
+    [templatePfixFeatureKey]: TemplatePfixState;
 }
 
 // selectors
-const getDishesFeatureState = createFeatureSelector<DishesState>('dishes');
+const getTemplatePfixFeatureState = createFeatureSelector<TemplatePfixState>(templatePfixFeatureKey);
 
 export const getFilterString = createSelector(
-    getDishesFeatureState,
+    getTemplatePfixFeatureState,
     state => state.filterString
 );
+
+export const getSorting = createSelector(
+    getTemplatePfixFeatureState,
+    state => state.sorting
+);
+
+const getUrlCurrent = createSelector(
+    getTemplatePfixFeatureState,
+    state => state.urlCurrent
+);
+const getUrlId = createSelector(
+    getTemplatePfixFeatureState,
+    state => state.idCurrent
+);
+export const getUrlCurrenWithId = createSelector(
+    getUrlCurrent,
+    getUrlId,
+    (url, id) => ({ url, id })
+);
+export const getTemplatePfixCurrent = createSelector(
+    getTemplatePfixFeatureState,
+    state => state.templateParamCurrent
+);
+// various consts
+export const allPath = 'all';
+export const editPath = 'edit';

@@ -1,0 +1,37 @@
+<div class="card border-primary m-3">
+    <div class="card-header">        
+        <div *ngIf="templateParam?.id | ifEmpty; else editBlock">
+            <span>Добавление нового template</span>
+        </div>
+        <ng-template #editBlock>
+            <span>Редактирование {{templateParam?.caption}}</span>
+        </ng-template>
+    </div>    <div class="card-body text-primary">
+        <div class="card-text pr-3">
+            <form novalidate (ngSubmit)="saveTemplatePfix()" [formGroup]="form">
+                
+                 <!-- Caption -->
+                <div class="form-group">
+                    <label for="captionCtrl">Наименование</label>
+                    <input #templatePfixCaption formControlName="caption" #captionInputRef type="text"
+                        class="form-control" id="captionCtrl" aria-describedby="captionHelp" />
+                    <!-- TODO -->
+                    <small [hidden]="false" id="captionHelp" class="form-text text-danger col-sm-10">Введите наименование template</small>
+                </div>
+                                
+                <div class="form-row">
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">
+                            Save
+                        </button>
+                    </div>
+                    <div class="col-auto">
+                        <button [routerLink]="'../all'" class="btn btn-secondary">
+                            Back
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
