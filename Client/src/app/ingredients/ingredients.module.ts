@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { IngredientsShellComponent } from './containers/ingredients-shell/ingredients-shell.component';
 import { IngredientsRoutingModule } from './ingredients-routing.module';
 import { StoreModule } from '@ngrx/store';
-import { reducer } from './state/ingredients.reducer';
 import { IngredientsTableComponent } from './components/ingredients-table/ingredients-table.component';
 import { IngredientsService } from './ingredients.service';
 import { MatTableModule } from '@angular/material/table';
@@ -14,10 +13,16 @@ import { IngredientsProviderComponent } from './containers/ingredients-provider/
 import { IngredientItemComponent } from './containers/ingredient-item/ingredient-item.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
-
+import { IngredientFormComponent } from './components/ingredient-form/ingredient-form.component';
+import * as myState from './state';
+import * as myReducer from './state/ingredients.reducer';
 
 @NgModule({
-  declarations: [IngredientsShellComponent, IngredientsTableComponent, IngredientsProviderComponent, IngredientItemComponent],
+  declarations: [IngredientsShellComponent,
+    IngredientsProviderComponent,
+    IngredientsTableComponent,
+    IngredientItemComponent,
+    IngredientFormComponent],
   imports: [
     SharedModule,
     IngredientsRoutingModule,
@@ -25,7 +30,7 @@ import { SharedModule } from '../shared/shared.module';
     MatTableModule,
     MatInputModule,
     MatSortModule,
-    StoreModule.forFeature('ingredients', reducer),
+    StoreModule.forFeature(myState.ingredientsFeatureKey, myReducer.reducer),
     EffectsModule.forFeature([IngredientEffects])
   ],
   providers: [IngredientsService],

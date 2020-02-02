@@ -1,81 +1,42 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Ingredient } from 'src/app/dtos/ingredient';
-import { IngActions } from '../../state';
+import * as me from '../../state';
 import { Store, select } from '@ngrx/store';
-import { takeWhile } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { SharedFuncService } from 'src/app/shared/services/shared-func.service';
-import * as root from 'src/app/root-store';
 
 @Component({
   selector: 'rg-ingredient-item',
   templateUrl: './ingredient-item.component.html',
-  styleUrls: ['./ingredient-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IngredientItemComponent implements OnInit, OnDestroy {
 
-  @ViewChild('ingredientCaption', { static: true }) ingredientCaptionInputRef: ElementRef;
+  ingredient$: Observable<Ingredient>;
 
-  ingForm: FormGroup;
-  ingredient: Ingredient;
-  componentIsActive = true;
-  errorMessages = ''; // TODO
-
-  constructor(private store: Store<root.RootState>,
-              private fb: FormBuilder,
+  constructor(private store: Store<me.IngredientsState>,
               private route: ActivatedRoute,
-              private cdr: ChangeDetectorRef,
-              private sharedFunc: SharedFuncService,
+              private shared: SharedFuncService,
               private router: Router) { }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
-    this.store.dispatch(IngActions.ingredientsPathEditNavigated({id}));
-    this.store.pipe(select(root.getIngredientById(id)),
-      takeWhile(() => this.componentIsActive))
-      .subscribe((ing: Ingredient) => {
-        this.ingredient = ing;
-        this.reinitForm();
-      });
+    this.store.dispatch(me.IngActions.ingredientsPathEditNavigated({id}));
+    this.ingredient$ = this.store.pipe(select(me.getIngredientCurrent));
   }
 
-  reinitForm() {
-    this.ingForm = this.fb.group({
-      caption: [this.ingredient.caption, Validators.required],
-      kkal100: [this.ingredient.kkal100, Validators.required],
-      protein100: [this.ingredient.protein100, Validators.required],
-      fat100: [this.ingredient.fat100, Validators.required],
-      carbon100: [this.ingredient.carbon100, Validators.required],
-      comment: [this.ingredient.comment],
-    });
-    this.cdr.detectChanges();
-    this.ingredientCaptionInputRef.nativeElement.focus();
-  }
-
-  saveIngredient() {
-    if (this.ingForm.valid) {
-      if (this.ingForm.dirty) {
-
-        const dto = { ...this.ingredient, ...this.ingForm.value };
-
-        if (!this.sharedFunc.ifEmpty(dto.id)) { // update
-          this.store.dispatch(IngActions.ingredientsUpdate({ingredient: dto}));
-          this.router.navigate(['../all'], {relativeTo: this.route});
-        } else { // create
-          this.store.dispatch(IngActions.ingredientsCreate({ingredient: dto}));
-          this.router.navigate(['../all'], {relativeTo: this.route});
-        }
-
-      } else { // valid
-        this.errorMessages = 'Проверьте корректность заполнения';
-      }
-    } // dirty
+  onSaved(ingredient: Ingredient) {
+    if (!this.shared.ifEmpty(ingredient.id)) { // update
+      this.store.dispatch(me.IngActions.ingredientsUpdate({ingredient}));
+      this.router.navigate(['../all'], {relativeTo: this.route});
+    } else { // create
+      this.store.dispatch(me.IngActions.ingredientsCreate({ingredient}));
+      this.router.navigate(['../all'], {relativeTo: this.route});
+    }
   }
 
   ngOnDestroy() {
-    this.componentIsActive = false;
   }
 
 }

@@ -18,7 +18,8 @@
 
     <div class="table-container">
 
-        <table mat-table [dataSource]="dataSource" matSort>
+        <table mat-table [dataSource]="dataSource" matSort
+            [matSortActive]="applyedSorting.active" [matSortDirection]="applyedSorting.direction">
 
             <ng-container matColumnDef="edit">
                 <th mat-header-cell *matHeaderCellDef></th>

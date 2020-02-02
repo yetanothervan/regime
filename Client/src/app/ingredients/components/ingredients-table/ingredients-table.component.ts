@@ -17,6 +17,7 @@ export class IngredientsTableComponent implements OnInit, AfterViewInit {
     this.dataSource = new MatTableDataSource(data);
   }
   @Input() applyedFilter: string;
+  @Input() applyedSorting: Sort;
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 

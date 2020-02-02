@@ -7,12 +7,14 @@ import { Ingredient } from '../dtos/ingredient';
 import { Dish } from '../dtos/dish';
 export { RootActions };
 
+export const rootFeatureKey = 'root';
+
 export interface State extends fromRoot.State {
-    root: RootState;
+    [rootFeatureKey]: RootState;
 }
 
 // selectors
-const getRootFeatureState = createFeatureSelector<RootState>('root');
+const getRootFeatureState = createFeatureSelector<RootState>(rootFeatureKey);
 
 // entities
 export const getEntitiesDishes = createSelector(

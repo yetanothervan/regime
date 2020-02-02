@@ -21,7 +21,7 @@ export class IngredientsPathSaveGuard implements CanActivate {
                 if (path.url === me.allPath) {
                     this.router.navigate([state.url + '/' + me.allPath]);
                 } else if (path.url === me.editPath) {
-                    this.router.navigate([state.url + '/' + me.editPath, { id: path.url }]);
+                    this.router.navigate([state.url + '/' + me.editPath, { id: path.id }]);
                 }
                 return true;
             })

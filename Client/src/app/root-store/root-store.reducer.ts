@@ -2,7 +2,6 @@ import * as rootActions from './root-store.actions';
 import { createReducer, on, Action } from '@ngrx/store';
 import { Dish } from '../dtos/dish';
 import { Ingredient } from '../dtos/ingredient';
-import { act } from '@ngrx/effects';
 
 // state
 export interface RootState {

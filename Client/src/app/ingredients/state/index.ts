@@ -5,16 +5,23 @@ export { IngActions };
 import { IngredientsState } from './ingredients.reducer';
 export { IngredientsState };
 
+export const ingredientsFeatureKey = 'ingredients';
+
 export interface State extends fromRoot.State {
-    ingredients: IngredientsState;
+    [ingredientsFeatureKey]: IngredientsState;
 }
 
 // selectors
-const getIngredientsFeatureState = createFeatureSelector<IngredientsState>('ingredients');
+const getIngredientsFeatureState = createFeatureSelector<IngredientsState>(ingredientsFeatureKey);
 
 export const getFilterString = createSelector(
     getIngredientsFeatureState,
     state => state.filterString
+);
+
+export const getSorting = createSelector(
+    getIngredientsFeatureState,
+    state => state.sorting
 );
 
 const getUrlCurrent = createSelector(
@@ -30,7 +37,10 @@ export const getUrlCurrenWithId = createSelector(
     getUrlId,
     (url, id) => ({ url, id })
 );
-
+export const getIngredientCurrent = createSelector(
+    getIngredientsFeatureState,
+    state => state.ingredientCurrent
+);
 // various consts
 export const allPath = 'all';
 export const editPath = 'edit';
