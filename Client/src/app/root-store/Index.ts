@@ -5,6 +5,7 @@ export { RootState };
 import * as RootActions from './root-store.actions';
 import { Ingredient } from '../dtos/ingredient';
 import { Dish } from '../dtos/dish';
+import { TemplateDto } from '../dtos/tmp-dto';
 export { RootActions };
 
 export const rootFeatureKey = 'root';
@@ -60,5 +61,24 @@ export const getIngredientById = (id: string) => createSelector(
           kkal100: 0,
           protein100: 0
       } as Ingredient;
+    }
+  });
+
+export const getEntitiesTemplatePfix = createSelector(
+    getRootFeatureState,
+    state => state.template
+);
+export const getTemplatePfixById = (id: string) => createSelector(
+    getEntitiesTemplatePfix,
+    tepmlatePfix => {
+    if (id && tepmlatePfix && tepmlatePfix.length > 0) {
+      return tepmlatePfix.find(item => {
+        return item.id === id;
+      });
+    } else {
+      return {
+          caption: '',
+          id: ''
+      } as TemplateDto;
     }
   });

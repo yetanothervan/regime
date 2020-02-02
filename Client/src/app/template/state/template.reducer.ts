@@ -16,7 +16,7 @@ export interface TemplatePfixState {
     urlCurrent: string;
     idCurrent: string;
     // edited templatePfix
-    templatePrefixCurrent: TemplateDto;
+    templateParamCurrent: TemplateDto;
 }
 
 const newTemplatePfix = { id: '', caption: '' } as TemplateDto;
@@ -27,7 +27,7 @@ const initialState: TemplatePfixState = {
     urlCurrent: me.allPath,
     idCurrent: '',
     // edited templateDto
-    templatePrefixCurrent: newTemplatePfix
+    templateParamCurrent: newTemplatePfix
 };
 
 // reducer

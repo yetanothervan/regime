@@ -16,11 +16,11 @@ import { TemplateDto } from '../dtos/tmp-dto';
 export class TemplatePfixService {
     constructor(private http: HttpClient, private shared: SharedFuncService) {}
 
-    updateTemplatePostfix(templateParam: TemplateDto): Observable<TemplateDto> {
+    updateTemplatePfix(templateParam: TemplateDto): Observable<TemplateDto> {
         return this.http.post<TemplateDto>(environment.templatePfixUrl + 'update-template-pfix', templateParam);
     }
 
-    createTemplatePostfix(templateParam: TemplateDto): Observable<TemplateDto> {
+    createTemplatePfix(templateParam: TemplateDto): Observable<TemplateDto> {
         templateParam.id = this.shared.getGuidEmpty();
         return this.http.post<TemplateDto>(environment.templatePfixUrl + 'update-template-pfix', templateParam);
     }

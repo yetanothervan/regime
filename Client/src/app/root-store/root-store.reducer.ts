@@ -2,16 +2,19 @@ import * as rootActions from './root-store.actions';
 import { createReducer, on, Action } from '@ngrx/store';
 import { Dish } from '../dtos/dish';
 import { Ingredient } from '../dtos/ingredient';
+import { TemplateDto } from '../dtos/tmp-dto';
 
 // state
 export interface RootState {
     dishes: Dish[];
     ingredients: Ingredient[];
+    template: TemplateDto[];
 }
 
 const initialState: RootState = {
     dishes: [],
-    ingredients: []
+    ingredients: [],
+    template: []
 };
 
 // reducer

@@ -1,28 +1,28 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Sort } from '@angular/material/sort';
-import { Observable, Subject, combineLatest, BehaviorSubject } from 'rxjs';
-import { Ingredient } from 'src/app/dtos/ingredient';
+import { Observable, combineLatest } from 'rxjs';
 import * as me from '../../state';
 import * as root from 'src/app/root-store';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
+import { TemplateDto } from 'src/app/dtos/tmp-dto';
 
 @Component({
-  selector: 'rg-ingredients-provider',
-  templateUrl: './ingredients-provider.component.html',
+  selector: 'rg-template-provider',
+  templateUrl: './template-provider.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IngredientsProviderComponent implements OnInit {
+export class TemplatePfixProviderComponent implements OnInit {
 
-  filteredAndSortedIngredients$: Observable<Ingredient[]>;
+  filteredAndSortedTemplatePfix$: Observable<TemplateDto[]>;
   sorting$: Observable<Sort>;
   filterString$: Observable<string>;
 
   constructor(private store: Store<root.RootState>) {
     this.filterString$ = this.store.select(me.getFilterString);
     this.sorting$ = this.store.select(me.getSorting);
-    this.filteredAndSortedIngredients$ = combineLatest(
-      this.store.select(root.getEntitiesIngredients),
+    this.filteredAndSortedTemplatePfix$ = combineLatest(
+      this.store.select(root.getEntitiesTemplatePfix),
       this.filterString$,
       this.sorting$).pipe(
         map(([ings, filter, sort]) => {
@@ -47,15 +47,15 @@ export class IngredientsProviderComponent implements OnInit {
   }
 
   filterStringChanged(filterString: string) {
-    this.store.dispatch(me.IngActions.ingredientsSetFilter({filterString}));
+    this.store.dispatch(me.TemplateActions.templatePfixSetFilter({filterString}));
   }
 
   sortingChanged(sorting: Sort) {
-    this.store.dispatch(me.IngActions.ingredientsSetSorting({sorting}));
+    this.store.dispatch(me.TemplateActions.templatePfixSetSorting({sorting}));
   }
 
   ngOnInit() {
-    this.store.dispatch(me.IngActions.ingredientsPathAllNavigated());
+    this.store.dispatch(me.TemplateActions.templatePfixPathAllNavigated());
   }
 
 }

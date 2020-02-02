@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
 import {
     CanActivate, Router, ActivatedRouteSnapshot,
-    UrlTree, RouterState, ActivatedRoute, RouterStateSnapshot
+    ActivatedRoute, RouterStateSnapshot
 } from '@angular/router';
 import * as me from '.';
 import { map } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
+// pfix TemplatePfix
+
 @Injectable({
     providedIn: 'root',
 })
-export class IngredientsPathSaveGuard implements CanActivate {
-    constructor(private router: Router, private active: ActivatedRoute, private store: Store<me.IngredientsState>) { }
+export class TemplatePfixPathSaveGuard implements CanActivate {
+    constructor(private router: Router, private active: ActivatedRoute, private store: Store<me.TemplatePfixState>) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.store.pipe(

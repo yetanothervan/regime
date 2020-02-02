@@ -1,35 +1,39 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromRoot from '../../app.state';
-import * as IngActions from './ingredients.actions';
-export { IngActions };
-import { IngredientsState } from './ingredients.reducer';
-export { IngredientsState };
+import { TemplatePfixState } from './template.reducer';
+export { TemplatePfixState };
+import * as TemplateActions from './template.actions';
+export { TemplateActions };
 
-export const ingredientsFeatureKey = 'ingredients';
+// pfix TemplatePfix
+// pfix templatePfix
+// param templateParam
+
+export const templatePfixFeatureKey = 'templatePfix';
 
 export interface State extends fromRoot.State {
-    [ingredientsFeatureKey]: IngredientsState;
+    [templatePfixFeatureKey]: TemplatePfixState;
 }
 
 // selectors
-const getIngredientsFeatureState = createFeatureSelector<IngredientsState>(ingredientsFeatureKey);
+const getTemplatePfixFeatureState = createFeatureSelector<TemplatePfixState>(templatePfixFeatureKey);
 
 export const getFilterString = createSelector(
-    getIngredientsFeatureState,
+    getTemplatePfixFeatureState,
     state => state.filterString
 );
 
 export const getSorting = createSelector(
-    getIngredientsFeatureState,
+    getTemplatePfixFeatureState,
     state => state.sorting
 );
 
 const getUrlCurrent = createSelector(
-    getIngredientsFeatureState,
+    getTemplatePfixFeatureState,
     state => state.urlCurrent
 );
 const getUrlId = createSelector(
-    getIngredientsFeatureState,
+    getTemplatePfixFeatureState,
     state => state.idCurrent
 );
 export const getUrlCurrenWithId = createSelector(
@@ -37,9 +41,9 @@ export const getUrlCurrenWithId = createSelector(
     getUrlId,
     (url, id) => ({ url, id })
 );
-export const getIngredientCurrent = createSelector(
-    getIngredientsFeatureState,
-    state => state.ingredientCurrent
+export const getTemplatePfixCurrent = createSelector(
+    getTemplatePfixFeatureState,
+    state => state.templateParamCurrent
 );
 // various consts
 export const allPath = 'all';
