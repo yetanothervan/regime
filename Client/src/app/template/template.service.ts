@@ -7,22 +7,21 @@ import { environment } from './../../environments/environment';
 import { SharedFuncService } from '../shared/services/shared-func.service';
 
 import { TemplateDto } from '../dtos/tmp-dto';
-// prefix TemplatePrefix
-// prefix templatePrefix
-// postfix TemplatePostfix
-// postfix template-postfix
+// pfix TemplatePfix
+// pfix templatePfix
+// pfix template-pfix
 // param templateParam
 
 @Injectable()
-export class TemplatePrefixService {
+export class TemplatePfixService {
     constructor(private http: HttpClient, private shared: SharedFuncService) {}
 
     updateTemplatePostfix(templateParam: TemplateDto): Observable<TemplateDto> {
-        return this.http.post<TemplateDto>(environment.templatePrefixUrl + 'update-template-postfix', templateParam);
+        return this.http.post<TemplateDto>(environment.templatePfixUrl + 'update-template-pfix', templateParam);
     }
 
     createTemplatePostfix(templateParam: TemplateDto): Observable<TemplateDto> {
         templateParam.id = this.shared.getGuidEmpty();
-        return this.http.post<TemplateDto>(environment.templatePrefixUrl + 'update-template-postfix', templateParam);
+        return this.http.post<TemplateDto>(environment.templatePfixUrl + 'update-template-pfix', templateParam);
     }
 }
