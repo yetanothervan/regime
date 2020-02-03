@@ -1,6 +1,6 @@
-<rg-ingredients-table (filterStringChanged)="filterStringChanged($event)"
+<rg-dish-table (filterStringChanged)="filterStringChanged($event)"
                       (sortingChanged)="sortingChanged($event)"
-                      [ingredientsSource]="filteredAndSortedIngredients$ | async"
+                      [dishSource]="filteredAndSortedDish$ | async"
                       [applyedFilter]="filterString$ | async"
                       [applyedSorting]="sorting$ | async">
-                    </rg-ingredients-table>
+                    </rg-dish-table>

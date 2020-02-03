@@ -13,7 +13,7 @@ export class DishTableComponent implements OnInit, AfterViewInit {
 
   @Output() readonly filterStringChanged = new EventEmitter<string>();
   @Output() readonly sortingChanged = new EventEmitter<Sort>();
-  @Input()  set templatePfixSource(data: Dish[]) {
+  @Input()  set dishSource(data: Dish[]) {
     this.dataSource = new MatTableDataSource(data);
   }
   @Input() applyedFilter: string;
