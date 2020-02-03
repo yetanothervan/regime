@@ -3,11 +3,11 @@ import { Dish } from '../dtos/dish';
 import { Ingredient } from '../dtos/ingredient';
 import { TemplateDto } from '../dtos/tmp-dto';
 
-export const dishesLoad = createAction('[Root] Dishes Load');
-export const dishesLoadSuccess = createAction('[Root] Dishes LoadSuccess', props<{ dishes: Dish[] }>());
-export const dishesLoadFailed = createAction('[Root] Dishes LoadFailed');
-export const dishesUpdateSuccess = createAction('[Root] Dishes UpdateSuccess', props<{ dish: Dish }>());
-export const dishesCreateSuccess = createAction('[Root] Dishes CreateSuccess', props<{ dish: Dish }>());
+export const dishLoad = createAction('[Root] Dishes Load');
+export const dishLoadSuccess = createAction('[Root] Dishes LoadSuccess', props<{ dish: Dish[] }>());
+export const dishLoadFailed = createAction('[Root] Dishes LoadFailed');
+export const dishUpdateSuccess = createAction('[Root] Dishes UpdateSuccess', props<{ dish: Dish }>());
+export const dishCreateSuccess = createAction('[Root] Dishes CreateSuccess', props<{ dish: Dish }>());
 
 export const ingredientsLoad = createAction('[Root] Ingredients Load');
 export const ingredientsLoadSuccess = createAction('[Root] Ingredients LoadSuccess', props<{ ingredients: Ingredient[] }>());

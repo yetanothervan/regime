@@ -3,18 +3,18 @@ import { Component, OnInit, ViewChild, ElementRef,
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { debounce, map } from 'rxjs/operators';
 import { interval } from 'rxjs/internal/observable/interval';
-import { TemplateDto } from 'src/app/dtos/tmp-dto';
+import { Dish } from 'src/app/dtos/dish';
 
 @Component({
-  selector: 'rg-template-form',
-  templateUrl: './template-form.component.html'
+  selector: 'rg-dish-form',
+  templateUrl: './dish-form.component.html'
 })
-export class TemplatePfixFormComponent implements OnInit, OnChanges {
+export class DishFormComponent implements OnInit, OnChanges {
 
-  @ViewChild('templatePfixCaption', { static: true }) templatePfixCaptionInputRef: ElementRef;
-  @Input() templateParam: TemplateDto;
-  @Output() saved: EventEmitter<TemplateDto> = new EventEmitter();
-  @Output() changed: EventEmitter<TemplateDto> = new EventEmitter();
+  @ViewChild('dishCaption', { static: true }) dishCaptionInputRef: ElementRef;
+  @Input() dish: Dish;
+  @Output() saved: EventEmitter<Dish> = new EventEmitter();
+  @Output() changed: EventEmitter<Dish> = new EventEmitter();
 
   form: FormGroup;
   errorMessages = ''; // TODO
@@ -26,29 +26,29 @@ export class TemplatePfixFormComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.templateParam) { this.reinitForm(); }
+    if (changes.dish) { this.reinitForm(); }
   }
 
   reinitForm() {
     this.form = this.fb.group({
-      caption: [this.templateParam.caption, Validators.required]
+      caption: [this.dish.caption, Validators.required]
     });
-    this.templatePfixCaptionInputRef.nativeElement.focus();
+    this.dishCaptionInputRef.nativeElement.focus();
 
     this.form.valueChanges.pipe(
       debounce(() => interval(1000))
     ).subscribe(() => {
-      const dto = { ...this.templateParam, ...this.form.value };
+      const dto = { ...this.dish, ...this.form.value };
       this.changed.next(dto);
       console.log('changed');
     });
   }
 
-  saveTemplatePfix() {
+  saveDish() {
     if (this.form.valid) {
       if (this.form.dirty) {
 
-        const dto = { ...this.templateParam, ...this.form.value };
+        const dto = { ...this.dish, ...this.form.value };
         this.saved.next(dto);
 
       } else { // valid

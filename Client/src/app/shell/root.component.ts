@@ -10,7 +10,7 @@ export class RootComponent {
   title = 'Regime';
 
   constructor(private store: Store<RootState>) {
-    store.dispatch(RootActions.dishesLoad());
+    store.dispatch(RootActions.dishLoad());
     store.dispatch(RootActions.ingredientsLoad());
   }
 }

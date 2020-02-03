@@ -11,12 +11,12 @@ import { Dish } from '../dtos/dish';
 export class DishService {
     constructor(private http: HttpClient, private shared: SharedFuncService) {}
 
-    updateDishes(dish: Dish): Observable<Dish> {
-        return this.http.post<Dish>(environment.dishesUrl + 'update-dishes', dish);
+    updateDish(dish: Dish): Observable<Dish> {
+        return this.http.post<Dish>(environment.dishesUrl + 'update-dish', dish);
     }
 
-    createDishes(dish: Dish): Observable<Dish> {
+    createDish(dish: Dish): Observable<Dish> {
         dish.id = this.shared.getGuidEmpty();
-        return this.http.post<Dish>(environment.dishesUrl + 'update-dishes', dish);
+        return this.http.post<Dish>(environment.dishesUrl + 'update-dish', dish);
     }
 }

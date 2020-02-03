@@ -5,24 +5,24 @@ import * as me from '../../state';
 import * as root from 'src/app/root-store';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
-import { TemplateDto } from 'src/app/dtos/tmp-dto';
+import { Dish } from 'src/app/dtos/dish';
 
 @Component({
-  selector: 'rg-template-provider',
-  templateUrl: './template-provider.component.html',
+  selector: 'rg-dish-provider',
+  templateUrl: './dish-provider.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TemplatePfixProviderComponent implements OnInit {
+export class DishProviderComponent implements OnInit {
 
-  filteredAndSortedTemplatePfix$: Observable<TemplateDto[]>;
+  filteredAndSortedDish$: Observable<Dish[]>;
   sorting$: Observable<Sort>;
   filterString$: Observable<string>;
 
   constructor(private store: Store<root.RootState>) {
     this.filterString$ = this.store.select(me.getFilterString);
     this.sorting$ = this.store.select(me.getSorting);
-    this.filteredAndSortedTemplatePfix$ = combineLatest(
-      this.store.select(root.getEntitiesTemplatePfix),
+    this.filteredAndSortedDish$ = combineLatest(
+      this.store.select(root.getEntitiesDishes),
       this.filterString$,
       this.sorting$).pipe(
         map(([ings, filter, sort]) => {
@@ -47,15 +47,15 @@ export class TemplatePfixProviderComponent implements OnInit {
   }
 
   filterStringChanged(filterString: string) {
-    this.store.dispatch(me.TemplateActions.templatePfixSetFilter({filterString}));
+    this.store.dispatch(me.DishActions.dishSetFilter({filterString}));
   }
 
   sortingChanged(sorting: Sort) {
-    this.store.dispatch(me.TemplateActions.templatePfixSetSorting({sorting}));
+    this.store.dispatch(me.DishActions.dishSetSorting({sorting}));
   }
 
   ngOnInit() {
-    this.store.dispatch(me.TemplateActions.templatePfixPathAllNavigated());
+    this.store.dispatch(me.DishActions.dishPathAllNavigated());
   }
 
 }

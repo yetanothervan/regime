@@ -19,7 +19,7 @@ export class DishesEffects {
                 (action) =>
                     this.dishesService.updateDish(action.dish).pipe(
                         map((dish: Dish) =>
-                            (RootActions.dishesUpdateSuccess({ dish })))
+                            (RootActions.dishUpdateSuccess({ dish })))
                         // catchError(err => ) // TODO
                     )
             )));
@@ -31,7 +31,7 @@ export class DishesEffects {
                 (action) =>
                     this.dishesService.createDish(action.dish).pipe(
                         map((dish: Dish) =>
-                            (RootActions.dishesCreateSuccess({ dish })))
+                            (RootActions.dishCreateSuccess({ dish })))
                         // catchError(err => ) // TODO
                     )
             )));

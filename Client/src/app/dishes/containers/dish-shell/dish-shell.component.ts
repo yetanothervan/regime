@@ -1,11 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
-  selector: 'rg-template-shell',
-  templateUrl: './template-shell.component.html',
+  selector: 'rg-dish-shell',
+  templateUrl: './dish-shell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TemplatePfixShellComponent implements OnInit {
+export class DishShellComponent implements OnInit {
 
   constructor() { }
 

@@ -12,11 +12,11 @@ export class RootStoreEffects {
                 private entitiesService: EntitiesService) { }
     @Effect()
     loadDishes$ = this.actions$.pipe(
-        ofType(rootActions.dishesLoad),
+        ofType(rootActions.dishLoad),
         mergeMap(
             (action) =>
                 this.entitiesService.getDishes().pipe(
-                    map((dishes: Dish[]) => (rootActions.dishesLoadSuccess({dishes})))
+                    map((dish: Dish[]) => (rootActions.dishLoadSuccess({dish})))
                 ))
     );
 

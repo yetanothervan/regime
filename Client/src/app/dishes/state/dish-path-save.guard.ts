@@ -8,13 +8,11 @@ import { map } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-// pfix TemplatePfix
-
 @Injectable({
     providedIn: 'root',
 })
-export class TemplatePfixPathSaveGuard implements CanActivate {
-    constructor(private router: Router, private active: ActivatedRoute, private store: Store<me.TemplatePfixState>) { }
+export class DishPathSaveGuard implements CanActivate {
+    constructor(private router: Router, private active: ActivatedRoute, private store: Store<me.DishState>) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.store.pipe(
