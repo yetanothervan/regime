@@ -16,7 +16,7 @@ export class RootStoreEffects {
         mergeMap(
             (action) =>
                 this.entitiesService.getDishes().pipe(
-                    map((dish: Dish[]) => (rootActions.dishLoadSuccess({dish})))
+                    map((dishes: Dish[]) => (rootActions.dishLoadSuccess({dishes})))
                 ))
     );
 

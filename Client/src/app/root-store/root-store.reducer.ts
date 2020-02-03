@@ -20,7 +20,7 @@ const initialState: RootState = {
 // reducer
 const rootReducer = createReducer(
     initialState,
-    on(rootActions.dishLoadSuccess, (state: RootState, { dish }) => ({ ...state, dish })),
+    on(rootActions.dishLoadSuccess, (state: RootState, { dishes }) => ({ ...state, dishes })),
     on(rootActions.dishUpdateSuccess, (state: RootState, { dish }) => {
         const updatedDishes = state.dishes.map(
             i => dish.id === i.id ? dish : i);

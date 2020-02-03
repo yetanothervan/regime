@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { Ingredient } from 'src/app/dtos/ingredient';
 
 @Component({

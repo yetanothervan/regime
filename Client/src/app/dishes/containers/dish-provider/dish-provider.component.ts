@@ -6,6 +6,7 @@ import * as root from 'src/app/root-store';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import { Dish } from 'src/app/dtos/dish';
+import { SharedFuncService } from 'src/app/shared/services/shared-func.service';
 
 @Component({
   selector: 'rg-dish-provider',
@@ -18,30 +19,25 @@ export class DishProviderComponent implements OnInit {
   sorting$: Observable<Sort>;
   filterString$: Observable<string>;
 
-  constructor(private store: Store<root.RootState>) {
+  constructor(private store: Store<root.RootState>, private shared: SharedFuncService) {
     this.filterString$ = this.store.select(me.getFilterString);
     this.sorting$ = this.store.select(me.getSorting);
+
     this.filteredAndSortedDish$ = combineLatest(
       this.store.select(root.getEntitiesDishes),
+      this.store.select(root.getEntitiesIngredients),
       this.filterString$,
       this.sorting$).pipe(
-        map(([ings, filter, sort]) => {
-          const filtered = ings.filter(item => item && item.caption && item.caption.toLowerCase().includes(filter.toLowerCase()));
-          if (!sort.active || !sort.direction) { return filtered; }
-          filtered.sort((a, b) => {
-            const keyA = a[sort.active];
-            const keyB = b[sort.active];
-            if (sort.direction === 'asc') {
-              if (keyA < keyB) { return -1; }
-              if (keyA > keyB) { return 1; }
-              return 0;
-            } else {
-              if (keyA > keyB) { return -1; }
-              if (keyA < keyB) { return 1; }
-              return 0;
-            }
-          });
-          return filtered;
+        map(([dishes, ings, filter, sort]) => {
+          // filter
+          const filtered = dishes.filter(item => item && item.caption && item.caption.toLowerCase().includes(filter.toLowerCase()));
+          // detail
+          const detailed = shared.detailDish(filtered, ings);
+          // sort
+          if (sort.active && sort.direction) {
+            shared.sortMatTable(detailed, sort.active, sort.direction === 'asc');
+          }
+          return detailed;
         })
       );
   }

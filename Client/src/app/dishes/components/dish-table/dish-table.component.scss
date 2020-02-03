@@ -48,11 +48,40 @@
         -webkit-hyphens: auto;
         hyphens: auto;
       }
-     
+
+      %mat-nutri {
+        @extend %mat-column;
+        flex: 1 1 150px; 
+        width: 150px;
+      }
+
+      .mat-column-edit {
+        @extend %mat-column;
+        flex: 0 0 70px;
+        width: 70px;
+      }
+
       .mat-column-caption {
         @extend %mat-column;
-        flex: 6 1 500px;
-        width: 500px;
+        flex: 6 1 400px;
+        width: 400px;
+      }
+
+      .mat-column-category {
+        @extend %mat-column;
+        flex: 6 1 200px;
+        width: 200px;
+      }
+
+      .mat-column-proteinPer, .mat-column-fatPer, .mat-column-carbonPer {        
+          @extend %mat-nutri;
+      }
+      
+
+      .mat-column-comment {
+        @extend %mat-column;
+        flex: 6 1 400px;
+        width: 400px;
       }
 
       tr.mat-header-row {

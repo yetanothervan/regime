@@ -6,6 +6,7 @@ import * as me from '../../state';
 import * as root from 'src/app/root-store';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
+import { SharedFuncService } from 'src/app/shared/services/shared-func.service';
 
 @Component({
   selector: 'rg-ingredients-provider',
@@ -18,7 +19,7 @@ export class IngredientsProviderComponent implements OnInit {
   sorting$: Observable<Sort>;
   filterString$: Observable<string>;
 
-  constructor(private store: Store<root.RootState>) {
+  constructor(private store: Store<root.RootState>, shared: SharedFuncService) {
     this.filterString$ = this.store.select(me.getFilterString);
     this.sorting$ = this.store.select(me.getSorting);
     this.filteredAndSortedIngredients$ = combineLatest(
@@ -26,21 +27,13 @@ export class IngredientsProviderComponent implements OnInit {
       this.filterString$,
       this.sorting$).pipe(
         map(([ings, filter, sort]) => {
+          // filter
           const filtered = ings.filter(item => item && item.caption && item.caption.toLowerCase().includes(filter.toLowerCase()));
-          if (!sort.active || !sort.direction) { return filtered; }
-          filtered.sort((a, b) => {
-            const keyA = a[sort.active];
-            const keyB = b[sort.active];
-            if (sort.direction === 'asc') {
-              if (keyA < keyB) { return -1; }
-              if (keyA > keyB) { return 1; }
-              return 0;
-            } else {
-              if (keyA > keyB) { return -1; }
-              if (keyA < keyB) { return 1; }
-              return 0;
-            }
-          });
+          // sort
+          if (sort.active && sort.direction) {
+            shared.sortMatTable(filtered, sort.active, sort.direction === 'asc');
+          }
+
           return filtered;
         })
       );

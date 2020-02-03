@@ -4,7 +4,7 @@ import { Ingredient } from '../dtos/ingredient';
 import { TemplateDto } from '../dtos/tmp-dto';
 
 export const dishLoad = createAction('[Root] Dishes Load');
-export const dishLoadSuccess = createAction('[Root] Dishes LoadSuccess', props<{ dish: Dish[] }>());
+export const dishLoadSuccess = createAction('[Root] Dishes LoadSuccess', props<{ dishes: Dish[] }>());
 export const dishLoadFailed = createAction('[Root] Dishes LoadFailed');
 export const dishUpdateSuccess = createAction('[Root] Dishes UpdateSuccess', props<{ dish: Dish }>());
 export const dishCreateSuccess = createAction('[Root] Dishes CreateSuccess', props<{ dish: Dish }>());

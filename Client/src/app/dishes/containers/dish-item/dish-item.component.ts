@@ -1,10 +1,14 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import * as me from '../../state';
+import * as root from 'src/app/root-store';
 import { Store, select } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { SharedFuncService } from 'src/app/shared/services/shared-func.service';
 import { Dish } from 'src/app/dtos/dish';
+import { Ingredient } from 'src/app/dtos/ingredient';
+import { map, withLatestFrom } from 'rxjs/operators';
+import { DishExt } from 'src/app/models/dish-ext';
 
 @Component({
   selector: 'rg-dish-item',
@@ -13,7 +17,9 @@ import { Dish } from 'src/app/dtos/dish';
 })
 export class DishItemComponent implements OnInit, OnDestroy {
 
-  dish$: Observable<Dish>;
+  dishExt$: Observable<DishExt>;
+  ingredients$: Observable<Ingredient[]>;
+  componentIsActive = true;
 
   constructor(private store: Store<me.DishState>,
               private route: ActivatedRoute,
@@ -23,7 +29,24 @@ export class DishItemComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     this.store.dispatch(me.DishActions.dishPathEditNavigated({id}));
-    this.dish$ = this.store.pipe(select(me.getDishCurrent));
+
+    this.dishExt$ =
+      this.store.pipe(select(me.getDishCurrent)).pipe(
+        withLatestFrom(this.store.select(root.getEntitiesIngredients)),
+        map (([dish, ingredients]) => new DishExt(dish, ingredients))
+      );
+
+    this.ingredients$ = this.store.pipe(
+      select(root.getEntitiesIngredients),
+      map((ings) => {
+        ings.sort((a: Ingredient, b: Ingredient) => {
+          if (a.caption < b.caption) { return -1; }
+          if (a.caption > b.caption) { return 1; }
+          return 0;
+        });
+        return ings;
+      })
+    );
   }
 
   onSaved(dish: Dish) {
@@ -41,6 +64,7 @@ export class DishItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.componentIsActive = false;
   }
 
 }
