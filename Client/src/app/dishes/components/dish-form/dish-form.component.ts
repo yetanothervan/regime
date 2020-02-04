@@ -42,10 +42,23 @@ export class DishFormComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.dishExt || changes.ingredients) { this.reinitForm(); }
+    // if no dish -- return
+    if (!changes.dishExt) { return; }
+    // if dishes are differ
+    const both = changes.dishExt.previousValue && changes.dishExt.currentValue;
+    const prev = changes.dishExt.previousValue;
+    const cur = changes.dishExt.currentValue;
+    const bothItems = both && prev.itemsExt && cur.itemsExt;
+    if (!both
+      || cur.id !== prev.id
+      || !bothItems
+      || bothItems && prev.itemsExt.length !== cur.itemsExt.length) {
+      this.reinitForm();
+    }
   }
 
   reinitForm() {
+    console.log('dishes.reinit');
     this.form = this.fb.group({
       caption: [this.dishExt.caption, Validators.required],
       ingredientArray: this.fb.array([]),
@@ -59,10 +72,13 @@ export class DishFormComponent implements OnInit, OnChanges {
     this.form.valueChanges.pipe(
       debounce(() => interval(1000))
     ).subscribe(() => {
-      const dto = this.getDto();
-      this.changed.next(dto);
-      console.log('changed');
+      this.dtoChanged();
     });
+  }
+
+  dtoChanged(): void {
+    const dto = this.getDto();
+    this.changed.next(dto);
   }
 
   getDto(): Dish {
@@ -125,6 +141,7 @@ export class DishFormComponent implements OnInit, OnChanges {
   weightChanged(i: number, weight: number) {
     this.dishExt.itemsExt[i].weight = weight;
     this.recalculateTotal();
+    this.ingredientArray.markAsDirty();
   }
 
   saveDish() {

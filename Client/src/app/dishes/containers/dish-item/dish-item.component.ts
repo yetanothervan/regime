@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { SharedFuncService } from 'src/app/shared/services/shared-func.service';
 import { Dish } from 'src/app/dtos/dish';
 import { Ingredient } from 'src/app/dtos/ingredient';
-import { map, withLatestFrom } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { DishExt } from 'src/app/models/dish-ext';
 
 @Component({
@@ -31,9 +31,10 @@ export class DishItemComponent implements OnInit, OnDestroy {
     this.store.dispatch(me.DishActions.dishPathEditNavigated({id}));
 
     this.dishExt$ =
-      this.store.pipe(select(me.getDishCurrent)).pipe(
-        withLatestFrom(this.store.select(root.getEntitiesIngredients)),
-        map (([dish, ingredients]) => new DishExt(dish, ingredients))
+      this.store.pipe(select(me.getDishWithIngredients)).pipe(
+        map (dish => {
+          return new DishExt(dish.dishCur, dish.ingredients);
+        })
       );
 
     this.ingredients$ = this.store.pipe(

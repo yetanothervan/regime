@@ -2,6 +2,7 @@ import { createReducer, on, Action } from '@ngrx/store';
 import * as me from '.';
 import { Sort } from '@angular/material/sort/typings/public-api';
 import { Dish } from 'src/app/dtos/dish';
+import { isDishEqual } from 'src/app/dtos';
 
 // state
 export interface DishState {
@@ -35,9 +36,17 @@ const dishReducer = createReducer(
         ({ ...state, urlCurrent: me.allPath, dishCurrent: newDish })),
     on(me.DishActions.dishPathEditNavigated, (state: DishState, { id }) =>
         ({ ...state, urlCurrent: me.editPath, idCurrent: id })),
-    on(me.DishActions.dishSetCurrentEditing, (state: DishState, { dish }) =>
-        ({ ...state, dishCurrent: dish })),
+    on(me.DishActions.dishSetCurrentEditing, (state: DishState, { dish }) => {
+        if (isDishEqual(state.dishCurrent, dish)) {
+            return { ...state };
+        } else {
+            const dto = { ...dish };
+            dto.items = [ ...dish.items ];
+            return { ...state, dishCurrent: dto };
+        }
+    })
 );
+
 
 export function reducer(state: DishState | undefined, action: Action) {
     return dishReducer(state, action);

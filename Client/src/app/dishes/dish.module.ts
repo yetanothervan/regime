@@ -23,9 +23,6 @@ import { DishFormComponent } from './components/dish-form/dish-form.component';
 import { DishNutrientsComponent } from './components/dish-nutrients/dish-nutrients.component';
 import { DishItemRowComponent } from './components/dish-item-row/dish-item-row.component';
 
-
-
-
 @NgModule({
   declarations: [DishShellComponent,
     DishProviderComponent,
