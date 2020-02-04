@@ -2,12 +2,10 @@ import {
   Component, OnInit, Input, EventEmitter, Output, ViewChild, ElementRef
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { debounce, map } from 'rxjs/operators';
-import { interval } from 'rxjs/internal/observable/interval';
+import { map } from 'rxjs/operators';
 import { Ingredient } from 'src/app/dtos/ingredient';
 import { Dish } from 'src/app/dtos/dish';
 import { DishItem } from 'src/app/dtos/dish-item';
-import { DishItemExt } from 'src/app/models/dish-item-ext';
 import { DishExt, makeDishExt } from 'src/app/models/dish-ext';
 import { Subject, Observable } from 'rxjs';
 import { copyDish, isDishEqual } from 'src/app/dtos';
@@ -40,7 +38,7 @@ export class DishFormComponent implements OnInit {
   }
   public set ingredients(value: Ingredient[]) {
     this._ingredients = value;
-    if (this.dishMutable) { this.dishSub.next(this._dishMutable); }
+    if (this.dishMutable) { this.dishSub.next(this.dishMutable); }
   }
   @Output() saved: EventEmitter<Dish> = new EventEmitter();
 
@@ -78,10 +76,10 @@ export class DishFormComponent implements OnInit {
     });
 
     this.form.valueChanges.subscribe((value) => {
-      this._dishMutable.caption = value.caption;
-      this._dishMutable.category = value.category;
-      this._dishMutable.comment = value.comment;
-      this.recalculateFormChanges(makeDishExt(this._dishMutable, this.ingredients));
+      this.dishMutable.caption = value.caption;
+      this.dishMutable.category = value.category;
+      this.dishMutable.comment = value.comment;
+      this.recalculateFormChanges(makeDishExt(this.dishMutable, this.ingredients));
     });
   }
 
@@ -131,23 +129,19 @@ export class DishFormComponent implements OnInit {
     this.recalculateFormChanges(makeDishExt(this.dishMutable, this.ingredients));
   }
 
-  saveDish() { /*
+  saveDish() {
     if (this.form.valid) {
       if (this.form.dirty) {
-
-        const dto = { ...this.dishExt, ...this.form.value };
-        this.saved.next(dto);
-
+        this.saved.next(this.dishMutable);
       } else { // valid
         this.errorMessages = 'Проверьте корректность заполнения';
       }
     } // dirty
-    */
   }
 
   recalculateFormChanges(dish: DishExt) {
     this.recalculateTotal(dish);
-    const equalToOriginal = isDishEqual(this._dishMutable, this._dishOriginal);
+    const equalToOriginal = isDishEqual(this.dishMutable, this._dishOriginal);
     if (equalToOriginal && this.form.dirty) { this.form.markAsPristine(); }
     if (!equalToOriginal && this.form.pristine) { this.form.markAsDirty(); }
   }
