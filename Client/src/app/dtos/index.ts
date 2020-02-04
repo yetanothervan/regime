@@ -1,4 +1,5 @@
 import { Dish } from './dish';
+import * as _ from '../../../node_modules/lodash';
 
 export const isDishEqual = ((a: Dish, b: Dish) => {
     if (a.caption !== b.caption
@@ -20,7 +21,6 @@ export const isDishEqual = ((a: Dish, b: Dish) => {
 });
 
 export const copyDish = ((a: Dish) => {
-    const newDish = {...a};
-    newDish.items = [...a.items];
+    const newDish = _.cloneDeep(a);
     return newDish;
 });

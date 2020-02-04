@@ -127,9 +127,8 @@ export class DishFormComponent implements OnInit {
   }
 
   weightChanged(i: number, weight: number) {
-    /* this.dishExt.itemsExt[i].weight = weight;
-    this.recalculateTotal();
-    this.ingredientArray.markAsDirty(); */
+    this.dishMutable.items[i].weight = weight;
+    this.recalculateFormChanges(makeDishExt(this.dishMutable, this.ingredients));
   }
 
   saveDish() { /*
