@@ -26,7 +26,7 @@ export class TemplatePfixFormComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.templateParam) { this.reinitForm(); }
+    // if (changes.templateParam) { this.reinitForm(); }
   }
 
   reinitForm() {

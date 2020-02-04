@@ -10,8 +10,9 @@ export class DishExt extends Dish {
         if (this.items && this.items.length
             && ingredients && ingredients.length) {
                 this.items.forEach(element => {
-                    const ing = ingredients.find(i => i.id === element.ingredientId);
-                    this.itemsExt.push(new DishItemExt(element, ing));
+                    const item = {...element};
+                    const ing = ingredients.find(i => i.id === item.ingredientId);
+                    this.itemsExt.push(new DishItemExt(item, ing));
                 });
             }
     }
@@ -56,3 +57,5 @@ export class DishExt extends Dish {
         return Math.round((n + Number.EPSILON) * 100);
     }
 }
+
+export const makeDishExt = (dish: Dish, indredients: Ingredient[]) => new DishExt(dish, indredients);

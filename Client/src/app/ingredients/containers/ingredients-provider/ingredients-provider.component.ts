@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Sort } from '@angular/material/sort';
-import { Observable, Subject, combineLatest, BehaviorSubject } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { Ingredient } from 'src/app/dtos/ingredient';
 import * as me from '../../state';
 import * as root from 'src/app/root-store';

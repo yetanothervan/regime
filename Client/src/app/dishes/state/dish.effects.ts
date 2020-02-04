@@ -42,7 +42,7 @@ export class DishEffects {
     startEditing$ = createEffect(() =>
         this.actions$.pipe(
             ofType(me.DishActions.dishPathEditNavigated),
-            withLatestFrom(this.store.pipe(select(me.getDishCurrent))),
+            withLatestFrom(this.store.pipe(select(me.getDishCurrentMutable))),
             mergeMap(
                 ([action, current]) => {
                     if (action.id !== current.id) {

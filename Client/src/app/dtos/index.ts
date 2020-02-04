@@ -18,3 +18,9 @@ export const isDishEqual = ((a: Dish, b: Dish) => {
     }
     return true;
 });
+
+export const copyDish = ((a: Dish) => {
+    const newDish = {...a};
+    newDish.items = [...a.items];
+    return newDish;
+});

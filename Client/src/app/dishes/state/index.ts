@@ -38,15 +38,9 @@ export const getUrlCurrenWithId = createSelector(
     getUrlId,
     (url, id) => ({ url, id })
 );
-export const getDishCurrent = createSelector(
+export const getDishCurrentMutable = createSelector(
     getDishFeatureState,
-    state => state.dishCurrent
-);
-
-export const getDishWithIngredients = createSelector(
-    getDishCurrent,
-    fromRoot.getEntitiesIngredients,
-    (dishCur, ingredients) => ({dishCur, ingredients})
+    state => state.dishCurrentMutable
 );
 
 // various consts

@@ -1,33 +1,55 @@
 import {
-  Component, OnInit, ViewChild, ElementRef,
-  SimpleChanges, Input, EventEmitter, Output, OnChanges
+  Component, OnInit, Input, EventEmitter, Output, ViewChild, ElementRef
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { debounce } from 'rxjs/operators';
+import { debounce, map } from 'rxjs/operators';
 import { interval } from 'rxjs/internal/observable/interval';
-import { DishExt } from 'src/app/models/dish-ext';
 import { Ingredient } from 'src/app/dtos/ingredient';
 import { Dish } from 'src/app/dtos/dish';
-import { DishItemExt } from 'src/app/models/dish-item-ext';
 import { DishItem } from 'src/app/dtos/dish-item';
+import { DishItemExt } from 'src/app/models/dish-item-ext';
+import { DishExt, makeDishExt } from 'src/app/models/dish-ext';
+import { Subject, Observable } from 'rxjs';
+import { copyDish, isDishEqual } from 'src/app/dtos';
 
 @Component({
   selector: 'rg-dish-form',
   templateUrl: './dish-form.component.html'
 })
-export class DishFormComponent implements OnInit, OnChanges {
+export class DishFormComponent implements OnInit {
+  private _dishOriginal: Dish;
+  private _dishMutable: Dish;
+  private _ingredients: Ingredient[];
 
-  @ViewChild('dishCaption', { static: true }) dishCaptionInputRef: ElementRef;
-  @Input() dishExt: DishExt;
-  @Input() ingredients: Ingredient[];
+  @Input() public get dishMutable(): Dish {
+    return this._dishMutable;
+  }
+  public set dishMutable(value: Dish) {
+    if (!this._dishMutable && value // if set for the first time
+      || value && this._dishMutable && value.id !== this._dishMutable.id) { // or id != this.id
+      this._dishMutable = value;
+      this._dishOriginal = copyDish(value);
+      this.dishSub.next(this._dishMutable);
+      this.form.markAsPristine();
+      this.form.markAsUntouched();
+    }
+  }
+
+  @Input() public get ingredients(): Ingredient[] {
+    return this._ingredients;
+  }
+  public set ingredients(value: Ingredient[]) {
+    this._ingredients = value;
+    if (this.dishMutable) { this.dishSub.next(this._dishMutable); }
+  }
   @Output() saved: EventEmitter<Dish> = new EventEmitter();
-  @Output() changed: EventEmitter<Dish> = new EventEmitter();
 
+  @ViewChild('caption', { static: true }) captionInputRef: ElementRef;
   form: FormGroup;
   errorMessages = ''; // TODO
-  get ingredientArray(): FormArray {
-    return this.form.get('ingredientArray') as FormArray;
-  }
+
+  dishSub: Subject<Dish>;
+  dishExt: Observable<DishExt>;
 
   totalKkal = 0;
   totalProtein = 0;
@@ -35,116 +57,82 @@ export class DishFormComponent implements OnInit, OnChanges {
   totalCarbon = 0;
   addNewButtonDisabled = false;
 
-  constructor(private fb: FormBuilder) { }
+  get ingredientArray(): FormArray {
+    return this.form.get('ingredientArray') as FormArray;
+  }
+
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      caption: ['', Validators.required],
+      ingredientArray: this.fb.array([]),
+      comment: '',
+      category: ''
+    });
+
+    this.dishSub = new Subject<Dish>();
+    this.dishExt = this.dishSub.asObservable().pipe(map(d => makeDishExt(d, this.ingredients)));
+    this.dishExt.subscribe( dish => {
+      this.patchForm(dish);
+      this.addNewButtonDisabled = dish.itemsExt.some(item => !item.ingredient);
+      this.recalculateFormChanges(dish);
+    });
+
+    this.form.valueChanges.subscribe((value) => {
+      this._dishMutable.caption = value.caption;
+      this._dishMutable.category = value.category;
+      this._dishMutable.comment = value.comment;
+      this.recalculateFormChanges(makeDishExt(this._dishMutable, this.ingredients));
+    });
+  }
 
   ngOnInit() {
-    this.dishCaptionInputRef.nativeElement.focus();
+    this.captionInputRef.nativeElement.focus();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    // if no dish -- return
-    if (!changes.dishExt) { return; }
-    // if dishes are differ
-    const both = changes.dishExt.previousValue && changes.dishExt.currentValue;
-    const prev = changes.dishExt.previousValue;
-    const cur = changes.dishExt.currentValue;
-    const bothItems = both && prev.itemsExt && cur.itemsExt;
-    if (!both
-      || cur.id !== prev.id
-      || !bothItems
-      || bothItems && prev.itemsExt.length !== cur.itemsExt.length) {
-      this.reinitForm();
-    }
-  }
-
-  reinitForm() {
-    console.log('dishes.reinit');
-    this.form = this.fb.group({
-      caption: [this.dishExt.caption, Validators.required],
-      ingredientArray: this.fb.array([]),
-      comment: this.dishExt.comment
+  patchForm(dishExt: DishExt) {
+    console.log('dishes.form.patch');
+    this.form.patchValue({
+      caption: dishExt.caption,
+      category: dishExt.category,
+      comment: dishExt.comment
     });
-    this.dishExt.itemsExt.forEach(ing => {
-      this.addIngredient(ing.ingredient, ing.weight);
+    const array = this.ingredientArray;
+    array.controls.splice(0);
+    dishExt.itemsExt.forEach(i => {
+      array.push(this.getIngredientGroup(i.ingredient, i.weight));
     });
-    this.recalculateTotal();
-
-    this.form.valueChanges.pipe(
-      debounce(() => interval(1000))
-    ).subscribe(() => {
-      this.dtoChanged();
-    });
-  }
-
-  dtoChanged(): void {
-    const dto = this.getDto();
-    this.changed.next(dto);
-  }
-
-  getDto(): Dish {
-    const dto: Dish = {
-      id: this.dishExt.id,
-      caption: this.form.value.caption,
-      category: this.form.value.category,
-      comment: this.form.value.comment,
-      items: []
-    };
-    this.dishExt.itemsExt.forEach(i => {
-      if (i.ingredient) {
-        dto.items.push({ ingredientId: i.ingredient.id, weight: i.weight });
-      }
-    });
-    return dto;
   }
 
   addNewIngredient(): void {
-    const newIng = new DishItemExt(new DishItem(), null);
-    const indexLast =
-      this.dishExt.itemsExt.push(newIng) - 1;
-    const last = this.dishExt.itemsExt[indexLast];
-    last.weight = 0;
-    this.ingredientArray.push(
-      this.fb.group({
-        selector: [last.ingredient],
-        weight: [last.weight]
-      }));
-    this.ingredientArray.markAsDirty();
-    this.addNewButtonDisabled = true;
+    const dishItem = { ingredientId: '', weight: 0 } as DishItem;
+    this.dishMutable.items.push(dishItem);
+    this.dishSub.next(this.dishMutable);
   }
 
-  addIngredient(ingredient: Ingredient, weight: number): void {
-    this.ingredientArray.push(
-      this.fb.group({
-        ingredient: [ingredient],
-        weight: [weight]
-      }));
+  getIngredientGroup(ingredient: Ingredient, weight: number): FormGroup {
+    return this.fb.group({
+      ingredient: [ingredient],
+      weight: [weight]
+    });
   }
 
   removeIngredient(n: number): void {
-    this.dishExt.itemsExt.splice(n, 1);
-    this.checkAddButtonDisable();
-    this.reinitForm();
-    this.ingredientArray.markAsDirty();
-  }
-
-  checkAddButtonDisable() {
-    this.addNewButtonDisabled = this.dishExt.itemsExt.some(item => !item.ingredient);
+    this.dishMutable.items.splice(n, 1);
+    this.dishSub.next(this.dishMutable);
   }
 
   ingredientChanged(i: number, ingredient: Ingredient) {
-    this.dishExt.itemsExt[i].ingredient = ingredient;
-    this.checkAddButtonDisable();
-    this.recalculateTotal();
-    this.ingredientArray.markAsDirty();
+    this.dishMutable.items[i].ingredientId = ingredient.id;
+    this.dishSub.next(this.dishMutable);
   }
 
   weightChanged(i: number, weight: number) {
-    this.dishExt.itemsExt[i].weight = weight;
+    /* this.dishExt.itemsExt[i].weight = weight;
     this.recalculateTotal();
-    this.ingredientArray.markAsDirty();
+    this.ingredientArray.markAsDirty(); */
   }
 
-  saveDish() {
+  saveDish() { /*
     if (this.form.valid) {
       if (this.form.dirty) {
 
@@ -155,15 +143,23 @@ export class DishFormComponent implements OnInit, OnChanges {
         this.errorMessages = 'Проверьте корректность заполнения';
       }
     } // dirty
+    */
   }
 
-  recalculateTotal(): void {
-    if (this.dishExt && this.dishExt.itemsExt) {
+  recalculateFormChanges(dish: DishExt) {
+    this.recalculateTotal(dish);
+    const equalToOriginal = isDishEqual(this._dishMutable, this._dishOriginal);
+    if (equalToOriginal && this.form.dirty) { this.form.markAsPristine(); }
+    if (!equalToOriginal && this.form.pristine) { this.form.markAsDirty(); }
+  }
+
+  recalculateTotal(dish: DishExt): void {
+    if (dish && dish.itemsExt) {
       this.totalKkal = 0;
       this.totalProtein = 0;
       this.totalFat = 0;
       this.totalCarbon = 0;
-      this.dishExt.itemsExt.forEach(de => {
+      dish.itemsExt.forEach(de => {
         if (!de || !de.ingredient) { return; }
         this.totalKkal += de.ingredient.kkal100 / 100 * de.weight;
         this.totalProtein += de.ingredient.protein100 / 100 * de.weight;
@@ -172,5 +168,4 @@ export class DishFormComponent implements OnInit, OnChanges {
       });
     }
   }
-
 }

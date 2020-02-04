@@ -14,11 +14,21 @@
                  <!-- Caption -->
                 <div class="form-group">
                     <label for="captionCtrl">Наименование</label>
-                    <input #dishCaption formControlName="caption" #captionInputRef type="text"
+                    <input #caption formControlName="caption" type="text"
                         class="form-control" id="captionCtrl" aria-describedby="captionHelp" />
                     <!-- TODO -->
                     <small [hidden]="false" id="captionHelp" 
                         class="form-text text-danger col-sm-10">Введите наименование блюда</small>
+                </div>
+
+                <!-- Category -->
+                <div class="form-group">
+                    <label for="categoryCtrl">Категория</label>
+                    <input formControlName="category" type="text"
+                        class="form-control" id="categoryCtrl" aria-describedby="categoryHelp" />
+                    <!-- TODO -->
+                    <small [hidden]="false" id="categoryHelp" 
+                        class="form-text text-danger col-sm-10">Введите категорию блюда</small>
                 </div>
 
                 <div formArrayName="ingredientArray" *ngFor="let group of ingredientArray.controls; let i = index">
@@ -74,7 +84,7 @@
                                 
                 <div class="form-row">
                     <div class="col-auto">
-                        <button type="submit" class="btn btn-primary" [disabled]="!form.valid || addNewButtonDisabled">
+                        <button type="submit" class="btn btn-primary" [disabled]="!form.valid || !form.dirty || addNewButtonDisabled">
                             Save
                         </button>
                     </div>
@@ -83,8 +93,11 @@
                             Back
                         </button>
                     </div>
-                </div>
-            </form>
+                </div>                
+            </form>            
         </div>
+    </div>
+    <div>
+        dirty: {{form.dirty}}        
     </div>
 </div>

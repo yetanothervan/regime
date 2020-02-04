@@ -8,7 +8,6 @@ import { SharedFuncService } from 'src/app/shared/services/shared-func.service';
 import { Dish } from 'src/app/dtos/dish';
 import { Ingredient } from 'src/app/dtos/ingredient';
 import { map } from 'rxjs/operators';
-import { DishExt } from 'src/app/models/dish-ext';
 
 @Component({
   selector: 'rg-dish-item',
@@ -17,7 +16,7 @@ import { DishExt } from 'src/app/models/dish-ext';
 })
 export class DishItemComponent implements OnInit, OnDestroy {
 
-  dishExt$: Observable<DishExt>;
+  dish$: Observable<Dish>;
   ingredients$: Observable<Ingredient[]>;
   componentIsActive = true;
 
@@ -30,12 +29,9 @@ export class DishItemComponent implements OnInit, OnDestroy {
     const id = this.route.snapshot.paramMap.get('id');
     this.store.dispatch(me.DishActions.dishPathEditNavigated({id}));
 
-    this.dishExt$ =
-      this.store.pipe(select(me.getDishWithIngredients)).pipe(
-        map (dish => {
-          return new DishExt(dish.dishCur, dish.ingredients);
-        })
-      );
+    this.dish$ = this.store.pipe(
+      select(me.getDishCurrentMutable)
+    );
 
     this.ingredients$ = this.store.pipe(
       select(root.getEntitiesIngredients),
@@ -58,10 +54,6 @@ export class DishItemComponent implements OnInit, OnDestroy {
       this.store.dispatch(me.DishActions.dishCreate({dish}));
       this.router.navigate(['../all'], {relativeTo: this.route});
     }
-  }
-
-  onChanged(dish: Dish) {
-    this.store.dispatch(me.DishActions.dishSetCurrentEditing({dish}));
   }
 
   ngOnDestroy() {

@@ -26,7 +26,7 @@ export class IngredientFormComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.ingredient) { this.reinitForm(); }
+    // if (changes.ingredient) { this.reinitForm(); }
   }
 
   reinitForm() {
