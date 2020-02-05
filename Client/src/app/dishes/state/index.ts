@@ -1,6 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as app from '../../app.state';
-import * as fromRoot from 'src/app/root-store';
 import { DishState } from './dish.reducer';
 export { DishState };
 import * as DishActions from './dish.actions';

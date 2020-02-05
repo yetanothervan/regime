@@ -3,6 +3,7 @@ import * as ingActions from './ingredients.actions';
 import * as me from '.';
 import { Sort } from '@angular/material/sort/typings/public-api';
 import { Ingredient } from 'src/app/dtos/ingredient';
+import { isIngredientEqual, copyIngredient } from 'src/app/dtos';
 
 // state
 export interface IngredientsState {
@@ -12,7 +13,7 @@ export interface IngredientsState {
     urlCurrent: string;
     idCurrent: string;
     // edited ingredient
-    ingredientCurrent: Ingredient;
+    ingredientCurrentMutable: Ingredient;
 }
 
 const newIngredient = { caption: '', carbon100: 0, fat100: 0, comment: '', id: '', kkal100: 0, protein100: 0 } as Ingredient;
@@ -23,7 +24,7 @@ const initialState: IngredientsState = {
     urlCurrent: me.allPath,
     idCurrent: '',
     // edited ingredient
-    ingredientCurrent: newIngredient
+    ingredientCurrentMutable: newIngredient
 };
 
 // reducer
@@ -36,8 +37,13 @@ const ingredientsReducer = createReducer(
         ({ ...state, urlCurrent: me.allPath, ingredientCurrent: newIngredient })),
     on(ingActions.ingredientsPathEditNavigated, (state: IngredientsState, { id }) =>
         ({ ...state, urlCurrent: me.editPath, idCurrent: id })),
-    on(ingActions.ingredientsSetCurrentEditing, (state: IngredientsState, { ingredient }) =>
-        ({ ...state, ingredientCurrent: ingredient })),
+    on(ingActions.ingredientsSetCurrentEditing, (state: IngredientsState, { ingredient }) => {
+        if (isIngredientEqual(state.ingredientCurrentMutable, ingredient)) {
+            return { ...state };
+        } else {
+            return { ...state, ingredientCurrentMutable: copyIngredient(ingredient) };
+        }
+    }),
 );
 
 export function reducer(state: IngredientsState | undefined, action: Action) {

@@ -30,8 +30,8 @@ const rootReducer = createReducer(
         };
         return result;
     }),
-    on(rootActions.ingredientsCreateSuccess, (state: RootState, { ingredient }) =>
-        ({ ...state, ingredients: [...state.ingredients, ingredient] })),
+    on(rootActions.dishCreateSuccess, (state: RootState, { dish }) =>
+        ({ ...state, dishes: [...state.dishes, dish] })),
     on(rootActions.ingredientsLoadSuccess, (state: RootState, { ingredients }) => ({ ...state, ingredients })),
     on(rootActions.ingredientsUpdateSuccess, (state: RootState, { ingredient }) => {
         const updatedIngredients = state.ingredients.map(

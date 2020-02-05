@@ -8,5 +8,6 @@ namespace Infrastructure.Interfaces
     public interface IDishesManager
     {
         Dish UpdateDish(Dish dish);
+        string DeleteDish(Guid id);
     }
 }

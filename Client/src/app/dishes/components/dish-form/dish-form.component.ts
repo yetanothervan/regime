@@ -2,12 +2,12 @@ import {
   Component, OnInit, Input, EventEmitter, Output, ViewChild, ElementRef
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { map } from 'rxjs/operators';
+import { map, debounce } from 'rxjs/operators';
 import { Ingredient } from 'src/app/dtos/ingredient';
 import { Dish } from 'src/app/dtos/dish';
 import { DishItem } from 'src/app/dtos/dish-item';
 import { DishExt, makeDishExt } from 'src/app/models/dish-ext';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, interval } from 'rxjs';
 import { copyDish, isDishEqual } from 'src/app/dtos';
 
 @Component({
@@ -47,7 +47,7 @@ export class DishFormComponent implements OnInit {
   errorMessages = ''; // TODO
 
   dishSub: Subject<Dish>;
-  dishExt: Observable<DishExt>;
+  dishExt$: Observable<DishExt>;
 
   totalKkal = 0;
   totalProtein = 0;
@@ -68,14 +68,16 @@ export class DishFormComponent implements OnInit {
     });
 
     this.dishSub = new Subject<Dish>();
-    this.dishExt = this.dishSub.asObservable().pipe(map(d => makeDishExt(d, this.ingredients)));
-    this.dishExt.subscribe( dish => {
+    this.dishExt$ = this.dishSub.asObservable().pipe(map(d => makeDishExt(d, this.ingredients)));
+    this.dishExt$.subscribe( dish => {
       this.patchForm(dish);
       this.addNewButtonDisabled = dish.itemsExt.some(item => !item.ingredient);
       this.recalculateFormChanges(dish);
     });
 
-    this.form.valueChanges.subscribe((value) => {
+    this.form.valueChanges.pipe(
+      debounce(() => interval(500))
+    ).subscribe((value) => {
       this.dishMutable.caption = value.caption;
       this.dishMutable.category = value.category;
       this.dishMutable.comment = value.comment;

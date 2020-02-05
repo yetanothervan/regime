@@ -6,16 +6,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IngredientsProviderComponent } from './containers/ingredients-provider/ingredients-provider.component';
 import { IngredientsPathSaveGuard } from './state/ingredients-path-save.guard';
 
-/*const routes: Routes = [
-  { path: '', component: IngredientsShellComponent, canActivate: [IngredientsPathSaveGuard],
-    children: [
-      { path: '', pathMatch: 'full', redirectTo: 'all' },
-      { path: 'all', component: IngredientsProviderComponent },
-      { path: 'edit', component: IngredientItemComponent }
-    ]
-  }
-];*/
-
 const routes: Routes = [
   { path: '', component: IngredientsShellComponent,
     children: [

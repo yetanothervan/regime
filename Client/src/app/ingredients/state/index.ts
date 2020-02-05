@@ -37,9 +37,9 @@ export const getUrlCurrenWithId = createSelector(
     getUrlId,
     (url, id) => ({ url, id })
 );
-export const getIngredientCurrent = createSelector(
+export const getIngredientCurrentMutable = createSelector(
     getIngredientsFeatureState,
-    state => state.ingredientCurrent
+    state => state.ingredientCurrentMutable
 );
 // various consts
 export const allPath = 'all';

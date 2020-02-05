@@ -1,8 +1,10 @@
 import { Dish } from './dish';
 import * as _ from '../../../node_modules/lodash';
+import { Ingredient } from './ingredient';
 
 export const isDishEqual = ((a: Dish, b: Dish) => {
-    if (a.caption !== b.caption
+    return _.isEqual(a, b);
+    /* if (a.caption !== b.caption
         || a.category !== b.category
         || a.comment !== b.comment
         || a.id !== b.id
@@ -16,11 +18,20 @@ export const isDishEqual = ((a: Dish, b: Dish) => {
             || ai.weight !== bi.weight) {
             return false;
         }
-    }
+    }*/
     return true;
 });
 
 export const copyDish = ((a: Dish) => {
     const newDish = _.cloneDeep(a);
     return newDish;
+});
+
+export const isIngredientEqual = ((a: Ingredient, b: Ingredient) => {
+    return _.isEqual(a, b);
+});
+
+export const copyIngredient = ((a: Ingredient) => {
+    const newIngredient = _.cloneDeep(a);
+    return newIngredient;
 });

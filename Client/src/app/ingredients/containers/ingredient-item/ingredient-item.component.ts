@@ -11,36 +11,30 @@ import { SharedFuncService } from 'src/app/shared/services/shared-func.service';
   templateUrl: './ingredient-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IngredientItemComponent implements OnInit, OnDestroy {
+export class IngredientItemComponent implements OnInit {
 
   ingredient$: Observable<Ingredient>;
 
   constructor(private store: Store<me.IngredientsState>,
               private route: ActivatedRoute,
               private shared: SharedFuncService,
-              private router: Router) { }
+              private router: Router) {
+    const id = this.route.snapshot.paramMap.get('id');
+    this.store.dispatch(me.IngActions.ingredientsPathEditNavigated({ id }));
+    this.ingredient$ = this.store.pipe(select(me.getIngredientCurrentMutable));
+  }
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.store.dispatch(me.IngActions.ingredientsPathEditNavigated({id}));
-    this.ingredient$ = this.store.pipe(select(me.getIngredientCurrent));
   }
 
   onSaved(ingredient: Ingredient) {
     if (!this.shared.ifEmpty(ingredient.id)) { // update
-      this.store.dispatch(me.IngActions.ingredientsUpdate({ingredient}));
-      this.router.navigate(['../all'], {relativeTo: this.route});
+      this.store.dispatch(me.IngActions.ingredientsUpdate({ ingredient }));
+      this.router.navigate(['../all'], { relativeTo: this.route });
     } else { // create
-      this.store.dispatch(me.IngActions.ingredientsCreate({ingredient}));
-      this.router.navigate(['../all'], {relativeTo: this.route});
+      this.store.dispatch(me.IngActions.ingredientsCreate({ ingredient }));
+      this.router.navigate(['../all'], { relativeTo: this.route });
     }
-  }
-
-  onChanged(ingredient: Ingredient) {
-    this.store.dispatch(me.IngActions.ingredientsSetCurrentEditing({ingredient}));
-  }
-
-  ngOnDestroy() {
   }
 
 }

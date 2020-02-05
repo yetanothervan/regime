@@ -43,7 +43,7 @@ export class IngredientEffects {
     startEditing$ = createEffect(() =>
         this.actions$.pipe(
             ofType(me.IngActions.ingredientsPathEditNavigated),
-            withLatestFrom(this.store.pipe(select(me.getIngredientCurrent))),
+            withLatestFrom(this.store.pipe(select(me.getIngredientCurrentMutable))),
             mergeMap(
                 ([action, current]) => {
                     if (action.id !== current.id) {

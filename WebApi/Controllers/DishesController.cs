@@ -41,5 +41,15 @@ namespace WebApi.Controllers
             var response = await _mediator.Send(updateCommand);
             return Ok(response);
         }
+
+        [HttpPost("delete-dish")]
+        public async Task<ActionResult<Dish>> DeleteDish(Guid id)
+        {
+            var deleteCommand = new DeleteDishCommand(id);
+            var response = await _mediator.Send(deleteCommand);
+            return string.IsNullOrEmpty(response)
+                ? (ActionResult<Dish>)Ok()
+                : BadRequest(response);
+        }
     }
 }

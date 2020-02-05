@@ -43,5 +43,15 @@ namespace WebApi.Controllers
             var response = await _mediator.Send(updateCommand);
             return Ok(response);
         }
+
+        [HttpPost("delete-ingredient")]
+        public async Task<ActionResult<Ingredient>> DeleteIngredient(Guid id)
+        {
+            var deleteCommand = new DeleteIngredientCommand(id);
+            var response = await _mediator.Send(deleteCommand);
+            return string.IsNullOrEmpty(response) 
+                ? (ActionResult<Ingredient>) Ok() 
+                : BadRequest(response);
+        }
     }
 }

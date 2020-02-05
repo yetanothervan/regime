@@ -15,7 +15,7 @@ export interface DishState {
     dishCurrentMutable: Dish;
 }
 
-const newDish = { id: '', caption: '' } as Dish;
+const newDish = { id: '', caption: '', items: [], comment: '', category: '' } as Dish;
 const initialState: DishState = {
     filterString: '',
     sorting: { active: '', direction: '' },

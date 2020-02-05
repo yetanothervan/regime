@@ -44,6 +44,20 @@ namespace Infrastructure.GitStorage
             return newDish;
         }
 
+        public string DeleteDish(Guid id)
+        {
+            if (id == Guid.Empty) return "Wrong identifier";
+
+            var dishes = GetDishes();
+            var toDelete = dishes.FirstOrDefault(i => i.Id == id);
+            if (toDelete == null)
+                return "There is an error in deleting dish";
+
+            dishes.Remove(toDelete);
+            SaveDishes(dishes);
+            return "";
+        }
+
         private void SaveDishes(List<Dish> dishes)
         {
             var newDishes = JsonConvert.SerializeObject(dishes, Formatting.Indented);

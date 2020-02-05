@@ -14,20 +14,17 @@ import { map } from 'rxjs/operators';
   templateUrl: './dish-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DishItemComponent implements OnInit, OnDestroy {
+export class DishItemComponent implements OnInit {
 
   dish$: Observable<Dish>;
   ingredients$: Observable<Ingredient[]>;
-  componentIsActive = true;
 
   constructor(private store: Store<me.DishState>,
               private route: ActivatedRoute,
               private shared: SharedFuncService,
-              private router: Router) { }
-
-  ngOnInit() {
+              private router: Router) {
     const id = this.route.snapshot.paramMap.get('id');
-    this.store.dispatch(me.DishActions.dishPathEditNavigated({id}));
+    this.store.dispatch(me.DishActions.dishPathEditNavigated({ id }));
 
     this.dish$ = this.store.pipe(
       select(me.getDishCurrentMutable)
@@ -46,18 +43,17 @@ export class DishItemComponent implements OnInit, OnDestroy {
     );
   }
 
-  onSaved(dish: Dish) {
-    if (!this.shared.ifEmpty(dish.id)) { // update
-      this.store.dispatch(me.DishActions.dishUpdate({dish}));
-      this.router.navigate(['../all'], {relativeTo: this.route});
-    } else { // create
-      this.store.dispatch(me.DishActions.dishCreate({dish}));
-      this.router.navigate(['../all'], {relativeTo: this.route});
-    }
+  ngOnInit() {
   }
 
-  ngOnDestroy() {
-    this.componentIsActive = false;
+  onSaved(dish: Dish) {
+    if (!this.shared.ifEmpty(dish.id)) { // update
+      this.store.dispatch(me.DishActions.dishUpdate({ dish }));
+      this.router.navigate(['../all'], { relativeTo: this.route });
+    } else { // create
+      this.store.dispatch(me.DishActions.dishCreate({ dish }));
+      this.router.navigate(['../all'], { relativeTo: this.route });
+    }
   }
 
 }
