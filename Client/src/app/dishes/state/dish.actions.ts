@@ -7,6 +7,8 @@ export const dishSetSorting =
 
 export const dishUpdate = createAction('[Dish] Update', props<{ dish: Dish }>());
 export const dishCreate = createAction('[Dish] Create', props<{ dish: Dish }>());
+export const dishDelete = createAction('[Dish] Delete', props<{ id: string }>());
+export const dishDeleteFailed = createAction('[Dish] DeleteFailed', props<{ status: string }>());
 
 export const dishPathAllNavigated = createAction('[Dish] Navigated to All');
 export const dishPathEditNavigated = createAction('[Dish] Navigated to Edit', props<{ id: string }>());

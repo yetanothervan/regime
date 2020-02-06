@@ -1,4 +1,6 @@
 <rg-ingredient-form 
     [ingredientMutable]="ingredient$ | async"
-    (saved)="onSaved($event)">    
+    [deleteStatus]="deleteStatus$ | async"
+    (saved)="onSaved($event)"
+    (deleted)="onDeleted($event)">
 </rg-ingredient-form>

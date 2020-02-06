@@ -30,6 +30,15 @@ const rootReducer = createReducer(
         };
         return result;
     }),
+    on(rootActions.dishDeleteSuccess, (state: RootState, { id }) => {
+        const leftDishes = state.dishes.filter(
+            i => id !== i.id);
+        const result: RootState = {
+            ...state,
+            dishes: leftDishes
+        };
+        return result;
+    }),
     on(rootActions.dishCreateSuccess, (state: RootState, { dish }) =>
         ({ ...state, dishes: [...state.dishes, dish] })),
     on(rootActions.ingredientsLoadSuccess, (state: RootState, { ingredients }) => ({ ...state, ingredients })),
@@ -39,6 +48,15 @@ const rootReducer = createReducer(
         const result: RootState = {
             ...state,
             ingredients: updatedIngredients
+        };
+        return result;
+    }),
+    on(rootActions.ingredientsDeleteSuccess, (state: RootState, { id }) => {
+        const leftIngredients = state.ingredients.filter(
+            i => id !== i.id);
+        const result: RootState = {
+            ...state,
+            ingredients: leftIngredients
         };
         return result;
     }),

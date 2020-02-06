@@ -1,6 +1,6 @@
 import { createReducer, on, Action, combineReducers, ActionReducerMap } from '@ngrx/store';
-import * as ingActions from './ingredients.actions';
 import * as me from '.';
+import * as root from 'src/app/root-store';
 import { Sort } from '@angular/material/sort/typings/public-api';
 import { Ingredient } from 'src/app/dtos/ingredient';
 import { isIngredientEqual, copyIngredient } from 'src/app/dtos';
@@ -14,6 +14,8 @@ export interface IngredientsState {
     idCurrent: string;
     // edited ingredient
     ingredientCurrentMutable: Ingredient;
+    // statuses
+    deleteStatus: string;
 }
 
 const newIngredient = { caption: '', carbon100: 0, fat100: 0, comment: '', id: '', kkal100: 0, protein100: 0 } as Ingredient;
@@ -24,26 +26,32 @@ const initialState: IngredientsState = {
     urlCurrent: me.allPath,
     idCurrent: '',
     // edited ingredient
-    ingredientCurrentMutable: newIngredient
+    ingredientCurrentMutable: newIngredient,
+    // statuses
+    deleteStatus: ''
 };
 
 // reducer
 
 const ingredientsReducer = createReducer(
     initialState,
-    on(ingActions.ingredientsSetFilter, (state: IngredientsState, { filterString }) => ({ ...state, filterString })),
-    on(ingActions.ingredientsSetSorting, (state: IngredientsState, { sorting }) => ({ ...state, sorting })),
-    on(ingActions.ingredientsPathAllNavigated, (state: IngredientsState) =>
-        ({ ...state, urlCurrent: me.allPath, ingredientCurrent: newIngredient })),
-    on(ingActions.ingredientsPathEditNavigated, (state: IngredientsState, { id }) =>
+    on(me.IngActions.ingredientsSetFilter, (state: IngredientsState, { filterString }) => ({ ...state, filterString })),
+    on(me.IngActions.ingredientsSetSorting, (state: IngredientsState, { sorting }) => ({ ...state, sorting })),
+    on(me.IngActions.ingredientsPathAllNavigated, (state: IngredientsState) =>
+        ({ ...state, urlCurrent: me.allPath, ingredientCurrent: newIngredient, deleteStatus: '' })),
+    on(me.IngActions.ingredientsPathEditNavigated, (state: IngredientsState, { id }) =>
         ({ ...state, urlCurrent: me.editPath, idCurrent: id })),
-    on(ingActions.ingredientsSetCurrentEditing, (state: IngredientsState, { ingredient }) => {
+    on(me.IngActions.ingredientsSetCurrentEditing, (state: IngredientsState, { ingredient }) => {
         if (isIngredientEqual(state.ingredientCurrentMutable, ingredient)) {
             return { ...state };
         } else {
-            return { ...state, ingredientCurrentMutable: copyIngredient(ingredient) };
+            return { ...state, ingredientCurrentMutable: copyIngredient(ingredient), deleteStatus: '' };
         }
     }),
+    on(me.IngActions.ingredientsDeleteFailed, (state: IngredientsState, { status }) =>
+        ({ ...state, deleteStatus: status })),
+    on(root.RootActions.ingredientsDeleteSuccess, (state: IngredientsState, { id }) =>
+        ({ ...state, deleteStatus: id }))
 );
 
 export function reducer(state: IngredientsState | undefined, action: Action) {

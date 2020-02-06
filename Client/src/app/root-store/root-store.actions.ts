@@ -8,12 +8,14 @@ export const dishLoadSuccess = createAction('[Root] Dishes LoadSuccess', props<{
 export const dishLoadFailed = createAction('[Root] Dishes LoadFailed');
 export const dishUpdateSuccess = createAction('[Root] Dishes UpdateSuccess', props<{ dish: Dish }>());
 export const dishCreateSuccess = createAction('[Root] Dishes CreateSuccess', props<{ dish: Dish }>());
+export const dishDeleteSuccess = createAction('[Root] Dish DeleteSuccess', props<{ id: string }>());
 
 export const ingredientsLoad = createAction('[Root] Ingredients Load');
 export const ingredientsLoadSuccess = createAction('[Root] Ingredients LoadSuccess', props<{ ingredients: Ingredient[] }>());
 export const ingredientsLoadFailed = createAction('[Root] Ingredients LoadFailed');
 export const ingredientsUpdateSuccess = createAction('[Root] Ingredients UpdateSuccess', props<{ ingredient: Ingredient }>());
 export const ingredientsCreateSuccess = createAction('[Root] Ingredients CreateSuccess', props<{ ingredient: Ingredient }>());
+export const ingredientsDeleteSuccess = createAction('[Root] Ingredients DeleteSuccess', props<{ id: string }>());
 
 export const templatePfixLoad = createAction('[TemplatePfix] TemplatePfix Load');
 export const templatePfixLoadSuccess = createAction('[TemplatePfix] TemplatePfix LoadSuccess', props<{ templateParam: TemplateDto[] }>());

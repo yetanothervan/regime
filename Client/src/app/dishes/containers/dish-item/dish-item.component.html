@@ -1,5 +1,7 @@
 <rg-dish-form 
     [dishMutable]="dish$ | async"
     [ingredients]="ingredients$ | async"
-    (saved)="onSaved($event)">
+    [deleteStatus]="deleteStatus$ | async"
+    (saved)="onSaved($event)"
+    (deleted)="onDeleted($event)">
 </rg-dish-form>

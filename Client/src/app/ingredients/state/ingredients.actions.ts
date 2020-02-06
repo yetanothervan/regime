@@ -7,6 +7,8 @@ export const ingredientsSetSorting =
 
 export const ingredientsUpdate = createAction('[Ingredients] Update', props<{ ingredient: Ingredient }>());
 export const ingredientsCreate = createAction('[Ingredients] Create', props<{ ingredient: Ingredient }>());
+export const ingredientsDelete = createAction('[Ingredients] Delete', props<{ id: string }>());
+export const ingredientsDeleteFailed = createAction('[Ingredients] DeleteFailed', props<{ status: string }>());
 
 export const ingredientsPathAllNavigated = createAction('[Ingredients] Navigated to All');
 export const ingredientsPathEditNavigated = createAction('[Ingredients] Navigated to Edit', props<{ id: string }>());

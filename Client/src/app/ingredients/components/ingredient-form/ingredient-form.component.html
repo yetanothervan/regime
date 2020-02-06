@@ -58,10 +58,18 @@
                         </button>
                     </div>
                     <div class="col-auto">
+                        <button class="btn btn-secondary" (click)="deleteClicked()">
+                            Delete
+                        </button>
+                    </div>                    
+                    <div class="col-auto">
                         <button [routerLink]="'../all'" class="btn btn-secondary">
                             Back
                         </button>
                     </div>
+                </div>
+                <div class="form-row">
+                    <small class="form-text text-danger col-auto">{{deleteStatus}}</small>
                 </div>
             </form>
         </div>

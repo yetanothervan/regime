@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { of } from 'rxjs';
@@ -19,5 +19,11 @@ export class IngredientsService {
     createIngredient(ingredient: Ingredient): Observable<Ingredient> {
         ingredient.id = this.shared.getGuidEmpty();
         return this.http.post<Ingredient>(environment.ingredientsUrl + 'update-ingredient', ingredient);
+    }
+
+    deleteIngredient(id: string): Observable<string> {
+        return this.http.post<string>(environment.ingredientsUrl + 'delete-ingredient', `"${id}"`,
+                {headers: {'Content-Type':  'application/json'}}
+            );
     }
 }

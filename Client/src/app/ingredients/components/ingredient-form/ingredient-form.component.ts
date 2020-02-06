@@ -28,7 +28,9 @@ export class IngredientFormComponent implements OnInit {
       this.form.markAsUntouched();
     }
   }
+  @Input() deleteStatus: string;
   @Output() saved: EventEmitter<Ingredient> = new EventEmitter();
+  @Output() deleted: EventEmitter<string> = new EventEmitter();
 
   @ViewChild('ingredientCaption', { static: true }) ingredientCaptionInputRef: ElementRef;
   form: FormGroup;
@@ -72,7 +74,6 @@ export class IngredientFormComponent implements OnInit {
   }
 
   patchForm(ingredient: Ingredient) {
-    console.log('ingredients.form.patch');
     this.form.patchValue({
       caption: ingredient.caption,
       kkal100: ingredient.kkal100,
@@ -91,6 +92,10 @@ export class IngredientFormComponent implements OnInit {
         this.errorMessages = 'Проверьте корректность заполнения';
       }
     } // dirty
+  }
+
+  deleteClicked() {
+    this.deleted.next(this.ingredientMutable.id);
   }
 
   recalculateFormChanges(ingredient: Ingredient) {

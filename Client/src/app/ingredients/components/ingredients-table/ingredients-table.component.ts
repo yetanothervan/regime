@@ -29,7 +29,7 @@ export class IngredientsTableComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.sort.sortChange.subscribe(sorting => this.sortingChanged.emit(sorting));
+    this.sort.sortChange.subscribe(sorting => { this.sortingChanged.emit(sorting); });
   }
 
 }

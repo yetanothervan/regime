@@ -3,17 +3,21 @@ import { Ingredient } from 'src/app/dtos/ingredient';
 import * as me from '../../state';
 import { Store, select } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest, Subscription } from 'rxjs';
 import { SharedFuncService } from 'src/app/shared/services/shared-func.service';
+import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'rg-ingredient-item',
   templateUrl: './ingredient-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IngredientItemComponent implements OnInit {
+export class IngredientItemComponent implements OnInit, OnDestroy {
 
   ingredient$: Observable<Ingredient>;
+  deleteStatus$: Observable<string>;
+
+  componentIsActive = true;
 
   constructor(private store: Store<me.IngredientsState>,
               private route: ActivatedRoute,
@@ -22,6 +26,20 @@ export class IngredientItemComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     this.store.dispatch(me.IngActions.ingredientsPathEditNavigated({ id }));
     this.ingredient$ = this.store.pipe(select(me.getIngredientCurrentMutable));
+    this.deleteStatus$ = this.store.pipe(select(me.getIngredientDeleteStatus));
+    combineLatest(this.deleteStatus$,
+      this.ingredient$)
+      .pipe(takeWhile(() => this.componentIsActive))
+      .subscribe(([status, ing]) => {
+        if (ing && !shared.ifEmpty(ing.id)
+        && ing.id === status) {
+          this.router.navigate(['../all'], { relativeTo: this.route });
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.componentIsActive = false;
   }
 
   ngOnInit() {
@@ -34,6 +52,12 @@ export class IngredientItemComponent implements OnInit {
     } else { // create
       this.store.dispatch(me.IngActions.ingredientsCreate({ ingredient }));
       this.router.navigate(['../all'], { relativeTo: this.route });
+    }
+  }
+
+  onDeleted(id: string) {
+    if (!this.shared.ifEmpty(id)) {
+      this.store.dispatch(me.IngActions.ingredientsDelete({id}));
     }
   }
 

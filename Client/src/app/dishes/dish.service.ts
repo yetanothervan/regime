@@ -9,7 +9,7 @@ import { Dish } from '../dtos/dish';
 
 @Injectable()
 export class DishService {
-    constructor(private http: HttpClient, private shared: SharedFuncService) {}
+    constructor(private http: HttpClient, private shared: SharedFuncService) { }
 
     updateDish(dish: Dish): Observable<Dish> {
         return this.http.post<Dish>(environment.dishesUrl + 'update-dish', dish);
@@ -18,5 +18,11 @@ export class DishService {
     createDish(dish: Dish): Observable<Dish> {
         dish.id = this.shared.getGuidEmpty();
         return this.http.post<Dish>(environment.dishesUrl + 'update-dish', dish);
+    }
+
+    deleteDish(id: string): Observable<string> {
+        return this.http.post<string>(environment.dishesUrl + 'delete-dish', `"${id}"`,
+            { headers: { 'Content-Type': 'application/json' } }
+        );
     }
 }

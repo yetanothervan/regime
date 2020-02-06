@@ -42,6 +42,11 @@ export const getDishCurrentMutable = createSelector(
     state => state.dishCurrentMutable
 );
 
+export const getDishDeleteStatus = createSelector(
+    getDishFeatureState,
+    state => state.deleteStatus
+);
+
 // various consts
 export const allPath = 'all';
 export const editPath = 'edit';

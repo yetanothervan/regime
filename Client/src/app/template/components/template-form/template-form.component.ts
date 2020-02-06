@@ -40,7 +40,6 @@ export class TemplatePfixFormComponent implements OnInit, OnChanges {
     ).subscribe(() => {
       const dto = { ...this.templateParam, ...this.form.value };
       this.changed.next(dto);
-      console.log('changed');
     });
   }
 

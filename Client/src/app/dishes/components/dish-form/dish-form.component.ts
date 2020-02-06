@@ -40,7 +40,11 @@ export class DishFormComponent implements OnInit {
     this._ingredients = value;
     if (this.dishMutable) { this.dishSub.next(this.dishMutable); }
   }
+
+  @Input() deleteStatus: string;
+
   @Output() saved: EventEmitter<Dish> = new EventEmitter();
+  @Output() deleted: EventEmitter<string> = new EventEmitter();
 
   @ViewChild('caption', { static: true }) captionInputRef: ElementRef;
   form: FormGroup;
@@ -90,7 +94,6 @@ export class DishFormComponent implements OnInit {
   }
 
   patchForm(dishExt: DishExt) {
-    console.log('dishes.form.patch');
     this.form.patchValue({
       caption: dishExt.caption,
       category: dishExt.category,
@@ -139,6 +142,10 @@ export class DishFormComponent implements OnInit {
         this.errorMessages = 'Проверьте корректность заполнения';
       }
     } // dirty
+  }
+
+  deleteClicked() {
+    this.deleted.next(this.dishMutable.id);
   }
 
   recalculateFormChanges(dish: DishExt) {

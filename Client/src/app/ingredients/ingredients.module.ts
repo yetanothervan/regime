@@ -16,6 +16,8 @@ import { SharedModule } from '../shared/shared.module';
 import { IngredientFormComponent } from './components/ingredient-form/ingredient-form.component';
 import * as myState from './state';
 import * as myReducer from './state/ingredients.reducer';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { IngredientsInterceptor } from './ingredients.interceptor';
 
 @NgModule({
   declarations: [IngredientsShellComponent,
@@ -33,7 +35,9 @@ import * as myReducer from './state/ingredients.reducer';
     StoreModule.forFeature(myState.ingredientsFeatureKey, myReducer.reducer),
     EffectsModule.forFeature([IngredientEffects])
   ],
-  providers: [IngredientsService],
+  providers: [IngredientsService,
+    { provide: HTTP_INTERCEPTORS, useClass: IngredientsInterceptor, multi: true }
+  ],
   bootstrap: []
 })
 export class IngredientsModule { }

@@ -43,12 +43,12 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("delete-dish")]
-        public async Task<ActionResult<Dish>> DeleteDish(Guid id)
+        public async Task<ActionResult<string>> DeleteDish([FromBody]Guid id)
         {
             var deleteCommand = new DeleteDishCommand(id);
             var response = await _mediator.Send(deleteCommand);
             return string.IsNullOrEmpty(response)
-                ? (ActionResult<Dish>)Ok()
+                ? (ActionResult<string>)Ok(id)
                 : BadRequest(response);
         }
     }

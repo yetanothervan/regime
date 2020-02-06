@@ -3,21 +3,23 @@ import * as me from '../../state';
 import * as root from 'src/app/root-store';
 import { Store, select } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { SharedFuncService } from 'src/app/shared/services/shared-func.service';
 import { Dish } from 'src/app/dtos/dish';
 import { Ingredient } from 'src/app/dtos/ingredient';
-import { map } from 'rxjs/operators';
+import { map, debounce, takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'rg-dish-item',
   templateUrl: './dish-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DishItemComponent implements OnInit {
+export class DishItemComponent implements OnInit, OnDestroy {
 
   dish$: Observable<Dish>;
   ingredients$: Observable<Ingredient[]>;
+  deleteStatus$: Observable<string>;
+  componentIsActive = true;
 
   constructor(private store: Store<me.DishState>,
               private route: ActivatedRoute,
@@ -41,6 +43,23 @@ export class DishItemComponent implements OnInit {
         return ings;
       })
     );
+
+    this.deleteStatus$ = this.store.pipe(
+      select(me.getDishDeleteStatus)
+    );
+
+    combineLatest(this.deleteStatus$, this.dish$)
+      .pipe(takeWhile(() => this.componentIsActive))
+      .subscribe(([status, dish]) => {
+        if (dish && !shared.ifEmpty(dish.id)
+        && dish.id === status) {
+          this.router.navigate(['../all'], { relativeTo: this.route });
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.componentIsActive = false;
   }
 
   ngOnInit() {
@@ -53,6 +72,12 @@ export class DishItemComponent implements OnInit {
     } else { // create
       this.store.dispatch(me.DishActions.dishCreate({ dish }));
       this.router.navigate(['../all'], { relativeTo: this.route });
+    }
+  }
+
+  onDeleted(id: string) {
+    if (!this.shared.ifEmpty(id)) {
+      this.store.dispatch(me.DishActions.dishDelete({id}));
     }
   }
 

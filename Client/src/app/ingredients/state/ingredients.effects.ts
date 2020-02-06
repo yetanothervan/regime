@@ -40,13 +40,26 @@ export class IngredientEffects {
                     )
             )));
 
+    deleteIngredient$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(me.IngActions.ingredientsDelete),
+            mergeMap(
+                (action) =>
+                    this.ingredientsService.deleteIngredient(action.id).pipe(
+                        map((id: string) =>
+                            (RootActions.ingredientsDeleteSuccess({ id }))),
+                        catchError(err =>
+                            (of(me.IngActions.ingredientsDeleteFailed({ status: err.error }))))
+                    )
+            )));
+
     startEditing$ = createEffect(() =>
         this.actions$.pipe(
             ofType(me.IngActions.ingredientsPathEditNavigated),
             withLatestFrom(this.store.pipe(select(me.getIngredientCurrentMutable))),
             mergeMap(
                 ([action, current]) => {
-                    if (action.id !== current.id) {
+                    if (!current || action.id !== current.id) {
                         return this.store.pipe(
                             select(root.getIngredientById(action.id)),
                             map(ingredient =>

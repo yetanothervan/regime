@@ -41,6 +41,12 @@ export const getIngredientCurrentMutable = createSelector(
     getIngredientsFeatureState,
     state => state.ingredientCurrentMutable
 );
+
+export const getIngredientDeleteStatus = createSelector(
+    getIngredientsFeatureState,
+    state => state.deleteStatus
+);
+
 // various consts
 export const allPath = 'all';
 export const editPath = 'edit';
