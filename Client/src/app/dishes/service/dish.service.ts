@@ -3,11 +3,14 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import { environment } from './../../environments/environment';
-import { SharedFuncService } from '../shared/services/shared-func.service';
-import { Dish } from '../dtos/dish';
+import { environment } from './../../../environments/environment';
+import { SharedFuncService } from '../../shared/services/shared-func.service';
+import { Dish } from '../../dtos/dish';
+import { DishServiceModule } from './dish.service-module';
 
-@Injectable()
+@Injectable({
+    providedIn: DishServiceModule
+})
 export class DishService {
     constructor(private http: HttpClient, private shared: SharedFuncService) { }
 

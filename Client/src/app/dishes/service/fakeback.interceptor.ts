@@ -5,19 +5,19 @@ import { environment } from 'src/environments/environment';
 import { FakebackService } from 'src/app/shared/services/fakeback.service';
 
 @Injectable()
-export class IngredientsInterceptor implements HttpInterceptor {
+export class DishInterceptor implements HttpInterceptor {
     constructor(private fakeback: FakebackService) {
     }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if (req.url.includes(environment.ingredientsUrl)
-            && req.url.endsWith(environment.updateIngredient)
+        if (req.url.includes(environment.dishesUrl)
+            && req.url.endsWith(environment.updateDish)
             && req.method === 'POST') {
-            return this.ok(this.fakeback.updateIngredient(req.body));
+            return this.ok(this.fakeback.updateDish(req.body));
         } else
-        if (req.url.includes(environment.ingredientsUrl)
-            && req.url.endsWith(environment.deleteIngredient)
+        if (req.url.includes(environment.dishesUrl)
+            && req.url.endsWith(environment.deleteDish)
             && req.method === 'POST') {
-            const deleted = this.fakeback.deleteIngredient(req.body);
+            const deleted = this.fakeback.deleteDish(req.body);
             return deleted === req.body ? this.ok(req.body) : this.error(req.body);
         } else {
             return next.handle(req);

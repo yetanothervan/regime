@@ -20,6 +20,7 @@ import { IngredientsInterceptor } from './service/fakeback.interceptor';
 import { IngredientsServiceModule } from './service/ingredients.service-module';
 import { environment } from 'src/environments/environment';
 
+
 @NgModule({
   declarations: [IngredientsShellComponent,
     IngredientsProviderComponent,

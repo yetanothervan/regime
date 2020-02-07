@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { DishService } from '../dish.service';
+import { DishService } from '../service/dish.service';
 import { mergeMap, map,  withLatestFrom, catchError } from 'rxjs/operators';
 import * as me from '.';
 import * as root from 'src/app/root-store';

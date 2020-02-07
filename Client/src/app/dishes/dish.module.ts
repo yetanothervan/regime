@@ -9,7 +9,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { SharedModule } from '../shared/shared.module';
 
 import { DishRoutingModule } from './dish-routing.module';
-import { DishService } from './dish.service';
 import { DishEffects } from './state/dish.effects';
 import * as myState from './state';
 import * as myReducer from './state/dish.reducer';
@@ -22,6 +21,10 @@ import { DishTableComponent } from './components/dish-table/dish-table.component
 import { DishFormComponent } from './components/dish-form/dish-form.component';
 import { DishNutrientsComponent } from './components/dish-nutrients/dish-nutrients.component';
 import { DishItemRowComponent } from './components/dish-item-row/dish-item-row.component';
+import { DishServiceModule } from './service/dish.service-module';
+import { environment } from 'src/environments/environment';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { DishInterceptor } from './service/fakeback.interceptor';
 
 @NgModule({
   declarations: [DishShellComponent,
@@ -41,9 +44,12 @@ import { DishItemRowComponent } from './components/dish-item-row/dish-item-row.c
     MatSortModule,
     MatSelectModule,
     StoreModule.forFeature(myState.dishFeatureKey, myReducer.reducer),
-    EffectsModule.forFeature([DishEffects])
+    EffectsModule.forFeature([DishEffects]),
+    DishServiceModule
   ],
-  providers: [DishService],
+  providers: [
+    environment.useFakeback ? { provide: HTTP_INTERCEPTORS, useClass: DishInterceptor, multi: true } : []
+  ],
   bootstrap: []
 })
 export class DishModule { }

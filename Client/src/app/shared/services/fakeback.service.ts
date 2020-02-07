@@ -3,6 +3,7 @@ import { SharedModule } from '../shared.module';
 import { Ingredient } from 'src/app/dtos/ingredient';
 import * as _ from '../../../../node_modules/lodash';
 import { Dish } from 'src/app/dtos/dish';
+import { v4 as uuid } from 'uuid';
 
 @Injectable({
     providedIn: SharedModule
@@ -22,6 +23,40 @@ export class FakebackService {
 
     getIngredients(): Ingredient[] {
         return _.cloneDeep(this._ingredients);
+    }
+
+    updateIngredient(ingredient: Ingredient): Ingredient {
+      if (!ingredient.id) {
+        ingredient.id = uuid();
+        this._ingredients = [...this._ingredients, ingredient];
+        return ingredient;
+      }
+      this._ingredients = this._ingredients.map(i => i.id === ingredient.id ? ingredient : i);
+      return ingredient;
+    }
+
+    deleteIngredient(id: string): string {
+      const dish = this._dishes.find(d => d.items.find(i => i.ingredientId === id));
+      if (dish) {
+        return `Cannot delete. Dish ${dish.caption} contains this ingredient`;
+      }
+      this._ingredients = this._ingredients.filter(i => i.id !== id);
+      return id;
+    }
+
+    deleteDish(id: string): string {
+      this._dishes = this._dishes.filter(i => i.id !== id);
+      return id;
+    }
+
+    updateDish(dish: Dish): Dish {
+      if (!dish.id) {
+        dish.id = uuid();
+        this._dishes = [...this._dishes, dish];
+        return dish;
+      }
+      this._dishes = this._dishes.map(i => i.id === dish.id ? dish : i);
+      return dish;
     }
 
     private seedDishes(): Dish[] {
