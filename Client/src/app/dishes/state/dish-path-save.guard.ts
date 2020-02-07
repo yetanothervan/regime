@@ -19,7 +19,7 @@ export class DishPathSaveGuard implements CanActivate {
             select(me.getUrlCurrenWithId),
             map(path => {
 
-                const urlTree = this.router.parseUrl(this.router.url); 
+                const urlTree = this.router.parseUrl(this.router.url);
                 const currentUrl = '/' + urlTree.root.children.primary.segments.map(it => it.path).join('/');
 
                 const editPath = state.url + '/' + me.editPath;

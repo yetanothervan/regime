@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect, act } from '@ngrx/effects';
-import { IngredientsService } from '../ingredients.service';
+import { IngredientsService } from '../service/ingredients.service';
 import { mergeMap, map, catchError, tap, withLatestFrom, mergeAll, take, takeWhile } from 'rxjs/operators';
 import { Ingredient } from 'src/app/dtos/ingredient';
 import * as me from '.';

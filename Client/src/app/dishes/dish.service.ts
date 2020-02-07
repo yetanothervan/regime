@@ -12,16 +12,16 @@ export class DishService {
     constructor(private http: HttpClient, private shared: SharedFuncService) { }
 
     updateDish(dish: Dish): Observable<Dish> {
-        return this.http.post<Dish>(environment.dishesUrl + 'update-dish', dish);
+        return this.http.post<Dish>(environment.dishesUrl + environment.updateDish, dish);
     }
 
     createDish(dish: Dish): Observable<Dish> {
         dish.id = this.shared.getGuidEmpty();
-        return this.http.post<Dish>(environment.dishesUrl + 'update-dish', dish);
+        return this.http.post<Dish>(environment.dishesUrl + environment.updateDish, dish);
     }
 
     deleteDish(id: string): Observable<string> {
-        return this.http.post<string>(environment.dishesUrl + 'delete-dish', `"${id}"`,
+        return this.http.post<string>(environment.dishesUrl + environment.deleteDish, `"${id}"`,
             { headers: { 'Content-Type': 'application/json' } }
         );
     }

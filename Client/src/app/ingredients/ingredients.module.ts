@@ -3,7 +3,6 @@ import { IngredientsShellComponent } from './containers/ingredients-shell/ingred
 import { IngredientsRoutingModule } from './ingredients-routing.module';
 import { StoreModule } from '@ngrx/store';
 import { IngredientsTableComponent } from './components/ingredients-table/ingredients-table.component';
-import { IngredientsService } from './ingredients.service';
 import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
@@ -17,7 +16,9 @@ import { IngredientFormComponent } from './components/ingredient-form/ingredient
 import * as myState from './state';
 import * as myReducer from './state/ingredients.reducer';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { IngredientsInterceptor } from './ingredients.interceptor';
+import { IngredientsInterceptor } from './service/fakeback.interceptor';
+import { IngredientsServiceModule } from './service/ingredients.service-module';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [IngredientsShellComponent,
@@ -33,10 +34,11 @@ import { IngredientsInterceptor } from './ingredients.interceptor';
     MatInputModule,
     MatSortModule,
     StoreModule.forFeature(myState.ingredientsFeatureKey, myReducer.reducer),
-    EffectsModule.forFeature([IngredientEffects])
+    EffectsModule.forFeature([IngredientEffects]),
+    IngredientsServiceModule
   ],
-  providers: [IngredientsService,
-    { provide: HTTP_INTERCEPTORS, useClass: IngredientsInterceptor, multi: true }
+  providers: [
+    environment.useFakeback ? { provide: HTTP_INTERCEPTORS, useClass: IngredientsInterceptor, multi: true } : []
   ],
   bootstrap: []
 })
