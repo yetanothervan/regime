@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { FakebackService } from 'src/app/shared/services/fakeback.service';
+import { FakebackService } from 'src/app/fakeback/fakeback.service';
 
 @Injectable()
 export class IngredientsInterceptor implements HttpInterceptor {

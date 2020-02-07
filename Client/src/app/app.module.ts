@@ -10,6 +10,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { RootStoreModule } from './root-store/root-store.module';
+import { FakebackServiceModule } from './fakeback/fakeback.service-module';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { RootStoreModule } from './root-store/root-store.module';
     }),
     EffectsModule.forRoot([]),
     NoopAnimationsModule,
+    FakebackServiceModule,
     SharedModule.forRoot(),
     RootStoreModule
   ],
