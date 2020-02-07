@@ -3,12 +3,15 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import { environment } from './../../environments/environment';
-import { Dish } from '../dtos/dish';
-import { SharedFuncService } from '../shared/services/shared-func.service';
-import { Ingredient } from '../dtos/ingredient';
+import { environment } from '../../../environments/environment';
+import { Dish } from '../../dtos/dish';
+import { SharedFuncService } from '../../shared/services/shared-func.service';
+import { Ingredient } from '../../dtos/ingredient';
+import { EntitiesServiceModule } from './entities.service-module';
 
-@Injectable()
+@Injectable({
+    providedIn: EntitiesServiceModule
+})
 export class EntitiesService {
 
     constructor(private http: HttpClient, private shared: SharedFuncService) {}

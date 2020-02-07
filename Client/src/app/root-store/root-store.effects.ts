@@ -3,7 +3,7 @@ import { Actions, ofType, Effect } from '@ngrx/effects';
 import * as rootActions from './root-store.actions';
 import { mergeMap, map } from 'rxjs/operators';
 import { Dish } from 'src/app/dtos/dish';
-import { EntitiesService } from './entities.server';
+import { EntitiesService } from './service/entities.server';
 import { Ingredient } from '../dtos/ingredient';
 
 @Injectable()
