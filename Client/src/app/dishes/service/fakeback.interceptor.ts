@@ -18,7 +18,7 @@ export class DishInterceptor implements HttpInterceptor {
             && req.url.endsWith(environment.deleteDish)
             && req.method === 'POST') {
             const deleted = this.fakeback.deleteDish(req.body);
-            return deleted === req.body ? this.ok(req.body) : this.error(req.body);
+            return deleted === req.body ? this.ok(deleted) : this.badRequest(deleted);
         } else {
             return next.handle(req);
         }
@@ -26,6 +26,10 @@ export class DishInterceptor implements HttpInterceptor {
 
     ok(body?) {
         return of(new HttpResponse({ status: 200, body }));
+    }
+
+    badRequest(body?) {
+        return of(new HttpResponse({ status: 400, body }));
     }
 
     error(message) {

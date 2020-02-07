@@ -4,6 +4,7 @@ import { Ingredient } from 'src/app/dtos/ingredient';
 import * as _ from '../../../../node_modules/lodash';
 import { Dish } from 'src/app/dtos/dish';
 import { v4 as uuid } from 'uuid';
+import { SharedFuncService } from './shared-func.service';
 
 @Injectable({
     providedIn: SharedModule
@@ -12,7 +13,7 @@ export class FakebackService {
     private _ingredients: Ingredient[];
     private _dishes: Dish[];
 
-    constructor() {
+    constructor(private shared: SharedFuncService) {
         this._ingredients = this.seedIngredients();
         this._dishes = this.seedDishes();
     }
@@ -26,7 +27,7 @@ export class FakebackService {
     }
 
     updateIngredient(ingredient: Ingredient): Ingredient {
-      if (!ingredient.id) {
+      if (!ingredient.id || ingredient.id === this.shared.getGuidEmpty()) {
         ingredient.id = uuid();
         this._ingredients = [...this._ingredients, ingredient];
         return ingredient;
@@ -36,6 +37,7 @@ export class FakebackService {
     }
 
     deleteIngredient(id: string): string {
+      id = this.trimByChar(id, '"');
       const dish = this._dishes.find(d => d.items.find(i => i.ingredientId === id));
       if (dish) {
         return `Cannot delete. Dish ${dish.caption} contains this ingredient`;
@@ -45,18 +47,25 @@ export class FakebackService {
     }
 
     deleteDish(id: string): string {
+      id = this.trimByChar(id, '"');
       this._dishes = this._dishes.filter(i => i.id !== id);
       return id;
     }
 
     updateDish(dish: Dish): Dish {
-      if (!dish.id) {
+      if (!dish.id || dish.id === this.shared.getGuidEmpty()) {
         dish.id = uuid();
         this._dishes = [...this._dishes, dish];
         return dish;
       }
       this._dishes = this._dishes.map(i => i.id === dish.id ? dish : i);
       return dish;
+    }
+
+    private trimByChar(string, character) {
+      const first = [...string].findIndex(char => char !== character);
+      const last = [...string].reverse().findIndex(char => char !== character);
+      return string.substring(first, string.length - last);
     }
 
     private seedDishes(): Dish[] {
