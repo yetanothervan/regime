@@ -8,14 +8,13 @@ import { SharedFuncService } from './services/shared-func.service';
 @NgModule({
     imports: [CommonModule, HttpClientModule],
     declarations: [IfEmptyPipe],
-    exports: [CommonModule, HttpClientModule,
-        IfEmptyPipe]
+    exports: [CommonModule, HttpClientModule, IfEmptyPipe]
 })
 export class SharedModule {
     static forRoot(): ModuleWithProviders {
         return {
           ngModule: SharedModule,
-          providers: [ SharedFuncService, IfEmptyPipe ]
+          providers: [ IfEmptyPipe ]
         };
       }
 }

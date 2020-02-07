@@ -3,8 +3,11 @@ import { IfEmptyPipe } from '../pipes/if-empty.pipe';
 import { DishExt } from 'src/app/models/dish-ext';
 import { Dish } from 'src/app/dtos/dish';
 import { Ingredient } from 'src/app/dtos/ingredient';
+import { SharedModule } from '../shared.module';
 
-@Injectable()
+@Injectable({
+    providedIn: SharedModule
+})
 export class SharedFuncService {
     constructor(private ifEmptyPipe: IfEmptyPipe) {
     }

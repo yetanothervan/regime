@@ -1,10 +1,10 @@
 <div class="card border-primary m-3">
     <div class="card-header">        
-        <div *ngIf="dish?.id | ifEmpty; else editBlock">
+        <div *ngIf="dishMutable?.id | ifEmpty; else editBlock">
             <span>Добавление нового блюда</span>
         </div>
         <ng-template #editBlock>
-            <span>Редактирование {{dish?.caption}}</span>
+            <span>Редактирование {{dishMutable?.caption}}</span>
         </ng-template>
     </div>    
     <div class="card-body text-primary">
