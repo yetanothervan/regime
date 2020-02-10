@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { RootComponent } from './shell/root.component';
@@ -25,6 +26,7 @@ import { FakebackServiceModule } from './fakeback/fakeback.service-module';
     }),
     EffectsModule.forRoot([]),
     NoopAnimationsModule,
+    NgbCollapseModule,
     FakebackServiceModule,
     SharedModule.forRoot(),
     RootStoreModule

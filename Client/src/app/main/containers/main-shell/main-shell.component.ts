@@ -33,7 +33,7 @@ export class MainShellComponent implements OnInit, OnDestroy {
       takeWhile(() => this.componentIsActive))
         .subscribe((day: string) => this.dayId = day);
 
-    this.store.dispatch(new daysActions.Load());
+    // this.store.dispatch(new daysActions.Load());
   }
 
   ngOnDestroy(): void {
