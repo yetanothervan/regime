@@ -5,6 +5,7 @@ import { mergeMap, map } from 'rxjs/operators';
 import { Dish } from 'src/app/dtos/dish';
 import { EntitiesService } from './service/entities.server';
 import { Ingredient } from '../dtos/ingredient';
+import { MealType } from '../dtos/meal-type';
 
 @Injectable()
 export class RootStoreEffects {
@@ -27,6 +28,16 @@ export class RootStoreEffects {
             (action) =>
                 this.entitiesService.getIngredients().pipe(
                     map((ingredients: Ingredient[]) => (rootActions.ingredientsLoadSuccess({ingredients})))
+                ))
+    );
+
+    @Effect()
+    loadMealTypes$ = this.actions$.pipe(
+        ofType(rootActions.mealTypesLoad),
+        mergeMap(
+            (action) =>
+                this.entitiesService.getMealTypes().pipe(
+                    map((mealTypes: MealType[]) => (rootActions.mealTypesLoadSuccess({mealTypes})))
                 ))
     );
 }

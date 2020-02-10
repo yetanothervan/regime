@@ -12,5 +12,6 @@ export class RootComponent {
   constructor(private store: Store<RootState>) {
     store.dispatch(RootActions.dishLoad());
     store.dispatch(RootActions.ingredientsLoad());
+    store.dispatch(RootActions.mealTypesLoad());
   }
 }

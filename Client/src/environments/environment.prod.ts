@@ -10,4 +10,6 @@ export const environment = {
   get ingredientsUrl() { return this.apiBaseUrl + 'ingredients/'; },
   updateIngredient: 'update-ingredient',
   deleteIngredient: 'delete-ingredient',
+
+  get mealTypesUrl() { return this.apiBaseUrl + 'mealtypes/'; },
 };

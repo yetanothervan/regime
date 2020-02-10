@@ -15,6 +15,8 @@ export const environment = {
   updateIngredient: 'update-ingredient',
   deleteIngredient: 'delete-ingredient',
 
+  get mealTypesUrl() { return this.apiBaseUrl + 'mealtypes/'; },
+
   get templatePfixUrl() { return this.apiBaseUrl + 'template/'; }
 };
 

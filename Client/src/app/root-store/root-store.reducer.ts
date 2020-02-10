@@ -3,18 +3,21 @@ import { createReducer, on, Action } from '@ngrx/store';
 import { Dish } from '../dtos/dish';
 import { Ingredient } from '../dtos/ingredient';
 import { TemplateDto } from '../dtos/tmp-dto';
+import { MealType } from '../dtos/meal-type';
 
 // state
 export interface RootState {
     dishes: Dish[];
     ingredients: Ingredient[];
     template: TemplateDto[];
+    mealTypes: MealType[];
 }
 
 const initialState: RootState = {
     dishes: [],
     ingredients: [],
-    template: []
+    template: [],
+    mealTypes: []
 };
 
 // reducer
@@ -61,7 +64,9 @@ const rootReducer = createReducer(
         return result;
     }),
     on(rootActions.ingredientsCreateSuccess, (state: RootState, { ingredient }) =>
-        ({ ...state, ingredients: [...state.ingredients, ingredient] }))
+        ({ ...state, ingredients: [...state.ingredients, ingredient] })),
+
+    on(rootActions.mealTypesLoadSuccess, (state: RootState, { mealTypes }) => ({ ...state, mealTypes })),
 );
 
 export function reducer(state: RootState | undefined, action: Action) {
