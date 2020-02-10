@@ -3,7 +3,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
-import { MatSelectModule } from '@angular/material';
+import { MatSelectModule } from '@angular/material/select';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { SharedModule } from '../shared/shared.module';

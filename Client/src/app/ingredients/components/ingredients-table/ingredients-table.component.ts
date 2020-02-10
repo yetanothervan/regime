@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, AfterViewInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
-import { MatTableDataSource, MatSort, Sort } from '@angular/material';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Ingredient } from 'src/app/dtos/ingredient';
 
 @Component({
@@ -19,7 +20,7 @@ export class IngredientsTableComponent implements OnInit, AfterViewInit {
   @Input() applyedFilter: string;
   @Input() applyedSorting: Sort;
 
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
 
   public displayedColumns: string[] = ['edit', 'caption', 'kkal100', 'protein100', 'fat100', 'carbon100', 'comment'];
 

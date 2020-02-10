@@ -1,7 +1,7 @@
 import { createReducer, on, Action, combineReducers, ActionReducerMap } from '@ngrx/store';
 import * as me from '.';
 import * as root from 'src/app/root-store';
-import { Sort } from '@angular/material/sort/typings/public-api';
+import { Sort } from '@angular/material/sort/public-api';
 import { Ingredient } from 'src/app/dtos/ingredient';
 import { isIngredientEqual, copyIngredient } from 'src/app/dtos';
 

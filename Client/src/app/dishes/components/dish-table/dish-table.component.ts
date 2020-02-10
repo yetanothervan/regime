@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
-import { MatTableDataSource, MatSort, Sort } from '@angular/material';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Dish } from 'src/app/dtos/dish';
 
 @Component({
@@ -19,7 +20,7 @@ export class DishTableComponent implements OnInit, AfterViewInit {
   @Input() applyedFilter: string;
   @Input() applyedSorting: Sort;
 
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
 
   public displayedColumns: string[] = ['edit', 'caption', 'category', 'proteinPer', 'fatPer', 'carbonPer', 'comment'];
 

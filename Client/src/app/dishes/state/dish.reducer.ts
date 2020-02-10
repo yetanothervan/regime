@@ -1,7 +1,7 @@
 import { createReducer, on, Action } from '@ngrx/store';
 import * as me from '.';
 import * as root from 'src/app/root-store';
-import { Sort } from '@angular/material/sort/typings/public-api';
+import { Sort } from '@angular/material/sort/public-api';
 import { Dish } from 'src/app/dtos/dish';
 import { isDishEqual, copyDish } from 'src/app/dtos';
 
