@@ -14,39 +14,39 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RationDaysController : ControllerBase
+    public class MealTypesController : ControllerBase
     {
+        private readonly IMealTypesRepository _mealTypesRepository;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
-        private readonly IDaysRepository _daysRepository;
 
-
-        public RationDaysController(IMapper mapper, IMediator mediator, IDaysRepository daysRepository)
+        public MealTypesController(IMealTypesRepository mealTypesRepository, IMapper mapper, IMediator mediator)
         {
+            _mealTypesRepository = mealTypesRepository;
             _mapper = mapper;
             _mediator = mediator;
-            _daysRepository = daysRepository;
         }
+
         [HttpGet]
-        public ActionResult<IEnumerable<RationDay>> Get()
+        public ActionResult<IEnumerable<MealType>> Get()
         {
-            var list = _daysRepository.GetDays();
-            var dest = _mapper.Map<IReadOnlyList<Domain.Ration.RationDay.RationDay>, RationDay[]>(list);
+            var list = _mealTypesRepository.GetMealTypes();
+            var dest = _mapper.Map<IReadOnlyList<Domain.Ration.MealType.MealType>, MealType[]>(list);
             return dest;
         }
 
-        [HttpPost("update-day")]
-        public async Task<ActionResult<RationDay>> UpdateDay(RationDay day)
+        [HttpPost("update-mealtype")]
+        public async Task<ActionResult<MealType>> UpdateMealType(MealType mealType)
         {
-            var updateCommand = new UpdateDayCommand(day);
+            var updateCommand = new UpdateMealTypeCommand(mealType);
             var response = await _mediator.Send(updateCommand);
             return Ok(response);
         }
 
-        [HttpPost("delete-day")]
-        public async Task<ActionResult<string>> DeleteDay([FromBody]Guid id)
+        [HttpPost("delete-mealtype")]
+        public async Task<ActionResult<string>> DeleteMealType([FromBody]Guid id)
         {
-            var deleteCommand = new DeleteDayCommand(id);
+            var deleteCommand = new DeleteMealTypeCommand(id);
             var response = await _mediator.Send(deleteCommand);
             return string.IsNullOrEmpty(response)
                 ? (ActionResult<string>)Ok(id)

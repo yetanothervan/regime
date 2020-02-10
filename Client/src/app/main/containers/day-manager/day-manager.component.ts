@@ -8,7 +8,6 @@ import { takeWhile } from 'rxjs/operators';
 @Component({
   selector: 'rg-day-manager',
   templateUrl: './day-manager.component.html',
-  styleUrls: ['./day-manager.component.sass'],
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class DayManagerComponent implements OnInit, OnDestroy {

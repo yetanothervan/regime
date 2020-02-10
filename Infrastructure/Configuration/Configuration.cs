@@ -10,5 +10,7 @@ namespace Infrastructure.Configuration
         public string Folder { get; } = "c:\\ext\\git\\share\\food\\";
         public string IngredientsFile { get; } = "ingredients.json";
         public string DishesFile { get; } = "dishes.json";
+        public string DaysFile { get; } = "days.json";
+        public string MealTypesFile { get; } = "mealtypes.json";
     }
 }

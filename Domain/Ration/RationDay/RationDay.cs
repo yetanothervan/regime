@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Domain.SharedKernel;
 
 namespace Domain.Ration.RationDay
@@ -10,5 +11,9 @@ namespace Domain.Ration.RationDay
         }
 
         public string Caption { get; set; }
+        
+        public decimal TotalKkal { get; set; }
+
+        public List<Meal> Meals { get; set; }
     }
 }

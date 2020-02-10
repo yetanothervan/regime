@@ -3,11 +3,11 @@
  * Any changes made to this file can be lost when this file is regenerated.
  */
 
-import { Meal } from "./meal";
-
-export class RationDay {
+export class MealType {
     id: string;
     caption: string;
-    totalKkal: number;
-    meals: Meal[];
+    kkalTotal: number;
+    proteinPart: number;
+    fatPart: number;
+    carbonPart: number;
 }

@@ -6,14 +6,11 @@ using TypeGen.Core.TypeAnnotations;
 namespace Infrastructure.Dtos
 {
     [ExportTsClass]
-    public class RationDay
+    public class Meal
     {
         public Guid Id { get; set; }
+        public MealType MealType { get; set; }
 
-        public string Caption { get; set; }
-
-        public decimal TotalKkal { get; set; }
-
-        public List<Meal> Meals { get; set; }
+        public List<MealItem> MealItems { get; set; }
     }
 }
