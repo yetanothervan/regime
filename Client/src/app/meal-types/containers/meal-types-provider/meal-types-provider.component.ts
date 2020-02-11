@@ -6,11 +6,7 @@ import * as root from 'src/app/root-store';
 
 @Component({
   selector: 'rg-meal-types-provider',
-  template: `
-    <p>
-      meal-types-provider works!
-    </p>
-  `,
+  template: `<rg-meal-types-list [mealTypes]="mealTypes$ | async"></rg-meal-types-list>`,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -20,6 +16,7 @@ export class MealTypesProviderComponent implements OnInit {
 
   constructor(private store: Store<root.RootState>) {
     this.mealTypes$ = this.store.select(root.getEntitiesMealTypes);
+    this.mealTypes$.subscribe((m) => console.log(m));
   }
 
   ngOnInit(): void {
