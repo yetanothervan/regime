@@ -1,0 +1,49 @@
+<div class="form-row">
+    <form novalidate (ngSubmit)="save()" [formGroup]="form">
+        <!-- Caption -->
+        <div class="form-group col-sm-4">
+            <label for="captionCtrl">Наименование</label>
+            <input #caption formControlName="caption" type="text" class="form-control" id="captionCtrl"
+                aria-describedby="captionHelp" />
+        </div>
+
+        <!-- KKal -->
+        <div class="form-group col-sm-2">
+            <label for="kkalCtrl">ККал</label>
+            <input formControlName="kkal" type="number" class="form-control" id="kkalCtrl"
+                aria-describedby="kkalHelp" />
+        </div>
+
+        <!-- Protein -->
+        <div class="form-group col-sm-2">
+            <label for="proteinCtrl">Белков, %</label>
+            <input formControlName="protein" type="number" class="form-control" id="proteinCtrl"
+                aria-describedby="proteinHelp" />
+        </div>
+
+        <!-- Fat -->
+        <div class="form-group col-sm-2">
+            <label for="fatCtrl">Жиров, %</label>
+            <input formControlName="fat" type="number" class="form-control" id="fatCtrl" aria-describedby="fatHelp" />
+        </div>
+
+        <!-- Carbon -->
+        <div class="form-group col-sm-2">
+            <label for="carbonCtrl">Угл., %</label>
+            <input formControlName="carbon" type="number" class="form-control" id="carbonCtrl"
+                aria-describedby="carbonHelp" />
+        </div>
+    </form>
+</div>
+<div class="form-row justify-content-end">
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid" [visible]="form.dirty">
+            Save
+        </button>
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-secondary" [visible]="form.dirty" (click)="resetClicked()">
+            Reset
+        </button>
+    </div>
+</div>

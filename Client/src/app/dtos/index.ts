@@ -1,6 +1,7 @@
 import { Dish } from './dish';
 import * as _ from '../../../node_modules/lodash';
 import { Ingredient } from './ingredient';
+import { MealType } from './meal-type';
 
 export const isDishEqual = ((a: Dish, b: Dish) => {
     return _.isEqual(a, b);
@@ -34,4 +35,12 @@ export const isIngredientEqual = ((a: Ingredient, b: Ingredient) => {
 export const copyIngredient = ((a: Ingredient) => {
     const newIngredient = _.cloneDeep(a);
     return newIngredient;
+});
+
+export const copyMealType = ((a: MealType) => {
+    const newMealType = _.cloneDeep(a);
+    return newMealType;
+});
+export const isMealTypeEqual = ((a: MealType, b: MealType) => {
+    return _.isEqual(a, b);
 });
