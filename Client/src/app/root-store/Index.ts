@@ -64,6 +64,11 @@ export const getIngredientById = (id: string) => createSelector(
     }
   });
 
+export const getEntitiesMealTypes = createSelector(
+    getRootFeatureState,
+    state => state.mealTypes
+);
+
 export const getEntitiesTemplatePfix = createSelector(
     getRootFeatureState,
     state => state.template

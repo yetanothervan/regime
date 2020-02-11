@@ -13,7 +13,9 @@ const routes: Routes = [
     { path: 'dishes',
     loadChildren: () => import('./dishes/dish.module').then(m => m.DishModule) },
     { path: 'ingredients',
-    loadChildren: () => import('./ingredients/ingredients.module').then(m => m.IngredientsModule) }
+    loadChildren: () => import('./ingredients/ingredients.module').then(m => m.IngredientsModule) },
+    { path: 'meal-types',
+    loadChildren: () => import('./meal-types/meal-types.module').then(m => m.MealTypesModule) }
   ]}
 ];
 
