@@ -69,6 +69,11 @@ export const getEntitiesMealTypes = createSelector(
     state => state.mealTypes
 );
 
+export const getEntitiesDays = createSelector(
+  getRootFeatureState,
+  state => state.days
+);
+
 export const getEntitiesTemplatePfix = createSelector(
     getRootFeatureState,
     state => state.template

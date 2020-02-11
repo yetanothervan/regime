@@ -1,22 +1,21 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MealType } from 'src/app/dtos/meal-type';
+import { RationDay } from 'src/app/dtos/ration-day';
 import { Store } from '@ngrx/store';
 import * as root from 'src/app/root-store';
 
 @Component({
-  selector: 'rg-meal-types-provider',
-  template: `<rg-meal-types-list [mealTypes]="mealTypes$ | async"></rg-meal-types-list>`,
+  selector: 'rg-days-provider',
+  template: `<rg-days-list [days]="days$ | async"></rg-days-list>`,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MealTypesProviderComponent implements OnInit {
+export class DaysProviderComponent implements OnInit {
 
-  mealTypes$: Observable<MealType[]>;
-
+  days$: Observable<RationDay[]>;
   constructor(private store: Store<root.RootState>) {
-    this.mealTypes$ = this.store.select(root.getEntitiesMealTypes);
-  }
+      this.days$ = this.store.select(root.getEntitiesDays);
+    }
 
   ngOnInit(): void {
   }
