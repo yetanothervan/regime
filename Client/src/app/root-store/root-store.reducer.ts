@@ -4,6 +4,7 @@ import { Dish } from '../dtos/dish';
 import { Ingredient } from '../dtos/ingredient';
 import { TemplateDto } from '../dtos/tmp-dto';
 import { MealType } from '../dtos/meal-type';
+import { RationDay } from '../dtos/ration-day';
 
 // state
 export interface RootState {
@@ -11,13 +12,15 @@ export interface RootState {
     ingredients: Ingredient[];
     template: TemplateDto[];
     mealTypes: MealType[];
+    days: RationDay[];
 }
 
 const initialState: RootState = {
     dishes: [],
     ingredients: [],
     template: [],
-    mealTypes: []
+    mealTypes: [],
+    days: []
 };
 
 // reducer
@@ -67,6 +70,7 @@ const rootReducer = createReducer(
         ({ ...state, ingredients: [...state.ingredients, ingredient] })),
 
     on(rootActions.mealTypesLoadSuccess, (state: RootState, { mealTypes }) => ({ ...state, mealTypes })),
+    on(rootActions.daysLoadSuccess, (state: RootState, { days }) => ({ ...state, days })),
 );
 
 export function reducer(state: RootState | undefined, action: Action) {

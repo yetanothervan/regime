@@ -3,6 +3,7 @@ import { Dish } from '../dtos/dish';
 import { Ingredient } from '../dtos/ingredient';
 import { TemplateDto } from '../dtos/tmp-dto';
 import { MealType } from '../dtos/meal-type';
+import { RationDay } from '../dtos/ration-day';
 
 export const dishLoad = createAction('[Root] Dishes Load');
 export const dishLoadSuccess = createAction('[Root] Dishes LoadSuccess', props<{ dishes: Dish[] }>());
@@ -21,6 +22,10 @@ export const ingredientsDeleteSuccess = createAction('[Root] Ingredients DeleteS
 export const mealTypesLoad = createAction('[Root] MealTypes Load');
 export const mealTypesLoadSuccess = createAction('[Root] MealTypes LoadSuccess', props<{ mealTypes: MealType[] }>());
 export const mealTypesLoadFailed = createAction('[Root] MealTypes LoadFailed');
+
+export const daysLoad = createAction('[Root] Days Load');
+export const daysLoadSuccess = createAction('[Root] Days LoadSuccess', props<{ days: RationDay[] }>());
+export const daysLoadFailed = createAction('[Root] Days LoadFailed');
 
 export const templatePfixLoad = createAction('[TemplatePfix] TemplatePfix Load');
 export const templatePfixLoadSuccess = createAction('[TemplatePfix] TemplatePfix LoadSuccess', props<{ templateParam: TemplateDto[] }>());

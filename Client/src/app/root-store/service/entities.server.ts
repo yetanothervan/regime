@@ -9,6 +9,7 @@ import { SharedFuncService } from '../../shared/services/shared-func.service';
 import { Ingredient } from '../../dtos/ingredient';
 import { EntitiesServiceModule } from './entities.service-module';
 import { MealType } from 'src/app/dtos/meal-type';
+import { RationDay } from 'src/app/dtos/ration-day';
 
 @Injectable({
     providedIn: EntitiesServiceModule
@@ -27,5 +28,9 @@ export class EntitiesService {
 
     getMealTypes(): Observable<MealType[]> {
         return this.http.get<MealType[]>(environment.mealTypesUrl);
+    }
+
+    getDays(): Observable<RationDay[]> {
+        return this.http.get<RationDay[]>(environment.daysUrl);
     }
 }

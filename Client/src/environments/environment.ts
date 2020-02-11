@@ -17,6 +17,8 @@ export const environment = {
 
   get mealTypesUrl() { return this.apiBaseUrl + 'mealtypes/'; },
 
+  get daysUrl() { return this.apiBaseUrl + 'rationdays/'; },
+
   get templatePfixUrl() { return this.apiBaseUrl + 'template/'; }
 };
 

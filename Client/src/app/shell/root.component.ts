@@ -13,5 +13,6 @@ export class RootComponent {
     store.dispatch(RootActions.dishLoad());
     store.dispatch(RootActions.ingredientsLoad());
     store.dispatch(RootActions.mealTypesLoad());
+    store.dispatch(RootActions.daysLoad());
   }
 }
