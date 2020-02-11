@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { MealTypesRoutingModule } from './meal-types-routing.module';
 import { MealTypesShellComponent } from './containers/meal-types-shell/meal-types-shell.component';
@@ -12,7 +13,8 @@ import { MealTypesItemRowComponent } from './components/meal-types-item-row/meal
   declarations: [MealTypesShellComponent, MealTypesProviderComponent, MealTypesListComponent, MealTypesItemRowComponent],
   imports: [
     CommonModule,
-    MealTypesRoutingModule
+    MealTypesRoutingModule,
+    ReactiveFormsModule
   ]
 })
 export class MealTypesModule { }

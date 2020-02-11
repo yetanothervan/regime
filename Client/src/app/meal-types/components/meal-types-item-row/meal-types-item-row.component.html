@@ -37,12 +37,12 @@
 </div>
 <div class="form-row justify-content-end">
     <div class="col-auto">
-        <button type="submit" class="btn btn-primary" [disabled]="!form.valid" [visible]="form.dirty">
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid" [hidden]="!form.dirty">
             Save
         </button>
     </div>
     <div class="col-auto">
-        <button class="btn btn-secondary" [visible]="form.dirty" (click)="resetClicked()">
+        <button class="btn btn-secondary" [hidden]="form.dirty" (click)="resetClicked()">
             Reset
         </button>
     </div>
