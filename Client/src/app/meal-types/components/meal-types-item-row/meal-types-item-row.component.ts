@@ -15,6 +15,7 @@ export class MealTypesItemRowComponent implements OnInit {
   private _mealTypeOriginal: MealType;
   private _mealType: MealType;
   errorMessages: string;
+  @Input() index: string;
   @Input() public get mealType(): MealType {
     return this._mealType;
   }
@@ -67,7 +68,11 @@ export class MealTypesItemRowComponent implements OnInit {
 
   patchForm(mealType: MealType) {
     this.form.patchValue({
-      caption: mealType.caption
+      caption: mealType.caption,
+      kkal: mealType.kkalTotal,
+      protein: mealType.proteinPart,
+      fat: mealType.fatPart,
+      carbon: mealType.carbonPart
     });
   }
 

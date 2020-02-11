@@ -1,8 +1,13 @@
-<div>
-    <a *ngFor="let mealType of mealTypes">
-        <div class="d-flex w-100 justify-content-between">
-            <rg-meal-types-item-row [mealType]="mealType">
-            </rg-meal-types-item-row>
+<div class="card border-primary m-3">
+    <div class="card-header">        
+        Meal Types
+    </div>    
+    <div class="card-body text-primary">
+        <div class="card-text pr-3">
+            <a *ngFor="let mealType of mealTypes; let i=index;">
+                <rg-meal-types-item-row [mealType]="mealType" [index]="i">
+                </rg-meal-types-item-row>
+            </a>
         </div>
-    </a>
+    </div>
 </div>

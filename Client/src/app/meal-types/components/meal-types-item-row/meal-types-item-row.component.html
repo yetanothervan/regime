@@ -1,49 +1,48 @@
-<div class="form-row">
-    <form novalidate (ngSubmit)="save()" [formGroup]="form">
+<form novalidate (ngSubmit)="save()" [formGroup]="form">
+    <div class="form-row">
         <!-- Caption -->
         <div class="form-group col-sm-4">
-            <label for="captionCtrl">Наименование</label>
-            <input #caption formControlName="caption" type="text" class="form-control" id="captionCtrl"
-                aria-describedby="captionHelp" />
+            <label [attr.for]="'captionCtrl'+index">Наименование</label>
+            <input #caption formControlName="caption" type="text" class="form-control" [attr.id]="'captionCtrl'+index"/>
         </div>
 
         <!-- KKal -->
         <div class="form-group col-sm-2">
-            <label for="kkalCtrl">ККал</label>
-            <input formControlName="kkal" type="number" class="form-control" id="kkalCtrl"
-                aria-describedby="kkalHelp" />
+            <label [attr.for]="'kkalCtrl'+index">ККал</label>
+            <input formControlName="kkal" type="number" class="form-control" [attr.id]="'kkalCtrl'+index"/>
         </div>
 
         <!-- Protein -->
         <div class="form-group col-sm-2">
-            <label for="proteinCtrl">Белков, %</label>
-            <input formControlName="protein" type="number" class="form-control" id="proteinCtrl"
-                aria-describedby="proteinHelp" />
+            <label [attr.for]="'proteinCtrl'+index">Белков, %</label>
+            <input formControlName="protein" type="number" class="form-control" [attr.id]="'proteinCtrl'+index"/>
         </div>
 
         <!-- Fat -->
         <div class="form-group col-sm-2">
-            <label for="fatCtrl">Жиров, %</label>
-            <input formControlName="fat" type="number" class="form-control" id="fatCtrl" aria-describedby="fatHelp" />
+            <label [attr.for]="'fatCtrl'+index">Жиров, %</label>
+            <input formControlName="fat" type="number" class="form-control" [attr.id]="'fatCtrl'+index">
         </div>
 
         <!-- Carbon -->
         <div class="form-group col-sm-2">
-            <label for="carbonCtrl">Угл., %</label>
-            <input formControlName="carbon" type="number" class="form-control" id="carbonCtrl"
-                aria-describedby="carbonHelp" />
+            <label [attr.for]="'carbonCtrl'+index">Угл., %</label>
+            <input formControlName="carbon" type="number" class="form-control" [attr.id]="'carbonCtrl'+index"/>
         </div>
-    </form>
-</div>
-<div class="form-row justify-content-end">
-    <div class="col-auto">
-        <button type="submit" class="btn btn-primary" [disabled]="!form.valid" [hidden]="!form.dirty">
-            Save
-        </button>
     </div>
-    <div class="col-auto">
-        <button class="btn btn-secondary" [hidden]="form.dirty" (click)="resetClicked()">
-            Reset
-        </button>
-    </div>
+    <div class="form-row justify-content-end">
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary" [disabled]="!form.valid" [hidden]="!form.dirty">
+                Save
+            </button>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-secondary" [hidden]="!form.dirty" (click)="resetClicked()">
+                Reset
+            </button>
+        </div>
+    </div>    
+</form>
+<div>
+    {{form.dirty}}
 </div>
