@@ -16,6 +16,8 @@ export const environment = {
   deleteIngredient: 'delete-ingredient',
 
   get mealTypesUrl() { return this.apiBaseUrl + 'mealtypes/'; },
+  updateMealType: 'update-mealtype',
+  deleteMealType: 'delete-mealtype',
 
   get daysUrl() { return this.apiBaseUrl + 'rationdays/'; },
 
