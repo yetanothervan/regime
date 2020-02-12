@@ -22,7 +22,7 @@ export class MealTypesItemRowComponent implements OnInit {
   public set mealType(value: MealType) {
     if (!this._mealType && value // if set for the first time
       || value && this._mealType && value.id !== this._mealType.id) { // or id != this.id
-      this._mealType = value;
+      this._mealType = copyMealType(value);
       this._mealTypeOriginal = copyMealType(value);
       this._mealTypeSub.next(this._mealType);
       this.form.markAsPristine();
@@ -77,7 +77,7 @@ export class MealTypesItemRowComponent implements OnInit {
   }
 
   recalculateFormChanges(mealType: MealType) {
-    const equalToOriginal = isMealTypeEqual(this._mealType, this._mealTypeOriginal);
+    const equalToOriginal = isMealTypeEqual(mealType, this._mealTypeOriginal);
     if (equalToOriginal && this.form.dirty) { this.form.markAsPristine(); }
     if (!equalToOriginal && this.form.pristine) { this.form.markAsDirty(); }
   }

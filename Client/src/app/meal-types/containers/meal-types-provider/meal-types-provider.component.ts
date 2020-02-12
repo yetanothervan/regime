@@ -6,7 +6,9 @@ import * as root from 'src/app/root-store';
 
 @Component({
   selector: 'rg-meal-types-provider',
-  template: `<rg-meal-types-list [mealTypes]="mealTypes$ | async"></rg-meal-types-list>`,
+  template: `<rg-meal-types-list
+    [mealTypes]="mealTypes$ | async"
+    (saved)="onSaved($event)"></rg-meal-types-list>`,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -19,6 +21,10 @@ export class MealTypesProviderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  onSaved(mealType: MealType) {
+
   }
 
 }
