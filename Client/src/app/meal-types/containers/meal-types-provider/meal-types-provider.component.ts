@@ -3,6 +3,8 @@ import { Observable } from 'rxjs';
 import { MealType } from 'src/app/dtos/meal-type';
 import { Store } from '@ngrx/store';
 import * as root from 'src/app/root-store';
+import * as me from './../../state';
+import { SharedFuncService } from 'src/app/shared/services/shared-func.service';
 
 @Component({
   selector: 'rg-meal-types-provider',
@@ -16,7 +18,7 @@ export class MealTypesProviderComponent implements OnInit {
 
   mealTypes$: Observable<MealType[]>;
 
-  constructor(private store: Store<root.RootState>) {
+  constructor(private store: Store<root.RootState>, private shared: SharedFuncService) {
     this.mealTypes$ = this.store.select(root.getEntitiesMealTypes);
   }
 
@@ -24,7 +26,17 @@ export class MealTypesProviderComponent implements OnInit {
   }
 
   onSaved(mealType: MealType) {
+    if (!this.shared.ifEmpty(mealType.id)) { // update
+      this.store.dispatch(me.MealTypesActions.mealTypeUpdate({ mealType }));
+    } else { // create
+      this.store.dispatch(me.MealTypesActions.mealTypeCreate({ mealType }));
+    }
+  }
 
+  onDeleted(id: string) {
+    if (!this.shared.ifEmpty(id)) {
+      this.store.dispatch(me.MealTypesActions.mealTypeDelete({id}));
+    }
   }
 
 }

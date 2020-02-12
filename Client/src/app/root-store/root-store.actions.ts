@@ -22,6 +22,9 @@ export const ingredientsDeleteSuccess = createAction('[Root] Ingredients DeleteS
 export const mealTypesLoad = createAction('[Root] MealTypes Load');
 export const mealTypesLoadSuccess = createAction('[Root] MealTypes LoadSuccess', props<{ mealTypes: MealType[] }>());
 export const mealTypesLoadFailed = createAction('[Root] MealTypes LoadFailed');
+export const mealTypeUpdateSuccess = createAction('[Root] MealType UpdateSuccess', props<{ mealType: MealType }>());
+export const mealTypeCreateSuccess = createAction('[Root] MealType CreateSuccess', props<{ mealType: MealType }>());
+export const mealTypeDeleteSuccess = createAction('[Root] MealType DeleteSuccess', props<{ id: string }>());
 
 export const daysLoad = createAction('[Root] Days Load');
 export const daysLoadSuccess = createAction('[Root] Days LoadSuccess', props<{ days: RationDay[] }>());
