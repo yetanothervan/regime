@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MealType } from 'src/app/dtos/meal-type';
 
 @Component({
@@ -9,10 +9,15 @@ import { MealType } from 'src/app/dtos/meal-type';
 export class MealTypesListComponent implements OnInit {
 
   @Input()  mealTypes: MealType[];
+  @Output() saved: EventEmitter<MealType> = new EventEmitter<MealType>();
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onSaved(mealType: MealType) {
+    this.saved.next(mealType);
   }
 
 }

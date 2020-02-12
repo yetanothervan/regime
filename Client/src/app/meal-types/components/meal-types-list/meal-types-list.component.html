@@ -5,7 +5,7 @@
     <div class="card-body text-primary">
         <div class="card-text pr-3">
             <a *ngFor="let mealType of mealTypes; let i=index;">
-                <rg-meal-types-item-row [mealType]="mealType" [index]="i">
+                <rg-meal-types-item-row [mealType]="mealType" [index]="i" (saved)="onSaved($event)">
                 </rg-meal-types-item-row>
             </a>
         </div>

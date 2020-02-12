@@ -70,6 +70,26 @@ const rootReducer = createReducer(
         ({ ...state, ingredients: [...state.ingredients, ingredient] })),
 
     on(rootActions.mealTypesLoadSuccess, (state: RootState, { mealTypes }) => ({ ...state, mealTypes })),
+    on(rootActions.mealTypeUpdateSuccess, (state: RootState, { mealType }) => {
+        const updatedMealTypes = state.mealTypes.map(
+            i => mealType.id === i.id ? mealType : i);
+        const result: RootState = {
+            ...state,
+            mealTypes: updatedMealTypes
+        };
+        return result;
+    }),
+    on(rootActions.mealTypeDeleteSuccess, (state: RootState, { id }) => {
+        const leftMealTypes = state.mealTypes.filter(
+            i => id !== i.id);
+        const result: RootState = {
+            ...state,
+            mealTypes: leftMealTypes
+        };
+        return result;
+    }),
+    on(rootActions.mealTypeCreateSuccess, (state: RootState, { mealType }) =>
+        ({ ...state, mealTypes: [...state.mealTypes, mealType] })),
     on(rootActions.daysLoadSuccess, (state: RootState, { days }) => ({ ...state, days })),
 );
 
