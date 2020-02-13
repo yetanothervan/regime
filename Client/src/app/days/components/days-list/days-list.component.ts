@@ -8,8 +8,6 @@ import { RationDay } from 'src/app/dtos/ration-day';
 })
 export class DaysListComponent implements OnInit {
 
-  private _selectedDayId: string;
-
   @Input() days: RationDay[];
   @Input() selectedDayId: string;
   @Output() saved: EventEmitter<RationDay> = new EventEmitter();
