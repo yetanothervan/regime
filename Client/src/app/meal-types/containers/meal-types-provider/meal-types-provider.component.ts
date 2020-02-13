@@ -10,7 +10,9 @@ import { SharedFuncService } from 'src/app/shared/services/shared-func.service';
   selector: 'rg-meal-types-provider',
   template: `<rg-meal-types-list
     [mealTypes]="mealTypes$ | async"
-    (saved)="onSaved($event)"></rg-meal-types-list>`,
+    (saved)="onSaved($event)"
+    (added)="onAdded()"
+    (deleted)="onDeleted($event)"></rg-meal-types-list>`,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -37,6 +39,11 @@ export class MealTypesProviderComponent implements OnInit {
     if (!this.shared.ifEmpty(id)) {
       this.store.dispatch(me.MealTypesActions.mealTypeDelete({id}));
     }
+  }
+
+  onAdded() {
+    const mealType = new MealType();
+    this.store.dispatch(me.MealTypesActions.mealTypeCreate({mealType}))
   }
 
 }

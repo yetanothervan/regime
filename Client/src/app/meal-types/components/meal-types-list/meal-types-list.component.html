@@ -1,13 +1,32 @@
 <div class="card border-primary m-3">
-    <div class="card-header">        
+    <div class="card-header">
         Meal Types
-    </div>    
+    </div>
     <div class="card-body text-primary">
-        <div class="card-text pr-3">
-            <a *ngFor="let mealType of mealTypes; let i=index;">
-                <rg-meal-types-item-row [mealType]="mealType" [index]="i" (saved)="onSaved($event)">
+        <div class="card-text pr-3">            
+            <div *ngFor="let mealType of mealTypes; let i=index;" class="d-flex align-items-end">
+                
+                <!-- Item row -->
+                <rg-meal-types-item-row class="flex-grow-1" 
+                    [mealType]="mealType" [index]="i" (saved)="onSaved($event)">
                 </rg-meal-types-item-row>
-            </a>
+
+                <!-- Delete meal type button -->
+                <div class="justify-content-center align-items-center">
+                    <button type="button" class="btn btn-primary btn-sm mx-3 mb-3" (click)="removeMealType(i)">
+                        <i class="fas fa-folder-minus"></i>
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Add meal type button -->
+            <div class="form-group">
+                <button type="button" class="btn btn-primary ml-3 btn-sm" 
+                    (click)="addNewMealType()">
+                    <i class="fas fa-folder-plus mr-1"></i>Добавить MealType
+                </button>
+            </div>
         </div>
     </div>
 </div>

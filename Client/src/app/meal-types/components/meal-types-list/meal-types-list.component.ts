@@ -9,7 +9,9 @@ import { MealType } from 'src/app/dtos/meal-type';
 export class MealTypesListComponent implements OnInit {
 
   @Input()  mealTypes: MealType[];
-  @Output() saved: EventEmitter<MealType> = new EventEmitter<MealType>();
+  @Output() saved: EventEmitter<MealType> = new EventEmitter();
+  @Output() added: EventEmitter<boolean> = new EventEmitter();
+  @Output() deleted: EventEmitter<string> = new EventEmitter()
 
   constructor() { }
 
@@ -18,6 +20,14 @@ export class MealTypesListComponent implements OnInit {
 
   onSaved(mealType: MealType) {
     this.saved.next(mealType);
+  }
+
+  removeMealType(index: number) {
+    this.deleted.next(this.mealTypes[index].id);
+  }
+
+  addNewMealType() {
+    this.added.next(true);
   }
 
 }

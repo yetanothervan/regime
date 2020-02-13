@@ -3,31 +3,31 @@
         <!-- Caption -->
         <div class="form-group col-sm-4">
             <label [attr.for]="'captionCtrl'+index">Наименование</label>
-            <input #caption formControlName="caption" type="text" class="form-control" [attr.id]="'captionCtrl'+index"/>
+            <input #caption formControlName="caption" type="text" class="form-control form-control-sm" [attr.id]="'captionCtrl'+index"/>
         </div>
 
         <!-- KKal -->
         <div class="form-group col-sm-2">
             <label [attr.for]="'kkalCtrl'+index">ККал</label>
-            <input formControlName="kkal" type="number" class="form-control" [attr.id]="'kkalCtrl'+index"/>
+            <input formControlName="kkal" type="number" class="form-control form-control-sm" [attr.id]="'kkalCtrl'+index"/>
         </div>
 
         <!-- Protein -->
         <div class="form-group col-sm-2">
             <label [attr.for]="'proteinCtrl'+index">Белков, %</label>
-            <input formControlName="protein" type="number" class="form-control" [attr.id]="'proteinCtrl'+index"/>
+            <input formControlName="protein" type="number" class="form-control form-control-sm" [attr.id]="'proteinCtrl'+index"/>
         </div>
 
         <!-- Fat -->
         <div class="form-group col-sm-2">
             <label [attr.for]="'fatCtrl'+index">Жиров, %</label>
-            <input formControlName="fat" type="number" class="form-control" [attr.id]="'fatCtrl'+index">
+            <input formControlName="fat" type="number" class="form-control form-control-sm" [attr.id]="'fatCtrl'+index">
         </div>
 
         <!-- Carbon -->
         <div class="form-group col-sm-2">
             <label [attr.for]="'carbonCtrl'+index">Угл., %</label>
-            <input formControlName="carbon" type="number" class="form-control" [attr.id]="'carbonCtrl'+index"/>
+            <input formControlName="carbon" type="number" class="form-control form-control-sm" [attr.id]="'carbonCtrl'+index"/>
         </div>
     </div>
     <div class="form-row justify-content-end">
