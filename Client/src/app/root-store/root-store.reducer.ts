@@ -90,7 +90,28 @@ const rootReducer = createReducer(
     }),
     on(rootActions.mealTypeCreateSuccess, (state: RootState, { mealType }) =>
         ({ ...state, mealTypes: [...state.mealTypes, mealType] })),
+
     on(rootActions.daysLoadSuccess, (state: RootState, { days }) => ({ ...state, days })),
+    on(rootActions.dayUpdateSuccess, (state: RootState, { day }) => {
+        const updatedDays = state.days.map(
+            i => day.id === i.id ? day : i);
+        const result: RootState = {
+            ...state,
+            days: updatedDays
+        };
+        return result;
+    }),
+    on(rootActions.dayDeleteSuccess, (state: RootState, { id }) => {
+        const leftDays = state.days.filter(
+            i => id !== i.id);
+        const result: RootState = {
+            ...state,
+            days: leftDays
+        };
+        return result;
+    }),
+    on(rootActions.dayCreateSuccess, (state: RootState, { day }) =>
+        ({ ...state, days: [...state.days, day] })),
 );
 
 export function reducer(state: RootState | undefined, action: Action) {

@@ -29,6 +29,9 @@ export const mealTypeDeleteSuccess = createAction('[Root] MealType DeleteSuccess
 export const daysLoad = createAction('[Root] Days Load');
 export const daysLoadSuccess = createAction('[Root] Days LoadSuccess', props<{ days: RationDay[] }>());
 export const daysLoadFailed = createAction('[Root] Days LoadFailed');
+export const dayUpdateSuccess = createAction('[Root] RationDay UpdateSuccess', props<{ day: RationDay }>());
+export const dayCreateSuccess = createAction('[Root] RationDay CreateSuccess', props<{ day: RationDay }>());
+export const dayDeleteSuccess = createAction('[Root] RationDay DeleteSuccess', props<{ id: string }>());
 
 export const templatePfixLoad = createAction('[TemplatePfix] TemplatePfix Load');
 export const templatePfixLoadSuccess = createAction('[TemplatePfix] TemplatePfix LoadSuccess', props<{ templateParam: TemplateDto[] }>());

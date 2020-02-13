@@ -20,6 +20,8 @@ export const environment = {
   deleteMealType: 'delete-mealtype',
 
   get daysUrl() { return this.apiBaseUrl + 'rationdays/'; },
+  updateRationDay: 'update-day',
+  deleteRationDay: 'delete-day',
 
   get templatePfixUrl() { return this.apiBaseUrl + 'template/'; }
 };
