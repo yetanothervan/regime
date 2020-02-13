@@ -10,17 +10,22 @@ import { SharedFuncService } from 'src/app/shared/services/shared-func.service';
   selector: 'rg-days-provider',
   template: `<rg-days-list
     [days]="days$ | async"
+    [selectedDayId]="currentDayId$ | async"
     (saved)="onSaved($event)"
     (added)="onAdded()"
-    (deleted)="onDeleted($event)"></rg-days-list>`,
+    (deleted)="onDeleted($event)"
+    (selected)="onSelected($event)"></rg-days-list>`,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DaysProviderComponent implements OnInit {
 
   days$: Observable<RationDay[]>;
+  currentDayId$: Observable<string>;
+
   constructor(private store: Store<root.RootState>, private shared: SharedFuncService) {
     this.days$ = this.store.select(root.getEntitiesDays);
+    this.currentDayId$ = this.store.select(me.getCurrentDayId);
   }
 
   ngOnInit(): void {
@@ -43,5 +48,9 @@ export class DaysProviderComponent implements OnInit {
   onAdded() {
     const day = new RationDay();
     this.store.dispatch(me.DaysActions.dayCreate({ day }))
+  }
+
+  onSelected(id: string) {
+    this.store.dispatch(me.DaysActions.daySelected({id}));
   }
 }

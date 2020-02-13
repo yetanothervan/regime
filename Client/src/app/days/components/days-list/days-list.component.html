@@ -1,7 +1,8 @@
-<a *ngFor="let days of days; let i=index;" class="list-group-item list-group-item-action p-1 px-3">
+<a *ngFor="let day of days; let i=index;" class="list-group-item list-group-item-action p-1 px-3"
+    [ngClass]="{ active: day.id == selectedDayId }" (click)="selectDay(day.id)">
 
     <div class="d-flex w-100 justify-content-between">
-        <strong class="mb-1">{{days.caption}}</strong>
+        <strong class="mb-1">{{day.caption}}</strong>
         <small>..details..</small>
 
         <!-- Delete day button -->

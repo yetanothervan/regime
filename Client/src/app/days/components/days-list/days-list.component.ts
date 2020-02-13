@@ -8,10 +8,14 @@ import { RationDay } from 'src/app/dtos/ration-day';
 })
 export class DaysListComponent implements OnInit {
 
+  private _selectedDayId: string;
+
   @Input() days: RationDay[];
+  @Input() selectedDayId: string;
   @Output() saved: EventEmitter<RationDay> = new EventEmitter();
   @Output() added: EventEmitter<boolean> = new EventEmitter();
-  @Output() deleted: EventEmitter<string> = new EventEmitter()
+  @Output() deleted: EventEmitter<string> = new EventEmitter();
+  @Output() selected: EventEmitter<string> = new EventEmitter();
 
   constructor() { }
 
@@ -26,6 +30,9 @@ export class DaysListComponent implements OnInit {
   }
   addNewRationDay() {
     this.added.next(true);
+  }
+  selectDay(id: string) {
+    this.selected.next(id);
   }
 
 }
