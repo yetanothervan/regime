@@ -1,6 +1,22 @@
-<a *ngFor="let days of days" class="list-group-item list-group-item-action p-1 px-3">
+<a *ngFor="let days of days; let i=index;" class="list-group-item list-group-item-action p-1 px-3">
+
     <div class="d-flex w-100 justify-content-between">
         <strong class="mb-1">{{days.caption}}</strong>
         <small>..details..</small>
+
+        <!-- Delete day button -->
+        <div class="justify-content-center align-items-center">
+            <button type="button" class="btn btn-primary btn-sm" (click)="removeRationDay(i)">
+                <i class="fas fa-folder-minus"></i>
+            </button>
+        </div>
     </div>
+
 </a>
+
+<!-- Add RationDay button -->
+<div>
+    <button type="button" class="btn btn-primary ml-3 btn-sm" (click)="addNewRationDay()">
+        <i class="fas fa-folder-plus mr-1"></i>Добавить RationDay
+    </button>
+</div>
