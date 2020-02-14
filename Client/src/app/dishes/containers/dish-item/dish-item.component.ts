@@ -48,12 +48,12 @@ export class DishItemComponent implements OnInit, OnDestroy {
       select(me.getDishDeleteStatus)
     );
 
-    combineLatest(this.deleteStatus$, this.dish$)
+    combineLatest([this.deleteStatus$, this.dish$])
       .pipe(takeWhile(() => this.componentIsActive))
       .subscribe(([status, dish]) => {
         if (dish && !shared.ifEmpty(dish.id)
         && dish.id === status) {
-          this.router.navigate(['../all'], { relativeTo: this.route });
+          this.router.navigate(['../' + me.allPath], { relativeTo: this.route });
         }
       });
   }
@@ -68,10 +68,10 @@ export class DishItemComponent implements OnInit, OnDestroy {
   onSaved(dish: Dish) {
     if (!this.shared.ifEmpty(dish.id)) { // update
       this.store.dispatch(me.DishActions.dishUpdate({ dish }));
-      this.router.navigate(['../all'], { relativeTo: this.route });
+      this.router.navigate(['../' + me.allPath], { relativeTo: this.route });
     } else { // create
       this.store.dispatch(me.DishActions.dishCreate({ dish }));
-      this.router.navigate(['../all'], { relativeTo: this.route });
+      this.router.navigate(['../' + me.allPath], { relativeTo: this.route });
     }
   }
 
