@@ -84,6 +84,7 @@ export class RationDayFormComponent implements OnInit {
     this.form.patchValue({
       caption: day.caption
     });
+    if (!this.mealTypes) return;
     const array = this.mealTypeArray;
     array.controls.splice(0);
     day.meals.forEach(i => {
