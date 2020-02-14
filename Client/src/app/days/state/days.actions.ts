@@ -8,3 +8,4 @@ export const dayDeleteFailed = createAction('[RationDay] DeleteFailed', props<{ 
 export const daySelected = createAction('[Days] Selected', props<{ id: string }>());
 export const daysSetCurrentEditing = createAction('[Days] SetCurrentEditing', props<{ day: RationDay }>());
 export const daysEmptyAction = createAction('[RationDay] Empty');
+export const mealSelected = createAction('[Days] Meal Selected', props<{ id: string }>());

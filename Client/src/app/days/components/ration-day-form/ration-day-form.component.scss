@@ -1,0 +1,5 @@
+@import "regime.scss";
+.meal-item.active {    
+    // background-color: map-get($theme-colors, "active");
+    background-color: var(--primary);
+}

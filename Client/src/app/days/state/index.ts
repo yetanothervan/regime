@@ -19,6 +19,11 @@ export const getCurrentDayId = createSelector(
     state => state.currentDayId
 );
 
+export const getCurrentMealId = createSelector(
+    getDaysFeatureState,
+    state => state.currentMealId
+);
+
 export const getRationDayCurrentMutable = createSelector(
     getDaysFeatureState,
     state => state.dayCurrentMutable

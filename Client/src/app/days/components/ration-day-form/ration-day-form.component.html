@@ -21,9 +21,12 @@
                         class="form-text text-danger col-sm-10">Введите наименование блюда</small>
                 </div>
 
-                <div formArrayName="mealTypeArray" *ngFor="let group of mealTypeArray.controls; let i = index">
+                <div formArrayName="mealTypeArray" *ngFor="let group of mealTypeArray.controls; let i = index"
+                        class="meal-item"
+                        [ngClass]="{ active: group.value.id == selectedMealId }"
+                        (click)="selectMeal(group.value.id)">
                     <div [formGroupName]="i" class="d-flex">
-
+                       
                         <!-- day item row -->
                         <rg-ration-day-item-row class="flex-grow-1" [mealTypes]="mealTypes"
                             [currentMealType]="group.value.mealType"

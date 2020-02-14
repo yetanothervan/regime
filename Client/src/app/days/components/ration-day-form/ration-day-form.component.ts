@@ -5,7 +5,6 @@ import { copyRationDay, isRationDayEqual, newMeal } from 'src/app/dtos';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { Subject, Observable, interval } from 'rxjs';
 import { map, debounce } from 'rxjs/operators';
-import { Meal } from 'src/app/dtos/meal';
 
 @Component({
   selector: 'rg-ration-day-form',
@@ -43,6 +42,9 @@ export class RationDayFormComponent implements OnInit {
 
   @Output() saved: EventEmitter<RationDay> = new EventEmitter();
   @Output() deleted: EventEmitter<string> = new EventEmitter();
+
+  @Input() selectedMealId: string;
+  @Output() mealSelected: EventEmitter<string> = new EventEmitter();
 
   form: FormGroup;
   errorMessages = ''; // TODO
@@ -89,7 +91,7 @@ export class RationDayFormComponent implements OnInit {
     array.controls.splice(0);
     day.meals.forEach(i => {
       const mealType = this.mealTypes.find(m => m.id === i.mealTypeId);
-      array.push(this.getMealTypeGroup(mealType));
+      array.push(this.getMealGroup(mealType, i.id));
     });
   }
 
@@ -99,9 +101,10 @@ export class RationDayFormComponent implements OnInit {
     this.daySub.next(this.dayMutable);
   }
 
-  getMealTypeGroup(mealType: MealType): FormGroup {
+  getMealGroup(mealType: MealType, id: string): FormGroup {
     return this.fb.group({
-      mealType: [mealType]
+      id,
+      mealType
     });
   }
 
@@ -127,6 +130,10 @@ export class RationDayFormComponent implements OnInit {
 
   deleteClicked() {
     this.deleted.next(this.dayMutable.id);
+  }
+
+  selectMeal(id: string) {
+    this.mealSelected.next(id);
   }
 
   recalculateFormChanges(day: RationDay) {

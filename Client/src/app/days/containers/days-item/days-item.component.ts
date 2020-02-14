@@ -16,13 +16,16 @@ import { SharedFuncService } from 'src/app/shared/services/shared-func.service';
     [mealTypes]="mealTypes$ | async"
     [deleteStatus]="deleteStatus$ | async"
     (saved)="onSaved($event)"
-    (deleted)="onDeleted($event)">
+    (deleted)="onDeleted($event)"
+    [selectedMealId]="currentMealId$ | async"
+    (mealSelected)="onMealSelected($event)">
   </rg-ration-day-form>`,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DaysItemComponent implements OnInit, OnDestroy {
   day$: Observable<RationDay>;
+  currentMealId$: Observable<string>;
   mealTypes$: Observable<MealType[]>;
   deleteStatus$: Observable<string>;
   componentIsActive = true;
@@ -58,6 +61,8 @@ export class DaysItemComponent implements OnInit, OnDestroy {
           this.router.navigate(['../' + me.allPath], { relativeTo: this.route });
         }
       });
+
+    this.currentMealId$ = this.store.select(me.getCurrentMealId);
   }
 
   ngOnDestroy(): void {
@@ -79,6 +84,10 @@ export class DaysItemComponent implements OnInit, OnDestroy {
     if (!this.shared.ifEmpty(id)) {
       this.store.dispatch(me.DaysActions.dayDelete({ id }));
     }
+  }
+
+  onMealSelected(id: string) {
+    this.store.dispatch(me.DaysActions.mealSelected({id}));
   }
 
 }

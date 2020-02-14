@@ -32,5 +32,4 @@ export class DaysListComponent implements OnInit {
   selectDay(id: string) {
     this.selected.next(id);
   }
-
 }

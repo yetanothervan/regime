@@ -7,6 +7,7 @@ import { isRationDayEqual, copyRationDay } from 'src/app/dtos';
 export interface DaysState {
     deleteStatus: string;
     currentDayId: string;
+    currentMealId: string;
     // edited
     dayCurrentMutable: RationDay;
 }
@@ -14,6 +15,7 @@ const initDay = { id: '', meals: [], caption: '', totalKkal: 0 } as RationDay;
 const initialState: DaysState = {
     deleteStatus: '',
     currentDayId: '',
+    currentMealId: '',
     dayCurrentMutable: initDay
 };
 // reducer
@@ -31,7 +33,8 @@ const daysReducer = createReducer(
         } else {
             return { ...state, dayCurrentMutable: copyRationDay(day), deleteStatus: '' };
         }
-    })
+    }),
+    on(me.DaysActions.mealSelected, (state: DaysState, { id }) => ({ ...state, currentMealId: id })),
 );
 export function reducer(state: DaysState | undefined, action: Action) {
     return daysReducer(state, action);
