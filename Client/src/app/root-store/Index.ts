@@ -6,6 +6,7 @@ import * as RootActions from './root-store.actions';
 import { Ingredient } from '../dtos/ingredient';
 import { Dish } from '../dtos/dish';
 import { TemplateDto } from '../dtos/tmp-dto';
+import { RationDay } from '../dtos/ration-day';
 export { RootActions };
 
 export const rootFeatureKey = 'root';
@@ -73,6 +74,23 @@ export const getEntitiesDays = createSelector(
   getRootFeatureState,
   state => state.days
 );
+
+export const getRationDayById = (id: string) => createSelector(
+  getEntitiesDays,
+  days => {
+  if (id && days && days.length > 0) {
+    return days.find(item => {
+      return item.id === id;
+    });
+  } else {
+    return {
+      id: '',
+      caption: '',
+      meals: [],
+      totalKkal: 0
+    } as RationDay;
+  }
+});
 
 export const getEntitiesTemplatePfix = createSelector(
     getRootFeatureState,

@@ -6,3 +6,5 @@ export const dayCreate = createAction('[Days] Create', props<{ day: RationDay }>
 export const dayDelete = createAction('[Days] Delete', props<{ id: string }>());
 export const dayDeleteFailed = createAction('[RationDay] DeleteFailed', props<{ status: string }>());
 export const daySelected = createAction('[Days] Selected', props<{ id: string }>());
+export const daysSetCurrentEditing = createAction('[Days] SetCurrentEditing', props<{ day: RationDay }>());
+export const daysEmptyAction = createAction('[RationDay] Empty');

@@ -18,3 +18,15 @@ export const getCurrentDayId = createSelector(
     getDaysFeatureState,
     state => state.currentDayId
 );
+
+export const getRationDayCurrentMutable = createSelector(
+    getDaysFeatureState,
+    state => state.dayCurrentMutable
+);
+export const getRationDayDeleteStatus = createSelector(
+    getDaysFeatureState,
+    state => state.deleteStatus
+);
+// various consts
+export const allPath = 'all';
+export const editPath = 'edit';

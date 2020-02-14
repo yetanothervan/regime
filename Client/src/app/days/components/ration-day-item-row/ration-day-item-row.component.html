@@ -1,0 +1,13 @@
+<div class="form-row">
+    <!-- MealType -->
+    <div class="list-group col-sm-5">
+        <mat-form-field>
+            <mat-select [compareWith]="compareFn" [value]="currentMealType"
+                (selectionChange)="selectionChanged($event.value)">
+                <mat-option *ngFor="let mealType of mealTypes" [value]="mealType">
+                    {{mealType?.caption}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</div>
