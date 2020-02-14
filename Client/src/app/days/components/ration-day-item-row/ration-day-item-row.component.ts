@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { MealType } from 'src/app/dtos/meal-type';
 
 @Component({
   selector: 'rg-ration-day-item-row',
   templateUrl: './ration-day-item-row.component.html',
-  styleUrls: ['./ration-day-item-row.component.scss']
+  styleUrls: ['./ration-day-item-row.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class RationDayItemRowComponent implements OnInit {
   @Input() mealTypes: MealType[];

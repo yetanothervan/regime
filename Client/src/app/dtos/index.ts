@@ -1,8 +1,10 @@
+import { v4 as uuid } from 'uuid';
 import { Dish } from './dish';
 import * as _ from '../../../node_modules/lodash';
 import { Ingredient } from './ingredient';
 import { MealType } from './meal-type';
 import { RationDay } from './ration-day';
+import { Meal } from './meal';
 
 export const isDishEqual = ((a: Dish, b: Dish) => {
     return _.isEqual(a, b);
@@ -45,6 +47,9 @@ export const copyMealType = ((a: MealType) => {
 export const isMealTypeEqual = ((a: MealType, b: MealType) => {
     return _.isEqual(a, b);
 });
+export const newMeal = (): Meal => {
+    return { mealTypeId: '', id: uuid(), mealItems: [] } as Meal;
+}
 
 export const copyRationDay = ((a: RationDay) => {
     const newRationDay = _.cloneDeep(a);

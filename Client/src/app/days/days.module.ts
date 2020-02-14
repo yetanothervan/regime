@@ -14,13 +14,26 @@ import { reducer } from './state/days.reducer';
 import { RationDayItemRowComponent } from './components/ration-day-item-row/ration-day-item-row.component';
 import { RationDayFormComponent } from './components/ration-day-form/ration-day-form.component';
 import { DaysItemComponent } from './containers/days-item/days-item.component';
+import { MatSelectModule } from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
+import { DaysComposeComponent } from './components/days-compose/days-compose.component';
 
 
 @NgModule({
-  declarations: [DaysShellComponent, DaysProviderComponent, DaysListComponent, RationDayItemRowComponent, RationDayFormComponent, DaysItemComponent],
+  declarations: [DaysShellComponent,
+    DaysProviderComponent,
+    DaysListComponent,
+    RationDayItemRowComponent,
+    RationDayFormComponent,
+    DaysItemComponent,
+    DaysComposeComponent],
   imports: [
     CommonModule,
     DaysRoutingModule,
+    SharedModule,
+    ReactiveFormsModule,
+    MatSelectModule,
     StoreModule.forFeature(me.daysFeatureKey, reducer),
     EffectsModule.forFeature([DaysEffects]),
     DaysServiceModule

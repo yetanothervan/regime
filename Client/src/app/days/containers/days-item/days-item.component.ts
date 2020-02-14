@@ -11,13 +11,13 @@ import { SharedFuncService } from 'src/app/shared/services/shared-func.service';
 
 @Component({
   selector: 'rg-days-item',
-  template: `<rg-day-form
+  template: `<rg-ration-day-form
     [dayMutable]="day$ | async"
     [mealTypes]="mealTypes$ | async"
     [deleteStatus]="deleteStatus$ | async"
     (saved)="onSaved($event)"
     (deleted)="onDeleted($event)">
-  </rg-day-form>`,
+  </rg-ration-day-form>`,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

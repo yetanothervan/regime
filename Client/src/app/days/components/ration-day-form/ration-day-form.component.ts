@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { RationDay } from 'src/app/dtos/ration-day';
 import { MealType } from 'src/app/dtos/meal-type';
-import { copyRationDay, isRationDayEqual } from 'src/app/dtos';
+import { copyRationDay, isRationDayEqual, newMeal } from 'src/app/dtos';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { Subject, Observable, interval } from 'rxjs';
 import { map, debounce } from 'rxjs/operators';
@@ -93,7 +93,7 @@ export class RationDayFormComponent implements OnInit {
   }
 
   addNewMealType(): void {
-    const meal = { mealTypeId: '', id: '', mealItems: [] } as Meal;
+    const meal = newMeal();
     this.dayMutable.meals.push(meal);
     this.daySub.next(this.dayMutable);
   }

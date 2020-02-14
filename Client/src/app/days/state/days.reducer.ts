@@ -23,8 +23,6 @@ const daysReducer = createReducer(
         ({ ...state, deleteStatus: status })),
     on(root.RootActions.dayDeleteSuccess, (state: DaysState, { id }) =>
         ({ ...state, deleteStatus: id })),
-    on(root.RootActions.dayCreateSuccess, (state: DaysState, { day }) =>
-        ({ ...state, currentDayId: day.id })),
     on(me.DaysActions.daySelected, (state: DaysState, { id }) =>
         ({ ...state, currentDayId: id })),
     on(me.DaysActions.daysSetCurrentEditing, (state: DaysState, { day }) => {
