@@ -9,7 +9,7 @@ namespace Infrastructure.Dtos
     public class Meal
     {
         public Guid Id { get; set; }
-        public MealType MealType { get; set; }
+        public Guid MealTypeId { get; set; }
 
         public List<MealItem> MealItems { get; set; }
     }

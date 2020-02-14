@@ -11,7 +11,7 @@ namespace Domain.Ration.RationDay
         {
         }
 
-        public Dish.Dish Dish { get; set; }
+        public Guid DishId { get; set; }
         public decimal Weight { get; set; }
     }
 }

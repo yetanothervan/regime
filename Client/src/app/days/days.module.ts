@@ -11,10 +11,12 @@ import { DaysEffects } from './state/days.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { DaysServiceModule } from './service/days-service.module';
 import { reducer } from './state/days.reducer';
+import { RationDayItemRowComponent } from './components/ration-day-item-row/ration-day-item-row.component';
+import { RationDayFormComponent } from './components/ration-day-form/ration-day-form.component';
 
 
 @NgModule({
-  declarations: [DaysShellComponent, DaysProviderComponent, DaysListComponent],
+  declarations: [DaysShellComponent, DaysProviderComponent, DaysListComponent, RationDayItemRowComponent, RationDayFormComponent],
   imports: [
     CommonModule,
     DaysRoutingModule,

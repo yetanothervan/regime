@@ -7,7 +7,7 @@ namespace Infrastructure.Dtos
     public class MealItem 
     {
         public Guid Id { get; set; }
-        public Dish Dish { get; set; }
+        public Guid DishId { get; set; }
         public decimal Weight { get; set; }
     }
 }

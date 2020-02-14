@@ -11,7 +11,7 @@ namespace Domain.Ration.RationDay
         {
         }
 
-        public MealType.MealType MealType { get; set; }
+        public Guid MealTypeId { get; set; }
 
         public List<MealItem> MealItems { get; set; }
     }
