@@ -1,5 +1,4 @@
-<h1 class="display-4 my-3">The Regime begins</h1>
-<nav class="navbar navbar-light navbar-expand-md mb-3" style="background-color: #e3f2fd;">
+<nav class="navbar navbar-light navbar-expand-md fixed-top mb-3" style="background-color: #e3f2fd;">
     <a class="navbar-brand">Regime</a>
     <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed" 
     [attr.aria-expanded]="!isCollapsed" data-toggle="collapse" data-target="#navbarText"
@@ -29,6 +28,5 @@
         </span>
     </div>
 </nav>
-
 
 <router-outlet></router-outlet>

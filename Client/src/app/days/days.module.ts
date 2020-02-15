@@ -21,6 +21,7 @@ import { DaysComposeComponent } from './components/days-compose/days-compose.com
 import { MealItemRowComponent } from './components/meal-item-row/meal-item-row.component';
 import { MealItemComponent } from './containers/meal-item/meal-item.component';
 import { MealFormComponent } from './components/meal-form/meal-form.component';
+import { DaySaverComponent } from './containers/day-saver/day-saver.component';
 
 @NgModule({
   declarations: [DaysShellComponent,
@@ -32,7 +33,8 @@ import { MealFormComponent } from './components/meal-form/meal-form.component';
     DaysComposeComponent,
     MealItemRowComponent,
     MealItemComponent,
-    MealFormComponent
+    MealFormComponent,
+    DaySaverComponent
   ],
   imports: [
     CommonModule,

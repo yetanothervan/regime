@@ -9,10 +9,10 @@ import { MealTypesListComponent } from './components/meal-types-list/meal-types-
 import { MealTypesItemRowComponent } from './components/meal-types-item-row/meal-types-item-row.component';
 import { StoreModule } from '@ngrx/store';
 import * as me from './state';
-import { reducer } from '../main/state/main.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { MealTypesEffects } from './state/meal-types.effects';
 import { MealTypesServiceModule } from './service/meal-types-service.module';
+import { reducer } from './state/meal-types.reducer';
 
 
 @NgModule({

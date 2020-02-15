@@ -5,7 +5,7 @@
                 <form novalidate [formGroup]="form">
                     
                     <div formArrayName="dishArray" *ngFor="let group of dishArray.controls; let i = index">
-                        <div [formGroupName]="i" class="d-flex">
+                        <div [formGroupName]="i" class="d-flex align-items-start">
 
                             <!-- [entity] item row -->
                             <rg-meal-item-row class="flex-grow-1" [dishes]="dishes" [ingredients]="ingredients" 
@@ -14,7 +14,7 @@
                             </rg-meal-item-row>
 
                             <!-- Delete dish button -->
-                            <button type="button" class="btn btn-primary btn-sm mx-3 mb-3" (click)="removeDish(i)">
+                            <button type="button" class="btn btn-primary btn-sm ml-3" (click)="removeDish(i)">
                                 <i class="fas fa-folder-minus"></i>
                             </button>
                         </div>
