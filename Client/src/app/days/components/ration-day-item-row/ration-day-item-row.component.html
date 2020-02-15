@@ -1,6 +1,6 @@
-<div class="form-row">
+<div class="form-row d-flex align-items-center">
     <!-- MealType -->
-    <div class="list-group col-sm-5">
+    <div class="list-group col-sm-3">
         <mat-form-field>
             <mat-select [compareWith]="compareFn" [value]="currentMealType"
                 (selectionChange)="selectionChanged($event.value)">
@@ -9,5 +9,9 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
+    </div>
+
+    <div class="col-sm-9 pr-3">
+        <rg-meal-nutrients [mealExt]="mealExt"></rg-meal-nutrients>
     </div>
 </div>

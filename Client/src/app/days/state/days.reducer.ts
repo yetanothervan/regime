@@ -10,13 +10,15 @@ export interface DaysState {
     currentMealId: string;
     // edited
     dayCurrentMutable: RationDay;
+    mealMutated: string;
 }
 const initDay = { id: '', meals: [], caption: '', totalKkal: 0 } as RationDay;
 const initialState: DaysState = {
     deleteStatus: '',
     currentDayId: '',
     currentMealId: '',
-    dayCurrentMutable: initDay
+    dayCurrentMutable: initDay,
+    mealMutated: ''
 };
 // reducer
 const daysReducer = createReducer(
@@ -35,6 +37,7 @@ const daysReducer = createReducer(
         }
     }),
     on(me.DaysActions.daysMutableMutated, (state: DaysState) => ({ ...state, dayCurrentMutable: state.dayCurrentMutable })),
+    on(me.DaysActions.mealMutableMutated, (state: DaysState, { mealId }) => ({ ...state, mealMutated: mealId })),
     on(me.DaysActions.mealSelected, (state: DaysState, { id }) => ({ ...state, currentMealId: id })),
 );
 export function reducer(state: DaysState | undefined, action: Action) {

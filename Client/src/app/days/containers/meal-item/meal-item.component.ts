@@ -24,6 +24,7 @@ export class MealItemComponent implements OnInit {
   meal$: Observable<Meal>;
   dishes$: Observable<Dish[]>;
   ingredients$: Observable<Ingredient[]>;
+  mealId: string;
 
   constructor(private store: Store<me.DaysState>) {
 
@@ -32,6 +33,7 @@ export class MealItemComponent implements OnInit {
       this.store.select(me.getCurrentMealId)
     ]).pipe(
       map(([day, mealId]) => {
+        this.mealId = mealId;
         if (day && day.meals) {
           return day.meals.find(m => m.id === mealId)
         } else return null;
@@ -54,7 +56,7 @@ export class MealItemComponent implements OnInit {
   }
 
   onChanged() {
-    this.store.dispatch(me.DaysActions.daysMutableMutated({level: me.outerLevel}));
+    this.store.dispatch(me.DaysActions.mealMutableMutated({mealId: this.mealId }));
   }
 
   ngOnInit() {

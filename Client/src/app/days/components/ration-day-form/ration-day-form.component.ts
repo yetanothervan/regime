@@ -5,6 +5,7 @@ import { copyRationDay, isRationDayEqual, newMeal } from 'src/app/dtos';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { Subject, Observable, interval } from 'rxjs';
 import { map, debounce } from 'rxjs/operators';
+import { MealExt } from 'src/app/models/meal-ext';
 
 @Component({
   selector: 'rg-ration-day-form',
@@ -48,6 +49,7 @@ export class RationDayFormComponent implements OnInit {
 
   form: FormGroup;
   errorMessages = ''; // TODO
+  mealExt: MealExt;
 
   daySub: Subject<RationDay>;
   day$: Observable<RationDay>;

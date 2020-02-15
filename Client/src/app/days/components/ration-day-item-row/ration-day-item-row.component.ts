@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { MealType } from 'src/app/dtos/meal-type';
+import { MealExt } from 'src/app/models/meal-ext';
 
 @Component({
   selector: 'rg-ration-day-item-row',
@@ -10,7 +11,9 @@ import { MealType } from 'src/app/dtos/meal-type';
 export class RationDayItemRowComponent implements OnInit {
   @Input() mealTypes: MealType[];
   @Input() currentMealType: MealType;
+  @Input() mealExt: MealExt;
   @Output() mealTypeChanged: EventEmitter<MealType> = new EventEmitter();
+
 
   compareFn: ((i1: MealType, i2: MealType) => boolean) | null = this.compareByValue;
   compareByValue(i1: MealType, i2: MealType) {
