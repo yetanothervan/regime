@@ -18,6 +18,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { DaysComposeComponent } from './components/days-compose/days-compose.component';
+import { MealItemRowComponent } from './components/meal-item-row/meal-item-row.component';
+import { MealItemComponent } from './containers/meal-item/meal-item.component';
+import { MealFormComponent } from './components/meal-form/meal-form.component';
 
 
 @NgModule({
@@ -27,7 +30,10 @@ import { DaysComposeComponent } from './components/days-compose/days-compose.com
     RationDayItemRowComponent,
     RationDayFormComponent,
     DaysItemComponent,
-    DaysComposeComponent],
+    DaysComposeComponent,
+    MealItemRowComponent,
+    MealItemComponent,
+    MealFormComponent],
   imports: [
     CommonModule,
     DaysRoutingModule,

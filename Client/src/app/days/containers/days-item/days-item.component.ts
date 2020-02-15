@@ -32,7 +32,6 @@ export class DaysItemComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute, private store: Store<me.DaysState>,
     private router: Router, private shared: SharedFuncService) {
 
-    const id = this.route.snapshot.paramMap.get('id');
     this.day$ = this.store.pipe(
       select(me.getRationDayCurrentMutable)
     );

@@ -34,6 +34,7 @@ const daysReducer = createReducer(
             return { ...state, dayCurrentMutable: copyRationDay(day), deleteStatus: '' };
         }
     }),
+    on(me.DaysActions.daysMutableMutated, (state: DaysState) => ({ ...state, dayCurrentMutable: state.dayCurrentMutable })),
     on(me.DaysActions.mealSelected, (state: DaysState, { id }) => ({ ...state, currentMealId: id })),
 );
 export function reducer(state: DaysState | undefined, action: Action) {
