@@ -1,0 +1,23 @@
+@import "global-vars";
+@import "regime.scss";
+
+.nutrient {
+    div.content {        
+        background-color: theme-color("card");
+        border: 1px solid theme-color("card-border");
+        border-radius: 3px;
+        small {
+            color: black;
+        }
+        label {
+            font-size: smaller;
+        }
+    }
+}
+
+/* <div class="nutrient-column col-sm-3">
+        <div class="d-flex justify-content-between px-2" style="background-color: antiquewhite;">
+            <small>Ккал:</small>
+            <label class=""> {{round(kkal)}}</label>
+        </div>
+    </div> */

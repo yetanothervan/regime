@@ -1,18 +1,30 @@
 <div class="form-row">
     <!-- KKal -->
-    <div class="col-sm-3">
-        <input class="form-control form-control-sm" type="text" disabled="true" [value]="'ККал: ' + round(kkal)" />
+    <div class="nutrient col-sm-3">
+        <div class="content d-flex px-2 justify-content-between">
+            <small>Кк:</small>
+            <label> {{round(kkal)}}</label>
+        </div>
     </div>
     <!-- Protein -->
-    <div class="col-sm-3">
-        <input class="form-control form-control-sm" type="text" disabled="true" [value]="'Б: ' + round(protein)"/>
+    <div class="nutrient col-sm-3">
+        <div class="content d-flex px-2 justify-content-between">
+            <small>Б:</small>
+            <label> {{round(protein)}}</label>
+        </div>
     </div>
     <!-- Fat -->
-    <div class="col-sm-3">
-        <input class="form-control form-control-sm" type="text" disabled="true" [value]="'Ж: ' + round(fat)"/>
+    <div class="nutrient col-sm-3">
+        <div class="content d-flex px-2 justify-content-between">
+            <small>Ж:</small>
+            <label> {{round(fat)}}</label>
+        </div>
     </div>
     <!-- Carbon -->
-    <div class="col-sm-3">
-        <input class="form-control form-control-sm" type="text" disabled="true" [value]="'У: ' + round(carbon)"/>
+    <div class="nutrient col-sm-3">
+        <div class="content d-flex px-2 justify-content-between">
+            <small>У:</small>
+            <label> {{round(carbon)}}</label>
+        </div>
     </div>
 </div>

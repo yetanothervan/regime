@@ -2,7 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
     selector: 'rg-dish-nutrients',
-    templateUrl: './dish-nutrients.component.html'
+    templateUrl: './dish-nutrients.component.html',
+    styleUrls: ['./dish-nutrients.component.scss'],
 })
 export class DishNutrientsComponent implements OnInit {
     @Input() kkal: number;
