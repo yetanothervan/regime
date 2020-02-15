@@ -1,40 +1,42 @@
 <div class="card border-primary m-3">
     <div class="card-header">
-        <div *ngIf="dayMutable?.id | ifEmpty; else editBlock">
-            <span>Добавление нового блюда</span>
-        </div>
-        <ng-template #editBlock>
-            <span>Редактирование {{dayMutable?.caption}}</span>
-        </ng-template>
+        <span>Редактирование {{dayMutable?.caption}}</span>
     </div>
     <div class="card-body text-primary">
         <div class="card-text pr-3">
             <form novalidate (ngSubmit)="saveRationDay()" [formGroup]="form">
 
-                 <!-- Caption -->
-                <div class="form-group">
-                    <label for="captionCtrl">Наименование</label>
-                    <input #caption formControlName="caption" type="text"
-                        class="form-control" id="captionCtrl" aria-describedby="captionHelp" />
-                    <!-- TODO -->
-                    <small [hidden]="false" id="captionHelp"
-                        class="form-text text-danger col-sm-10">Введите наименование блюда</small>
+                <div class="form-row">
+                    <!-- Caption -->
+                    <div class="form-group col-sm-6">
+                        <label for="captionCtrl">Наименование:</label>
+                        <input formControlName="caption" type="text" class="form-control" id="captionCtrl" />
+                        <!-- TODO -->
+                        <small [hidden]="true" id="captionHelp" class="form-text text-danger col-sm-10">Введите
+                            наименование дня</small>
+                    </div>
+
+                    <!-- Caption -->
+                    <div class="form-group col-sm-6">
+                        <label for="kkalCtrl">Лимит ККал:</label>
+                        <input formControlName="kkal" type="number" class="form-control" id="kkalCtrl"
+                            aria-describedby="kkalHelp" />                        
+                    </div>
                 </div>
 
                 <div formArrayName="mealTypeArray" *ngFor="let group of mealTypeArray.controls; let i = index"
-                        class="meal-item"
-                        [ngClass]="{ active: group.value.id == selectedMealId }"
-                        (click)="selectMeal(group.value.id)">
+                    class="meal-item" [ngClass]="{ active: group.value.id == selectedMealId }"
+                    (click)="selectMeal(group.value.id)">
                     <div [formGroupName]="i" class="d-flex">
-                       
+
                         <!-- day item row -->
-                        <rg-ration-day-item-row class="flex-grow-1" [mealTypes]="mealTypes"
-                            [currentMealType]="group.value.mealType"
-                            (mealTypeChanged)="mealTypeChanged(i, $event)">
+                        <rg-ration-day-item-row class="flex-grow-1 ml-2" [mealTypes]="mealTypes"
+                            [currentMealType]="group.value.mealType" (mealTypeChanged)="mealTypeChanged(i, $event)">
                         </rg-ration-day-item-row>
 
                         <!-- Delete mealType button -->
-                        <button type="button" class="btn btn-primary btn-sm align-self-start" (click)="removeMealType(i)">
+                        <button type="button" class="btn btn-primary btn-sm align-self-center mr-2"
+                            (click)="removeMealType(i)">
                             <i class="fas fa-folder-minus"></i>
                         </button>
                     </div>
@@ -43,15 +45,16 @@
                 <!-- Total Row -->
                 <div>
                     <!-- Add mealType button -->
-                    <button type="button" class="btn btn-primary ml-3 btn-sm"
-                    (click)="addNewMealType()" [disabled]="addNewButtonDisabled">
+                    <button type="button" class="btn btn-primary ml-3 btn-sm" (click)="addNewMealType()"
+                        [disabled]="addNewButtonDisabled">
                         <i class="fas fa-folder-plus mr-1"></i>Добавить ингредиент
                     </button>
                 </div>
 
                 <div class="form-row">
                     <div class="col-auto">
-                        <button type="submit" class="btn btn-primary" [disabled]="!form.valid || !form.dirty || addNewButtonDisabled">
+                        <button type="submit" class="btn btn-primary"
+                            [disabled]="!form.valid || !form.dirty || addNewButtonDisabled">
                             Save
                         </button>
                     </div>

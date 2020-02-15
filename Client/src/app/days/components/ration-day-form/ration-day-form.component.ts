@@ -61,6 +61,7 @@ export class RationDayFormComponent implements OnInit {
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
       caption: ['', Validators.required],
+      kkal: 0,
       mealTypeArray: this.fb.array([])
     });
 
@@ -75,6 +76,7 @@ export class RationDayFormComponent implements OnInit {
       debounce(() => interval(500))
     ).subscribe((value) => {
       this.dayMutable.caption = value.caption;
+      this.dayMutable.totalKkal = value.kkal;
       this.recalculateFormChanges(this.dayMutable);
     });
   }
@@ -84,7 +86,8 @@ export class RationDayFormComponent implements OnInit {
 
   patchForm(day: RationDay) {
     this.form.patchValue({
-      caption: day.caption
+      caption: day.caption,
+      kkal: day.totalKkal
     });
     if (!this.mealTypes) return;
     const array = this.mealTypeArray;
