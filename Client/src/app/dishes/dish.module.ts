@@ -19,7 +19,6 @@ import { DishItemComponent } from './containers/dish-item/dish-item.component';
 
 import { DishTableComponent } from './components/dish-table/dish-table.component';
 import { DishFormComponent } from './components/dish-form/dish-form.component';
-import { DishNutrientsComponent } from './components/dish-nutrients/dish-nutrients.component';
 import { DishItemRowComponent } from './components/dish-item-row/dish-item-row.component';
 import { DishServiceModule } from './service/dish.service-module';
 import { environment } from 'src/environments/environment';
@@ -32,7 +31,6 @@ import { DishInterceptor } from './service/fakeback.interceptor';
     DishTableComponent,
     DishItemComponent,
     DishFormComponent,
-    DishNutrientsComponent,
     DishItemRowComponent],
   imports: [
     SharedModule,

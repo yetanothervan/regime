@@ -70,11 +70,19 @@ export class DaysEffects {
             )
         ));
 
-    itemCreated$ = createEffect(() =>
+    selectCreatedItem$ = createEffect(() =>
         this.actions$.pipe(
             ofType(root.RootActions.dayCreateSuccess),
             mergeMap(
                 (action) => of(me.DaysActions.daySelected({ id: action.day.id }))
+            )
+        ));
+
+    unselectMealOnDaySelected$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(me.DaysActions.daySelected),
+            mergeMap(
+                () => of(me.DaysActions.mealSelected({ id: '' }))
             )
         ));
 }

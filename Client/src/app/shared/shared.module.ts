@@ -2,13 +2,15 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { IfEmptyPipe } from './pipes/if-empty.pipe';
-import { SharedFuncService } from './services/shared-func.service';
-
+import { DishNutrientsComponent } from './components/dish-nutrients/dish-nutrients.component';
 
 @NgModule({
     imports: [CommonModule, HttpClientModule],
-    declarations: [IfEmptyPipe],
-    exports: [CommonModule, HttpClientModule, IfEmptyPipe]
+    declarations: [
+      IfEmptyPipe,
+      DishNutrientsComponent
+    ],
+    exports: [CommonModule, HttpClientModule, IfEmptyPipe, DishNutrientsComponent]
 })
 export class SharedModule {
     static forRoot(): ModuleWithProviders<SharedModule> {

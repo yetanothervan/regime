@@ -20,35 +20,39 @@ export class DishExt extends Dish {
     public itemsExt: DishItemExt[];
 
     public get proteinPer(): number {
-        return this.round(this.proteinTotal() / this.getNutrientTotal());
+        return this.round(this.proteinTotal / this.getNutrientTotal());
     }
 
     public get carbonPer(): number {
-        return this.round(this.carbonTotal() / this.getNutrientTotal());
+        return this.round(this.carbonTotal / this.getNutrientTotal());
     }
 
     public get fatPer(): number {
-        return this.round(this.fatTotal() / this.getNutrientTotal());
+        return this.round(this.fatTotal / this.getNutrientTotal());
     }
 
-    public proteinTotal(): number {
+    public get proteinTotal(): number {
         return this.getNutrient(this.nameof<Ingredient>('protein100'));
     }
 
-    public carbonTotal(): number {
+    public get carbonTotal(): number {
         return this.getNutrient(this.nameof<Ingredient>('carbon100'));
     }
 
-    public fatTotal(): number {
+    public get fatTotal(): number {
         return this.getNutrient(this.nameof<Ingredient>('fat100'));
     }
 
+    public get kkalTotal(): number {
+        return this.getNutrient(this.nameof<Ingredient>('kkal100'));
+    }
+
     private getNutrientTotal(): number {
-        return this.proteinTotal() + this.fatTotal() + this.carbonTotal();
+        return this.proteinTotal + this.fatTotal + this.carbonTotal;
     }
 
     private getNutrient(nutrient: string): number {
-        return this.itemsExt.reduce((a, b) => a + b.ingredient[nutrient] * b.weight, 0);
+        return this.itemsExt.reduce((a, b) => a + (b.ingredient[nutrient] * b.weight) / 100, 0);
     }
 
     private nameof = <T>(name: Extract<keyof T, string>): string => name;

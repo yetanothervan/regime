@@ -35,3 +35,7 @@ export const getRationDayDeleteStatus = createSelector(
 // various consts
 export const allPath = 'all';
 export const editPath = 'edit';
+
+export const mealItemRowLevel = 'mealItemRowLevel';
+export const mealFormLevel = 'mealFormLevel';
+export const outerLevel = 'outerLevel';

@@ -6,6 +6,7 @@ import { Subject, Observable, interval } from 'rxjs';
 import { map, debounce } from 'rxjs/operators';
 import { MealItem } from 'src/app/dtos/meal-item';
 import { v4 as uuid } from 'uuid';
+import { Ingredient } from 'src/app/dtos/ingredient';
 
 @Component({
   selector: 'rg-meal-form',
@@ -34,6 +35,8 @@ export class MealFormComponent implements OnInit {
     if (this.meal) { this.mealSub.next(this.meal); }
   }
 
+  @Input() ingredients: Ingredient[];
+
   @Output() public changed: EventEmitter<boolean> = new EventEmitter();
 
   form: FormGroup;
@@ -56,18 +59,22 @@ export class MealFormComponent implements OnInit {
     this.meal$ = this.mealSub.asObservable().pipe(map(d => d));
     this.meal$.subscribe( meal => {
       this.patchForm(meal);
-      this.changed.emit(true);
-      this.recalculateFormChanges(meal);
+      this.notifyParentAndRecalculate();
     });
 
     this.form.valueChanges.pipe(
       debounce(() => interval(500))
     ).subscribe(() => {
-      this.recalculateFormChanges(this.meal);
+      this.notifyParentAndRecalculate();
     });
   }
 
   ngOnInit() {
+  }
+
+  notifyParentAndRecalculate() {
+    this.changed.emit(true);
+    this.recalculateFormChanges(this.meal);
   }
 
   patchForm(meal: Meal) {
@@ -83,7 +90,7 @@ export class MealFormComponent implements OnInit {
   }
 
   addNewDish(): void {
-    const mealItem = { dishId: '', id: uuid(), weight: 0 } as MealItem;
+    const mealItem = { dishId: '', id: uuid(), weight: 1 } as MealItem;
     this.meal.mealItems.push(mealItem);
     this.mealSub.next(this.meal);
   }
@@ -100,9 +107,14 @@ export class MealFormComponent implements OnInit {
     this.mealSub.next(this.meal);
   }
 
-  dishChanged(i: number, dish: Dish) {
+  onDishChanged(i: number, dish: Dish) {
     this.meal.mealItems[i].dishId = dish.id;
-    this.mealSub.next(this.meal);
+    this.notifyParentAndRecalculate();
+  }
+
+  onWeightChanged(i: number, weight: number) {
+    this.meal.mealItems[i].weight = weight;
+    this.notifyParentAndRecalculate();
   }
 
   recalculateFormChanges(meal: Meal) {

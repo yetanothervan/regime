@@ -15,13 +15,12 @@ import { RationDayItemRowComponent } from './components/ration-day-item-row/rati
 import { RationDayFormComponent } from './components/ration-day-form/ration-day-form.component';
 import { DaysItemComponent } from './containers/days-item/days-item.component';
 import { MatSelectModule } from '@angular/material/select';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { DaysComposeComponent } from './components/days-compose/days-compose.component';
 import { MealItemRowComponent } from './components/meal-item-row/meal-item-row.component';
 import { MealItemComponent } from './containers/meal-item/meal-item.component';
 import { MealFormComponent } from './components/meal-form/meal-form.component';
-
 
 @NgModule({
   declarations: [DaysShellComponent,
@@ -33,12 +32,14 @@ import { MealFormComponent } from './components/meal-form/meal-form.component';
     DaysComposeComponent,
     MealItemRowComponent,
     MealItemComponent,
-    MealFormComponent],
+    MealFormComponent
+  ],
   imports: [
     CommonModule,
     DaysRoutingModule,
     SharedModule,
     ReactiveFormsModule,
+    FormsModule,
     MatSelectModule,
     StoreModule.forFeature(me.daysFeatureKey, reducer),
     EffectsModule.forFeature([DaysEffects]),

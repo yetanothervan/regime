@@ -1,37 +1,33 @@
-<div class="card border-primary m-3">    
-    <div class="card-body text-primary">
-        <div class="card-text pr-3">
-            <form novalidate [formGroup]="form">
+<div *ngIf="meal">
+    <div class="card border-primary m-3">
+        <div class="card-body text-primary">
+            <div class="card-text pr-3">
+                <form novalidate [formGroup]="form">
+                    
+                    <div formArrayName="dishArray" *ngFor="let group of dishArray.controls; let i = index">
+                        <div [formGroupName]="i" class="d-flex">
 
-                 <!-- Caption -->
-                <div class="form-group">
-                    <label>Наименование</label>
-                    <input formControlName="caption" type="text" class="form-control" />                    
-                </div>
+                            <!-- [entity] item row -->
+                            <rg-meal-item-row class="flex-grow-1" [dishes]="dishes" [ingredients]="ingredients" 
+                                [currentDish]="group.value.dish" [weight]="group.value.weight"
+                                (dishChanged)="onDishChanged(i, $event)" (weightChanged)="onWeightChanged(i, $event)">
+                            </rg-meal-item-row>
 
-                <div formArrayName="dishArray" *ngFor="let group of dishArray.controls; let i = index">
-                    <div [formGroupName]="i" class="d-flex">
-
-                        <!-- [entity] item row -->
-                        <rg-meal-item-row class="flex-grow-1" [dishes]="dishes"
-                            [currentDish]="group.value.dish"
-                            (dishChanged)="dishChanged(i, $event)">
-                        </rg-meal-item-row>
-
-                        <!-- Delete dish button -->
-                        <button type="button" class="btn btn-primary btn-sm mx-3 mb-3" (click)="removeDish(i)">
-                            <i class="fas fa-folder-minus"></i>
-                        </button>
+                            <!-- Delete dish button -->
+                            <button type="button" class="btn btn-primary btn-sm mx-3 mb-3" (click)="removeDish(i)">
+                                <i class="fas fa-folder-minus"></i>
+                            </button>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Add dish button -->
-                <button type="button" class="btn btn-primary ml-3 btn-sm"
-                (click)="addNewDish()" [disabled]="addNewButtonDisabled">
-                    <i class="fas fa-folder-plus mr-1"></i>Добавить ингредиент
-                </button>            
-            
-            </form>
+                    <!-- Add dish button -->
+                    <button type="button" class="btn btn-primary ml-3 btn-sm" (click)="addNewDish()"
+                        [disabled]="addNewButtonDisabled">
+                        <i class="fas fa-folder-plus mr-1"></i>Добавить ингредиент
+                    </button>
+
+                </form>
+            </div>
         </div>
     </div>
 </div>

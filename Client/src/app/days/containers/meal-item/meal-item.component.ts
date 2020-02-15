@@ -6,12 +6,14 @@ import { Observable, combineLatest, pipe } from 'rxjs';
 import { Dish } from 'src/app/dtos/dish';
 import { Store, select } from '@ngrx/store';
 import { map } from 'rxjs/operators';
+import { Ingredient } from 'src/app/dtos/ingredient';
 
 @Component({
   selector: 'rg-meal-item',
   template: `<rg-meal-form
   [meal]="meal$ | async"
   [dishes]="dishes$ | async"
+  [ingredients]="ingredients$ | async"
   (changed)="onChanged()">
 </rg-meal-form>`,
   styles: [],
@@ -21,6 +23,7 @@ export class MealItemComponent implements OnInit {
 
   meal$: Observable<Meal>;
   dishes$: Observable<Dish[]>;
+  ingredients$: Observable<Ingredient[]>;
 
   constructor(private store: Store<me.DaysState>) {
 
@@ -46,10 +49,12 @@ export class MealItemComponent implements OnInit {
         return dishes;
       })
     );
+
+    this.ingredients$ = this.store.select(root.getEntitiesIngredients);
   }
 
   onChanged() {
-    this.store.dispatch(me.DaysActions.daysMutableMutated());
+    this.store.dispatch(me.DaysActions.daysMutableMutated({level: me.outerLevel}));
   }
 
   ngOnInit() {
