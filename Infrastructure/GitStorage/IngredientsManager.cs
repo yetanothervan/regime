@@ -50,7 +50,7 @@ namespace Infrastructure.GitStorage
             if (id == Guid.Empty) return "Wrong identifier";
 
             var dishes = GetDishes();
-            var first = dishes.FirstOrDefault(d => d.Items?.Any(i => i.IngredientId == id) != null);
+            var first = dishes.FirstOrDefault(d => d.Items != null && d.Items.Any(i => i.IngredientId == id));
             if (first != null)
                 return $"Cannot delete. Dish {first.Caption} contains this ingredient";
 

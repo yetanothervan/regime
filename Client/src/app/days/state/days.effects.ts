@@ -7,6 +7,7 @@ import { mergeMap, map, catchError, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { RationDay } from 'src/app/dtos/ration-day';
 import { Store, select } from '@ngrx/store';
+import { DayModel } from 'src/app/models/day.model';
 
 @Injectable()
 export class DaysEffects {
@@ -60,9 +61,10 @@ export class DaysEffects {
                     if (!current || action.id !== current.id) {
                         return this.store.pipe(
                             select(root.getRationDayById(action.id)),
-                            map(day =>
-                                me.DaysActions.daysSetCurrentEditing({ day })
-                            )
+                            map(day => {
+                                const dayModel = new DayModel(day, this.store);
+                                return me.DaysActions.daysSetCurrentEditing({ day, dayModel })
+                            })
                         );
                     }
                     return of(me.DaysActions.daysEmptyAction());

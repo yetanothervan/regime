@@ -3,7 +3,8 @@ import * as me from '.';
 import { createReducer, on, Action } from '@ngrx/store';
 import { RationDay } from 'src/app/dtos/ration-day';
 import { isRationDayEqual, copyRationDay } from 'src/app/dtos';
-import { Timestamp } from 'rxjs/internal/operators/timestamp';
+import { DayModel } from 'src/app/models/day.model';
+
 // state
 export interface DaysState {
     deleteStatus: string;
@@ -11,6 +12,7 @@ export interface DaysState {
     currentMealId: string;
     // edited
     dayCurrentMutable: RationDay;
+    dayCurrentModel: DayModel;
     mealMutated: { mealId: string };
 }
 const initDay = { id: '', meals: [], caption: '', totalKkal: 0 } as RationDay;
@@ -19,6 +21,7 @@ const initialState: DaysState = {
     currentDayId: '',
     currentMealId: '',
     dayCurrentMutable: initDay,
+    dayCurrentModel: null,
     mealMutated: { mealId: '' }
 };
 // reducer
@@ -30,11 +33,11 @@ const daysReducer = createReducer(
         ({ ...state, deleteStatus: id })),
     on(me.DaysActions.daySelected, (state: DaysState, { id }) =>
         ({ ...state, currentDayId: id })),
-    on(me.DaysActions.daysSetCurrentEditing, (state: DaysState, { day }) => {
+    on(me.DaysActions.daysSetCurrentEditing, (state: DaysState, { day, dayModel }) => {
         if (isRationDayEqual(state.dayCurrentMutable, day)) {
             return { ...state };
         } else {
-            return { ...state, dayCurrentMutable: copyRationDay(day), deleteStatus: '' };
+            return { ...state, dayCurrentMutable: copyRationDay(day), dayCurrentModel: dayModel, deleteStatus: '' };
         }
     }),
     on(me.DaysActions.daysMutableMutated, (state: DaysState) => ({ ...state, dayCurrentMutable: state.dayCurrentMutable })),

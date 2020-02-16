@@ -52,7 +52,7 @@ namespace Infrastructure.GitStorage
             if (id == Guid.Empty) return "Wrong identifier";
 
             var days = GetDays();
-            var first = days.FirstOrDefault(d => d.Meals?.Any(i => i.MealTypeId == id) != null);
+            var first = days.FirstOrDefault(d => d.Meals != null && d.Meals.Any(i => i.MealTypeId == id));
             if (first != null)
                 return $"Cannot delete. Day {first.Caption} contains this meal type";
 
