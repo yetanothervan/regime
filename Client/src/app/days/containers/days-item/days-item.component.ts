@@ -8,11 +8,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { map, takeWhile } from 'rxjs/operators';
 import { SharedFuncService } from 'src/app/shared/services/shared-func.service';
+import { MealExt } from 'src/app/models/meal-ext';
 
 @Component({
   selector: 'rg-days-item',
   template: `<rg-ration-day-form
     [dayMutable]="day$ | async"
+    [mealMutated]="mealMutated$ | async"
     [mealTypes]="mealTypes$ | async"
     [deleteStatus]="deleteStatus$ | async"
     (saved)="onSaved($event)"
@@ -28,6 +30,8 @@ export class DaysItemComponent implements OnInit, OnDestroy {
   currentMealId$: Observable<string>;
   mealTypes$: Observable<MealType[]>;
   deleteStatus$: Observable<string>;
+  mealMutated$: Observable<MealExt>;
+
   componentIsActive = true;
   constructor(private route: ActivatedRoute, private store: Store<me.DaysState>,
     private router: Router, private shared: SharedFuncService) {
@@ -47,6 +51,20 @@ export class DaysItemComponent implements OnInit, OnDestroy {
         return mealTypes;
       })
     );
+
+    this.mealMutated$ =
+      combineLatest([
+        this.store.select(me.getRationDayMealMutated),
+        this.store.select(me.getRationDayCurrentMutable),
+        this.store.select(root.getEntitiesDishes),
+        this.store.select(root.getEntitiesIngredients),
+        this.store.select(root.getEntitiesMealTypes),
+      ]).pipe(
+        map(([mealId, day, dishes, ingredients, mealTypes]) => {
+          const meal = day.meals.find(m => m.id === mealId.mealId);
+          return new MealExt(meal, ingredients, dishes, mealTypes);
+        })
+      );
 
     this.deleteStatus$ = this.store.pipe(
       select(me.getRationDayDeleteStatus)
@@ -86,7 +104,7 @@ export class DaysItemComponent implements OnInit, OnDestroy {
   }
 
   onMealSelected(id: string) {
-    this.store.dispatch(me.DaysActions.mealSelected({id}));
+    this.store.dispatch(me.DaysActions.mealSelected({ id }));
   }
 
 }

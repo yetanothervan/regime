@@ -16,6 +16,7 @@ export class RationDayFormComponent implements OnInit {
   private _dayOriginal: RationDay;
   private _dayMutable: RationDay;
   private _mealTypes: MealType[];
+  private _mealMutated: MealExt;
 
   @Input() public get dayMutable(): RationDay {
     return this._dayMutable;
@@ -45,6 +46,19 @@ export class RationDayFormComponent implements OnInit {
   @Output() deleted: EventEmitter<string> = new EventEmitter();
 
   @Input() selectedMealId: string;
+  @Input()
+  public get mealMutated(): MealExt {
+    return this._mealMutated;
+  }
+  public set mealMutated(value: MealExt) {
+    this._mealMutated = value;
+    const array = this.mealTypeArray;
+    array.controls.forEach( c => {
+      if (c.value.id === value.id) {
+        c.value.mealExt$.next(value);
+      }
+    });
+  }
   @Output() mealSelected: EventEmitter<string> = new EventEmitter();
 
   form: FormGroup;
@@ -109,7 +123,8 @@ export class RationDayFormComponent implements OnInit {
   getMealGroup(mealType: MealType, id: string): FormGroup {
     return this.fb.group({
       id,
-      mealType
+      mealType,
+      mealExt$: new Subject<MealExt>()
     });
   }
 

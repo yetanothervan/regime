@@ -14,7 +14,7 @@ export class MealExt extends Meal {
             this.mealItems.forEach(mi => {
                 const dish = dishes.find(d => d.id === mi.dishId);
                 const dishExt = new DishExt(dish, ingredients);
-                kkTotal += (dishExt.kkalTotal / 100) * mi.weight;
+                kkTotal += (dishExt.kkalTotal) * mi.weight;
             });
             this.kkPercent = this.round(kkTotal / mealType.kkalTotal);
             this.kkWidth = this.kkPercent > 100 ? 100 : this.kkPercent;

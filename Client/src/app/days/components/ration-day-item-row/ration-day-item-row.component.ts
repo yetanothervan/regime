@@ -9,9 +9,16 @@ import { MealExt } from 'src/app/models/meal-ext';
   encapsulation: ViewEncapsulation.None
 })
 export class RationDayItemRowComponent implements OnInit {
+  private _mealExt: MealExt;
   @Input() mealTypes: MealType[];
   @Input() currentMealType: MealType;
-  @Input() mealExt: MealExt;
+  @Input()
+  public get mealExt(): MealExt {
+    return this._mealExt;
+  }
+  public set mealExt(value: MealExt) {
+    this._mealExt = value;
+  }
   @Output() mealTypeChanged: EventEmitter<MealType> = new EventEmitter();
 
 

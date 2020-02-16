@@ -32,7 +32,7 @@
                         <!-- day item row -->
                         <rg-ration-day-item-row class="flex-grow-1 ml-2" [mealTypes]="mealTypes"
                             [currentMealType]="group.value.mealType" (mealTypeChanged)="mealTypeChanged(i, $event)"
-                            [mealExt]="mealExt">
+                            [mealExt]="group.value.mealExt$ | async">
                         </rg-ration-day-item-row>
 
                         <!-- Delete mealType button -->
