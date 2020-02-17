@@ -26,7 +26,7 @@
 
     <!-- Nutrients -->
     <rg-dish-nutrients class="col-sm-4" [kkal]="model?.totalKkal$ | async"
-        [protein]="0" [fat]="0"
-        [carbon]="0"></rg-dish-nutrients>
+        [protein]="model?.totalProtein$ | async" [fat]="model?.totalFat$ | async"
+        [carbon]="model?.totalCarbon$ | async"></rg-dish-nutrients>
         
 </div>

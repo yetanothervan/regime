@@ -1,19 +1,23 @@
 <div class="nutrients">
-    <div class="nutrient-kk progress" *ngIf="nutrient?.kkPercent$ | async as kkPercent">
-        <div class="progress-bar bg-danger" role="progressbar" [style.width.%]="kkPercent > 100 ? 100 : kkPercent"></div>
-        <div style="position: absolute; left: 0; width: 100%; text-align: center; color: black">{{kkPercent}}%</div>
+    <div class="nutrient-kk progress">
+        <div class="progress-bar bg-danger" role="progressbar" [style.width.%]="kkPercent > 100 ? 100 : kkPercent">
+            <div style="position: absolute; left: 0; width: 100%; text-align: center; color: black">{{kkPercent}}%</div>
+        </div>        
     </div>
-    <div class="nutrient progress" *ngIf="nutrient?.proteinPercent$ | async as proteinPercent">
-        <div class="progress-bar bg-danger" role="progressbar" [style.width.%]="proteinPercent > 100 ? 100 : proteinPercent"></div>
-        <div style="position: absolute; left: 0; width: 100%; text-align: center; color: black">{{proteinPercent}}%</div>
+    <div class="nutrient progress">
+        <div class="progress-bar bg-danger" role="progressbar" [style.width.%]="proteinPercent > 100 ? 100 : proteinPercent">
+            <div style="position: absolute; left: 0; width: 100%; text-align: center; color: black">{{proteinPercent}}%</div>
+        </div>        
     </div>
-    <div class="nutrient progress" *ngIf="nutrient?.fatPercent$ | async as fatPercent">
-        <div class="progress-bar bg-danger" role="progressbar" [style.width.%]="fatPercent > 100 ? 100 : fatPercent"></div>
-        <div style="position: absolute; left: 0; width: 100%; text-align: center; color: black">{{fatPercent}}%</div>
+    <div class="nutrient progress">
+        <div class="progress-bar bg-danger" role="progressbar" [style.width.%]="fatPercent > 100 ? 100 : fatPercent">
+            <div style="position: absolute; left: 0; width: 100%; text-align: center; color: black">{{fatPercent}}%</div>
+        </div>        
     </div>
-    <div class="nutrient progress" *ngIf="nutrient?.carbonPercent$ | async as carbonPercent">
-        <div class="progress-bar bg-danger" role="progressbar" [style.width.%]="carbonPercent > 100 ? 100 : carbonPercent"></div>
-        <div style="position: absolute; left: 0; width: 100%; text-align: center; color: black">{{carbonPercent}}%</div>
+    <div class="nutrient progress">
+        <div class="progress-bar bg-danger" role="progressbar" [style.width.%]="carbonPercent > 100 ? 100 : carbonPercent">
+            <div style="position: absolute; left: 0; width: 100%; text-align: center; color: black">{{carbonPercent}}%</div>
+        </div>        
     </div>
 </div>
 

@@ -1,7 +1,7 @@
 import { MealModel } from './meal.model';
 import { MealType } from '../dtos/meal-type';
 import { Observable, combineLatest } from 'rxjs';
-import { map, share } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 
 export class NutrientModel {
 
@@ -13,7 +13,7 @@ export class NutrientModel {
         const nutrientsTotal$ =
             combineLatest([meal.totalProtein$, meal.totalFat$, meal.totalCarbon$]).pipe(
                 map(([p, f, c]) => p + f + c),
-                share()
+                shareReplay(1)
             );
 
         this.proteinPercent$ = combineLatest([meal.totalProtein$, nutrientsTotal$]).pipe(

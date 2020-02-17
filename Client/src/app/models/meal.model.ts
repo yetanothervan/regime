@@ -14,26 +14,24 @@ export class MealModel {
         this.totalKkal$ = this.mealItems$.asObservable().pipe(
             map((items) => Array.from(items, item => item.totalKkal$)),
             mergeMap((items2) => combineLatest(items2)
-                .pipe(map(tt2 => tt2.reduce((a, b) => a + b, 0)))),
-                share()
+                .pipe(map(tt2 => tt2.reduce((a, b) => a + b, 0))))
         );
+
         this.totalProtein$ = this.mealItems$.asObservable().pipe(
             map((items) => Array.from(items, item => item.totalProtein$)),
             mergeMap((items2) => combineLatest(items2)
-                .pipe(map(tt2 => tt2.reduce((a, b) => a + b, 0)))),
-            share()
+                .pipe(map(tt2 => tt2.reduce((a, b) => a + b, 0))))
         );
+
         this.totalFat$ = this.mealItems$.asObservable().pipe(
             map((items) => Array.from(items, item => item.totalFat$)),
             mergeMap((items2) => combineLatest(items2)
-                .pipe(map(tt2 => tt2.reduce((a, b) => a + b, 0)))),
-            share()
+                .pipe(map(tt2 => tt2.reduce((a, b) => a + b, 0))))
         );
         this.totalCarbon$ = this.mealItems$.asObservable().pipe(
             map((items) => Array.from(items, item => item.totalCarbon$)),
             mergeMap((items2) => combineLatest(items2)
-                .pipe(map(tt2 => tt2.reduce((a, b) => a + b, 0)))),
-            share()
+                .pipe(map(tt2 => tt2.reduce((a, b) => a + b, 0))))
         );
     }
     public totalKkal$: Observable<number>;

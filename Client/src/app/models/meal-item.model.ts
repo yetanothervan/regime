@@ -1,5 +1,5 @@
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { map, share } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
+import { map, share, multicast, refCount, shareReplay } from 'rxjs/operators';
 import { DishExt } from './dish-ext';
 import { MealModel } from './meal.model';
 
@@ -18,26 +18,22 @@ export class MealItemModel {
                 const dish = dishes.find(d => d.id === myDishId);
                 return new DishExt(dish, ingredients);
             }),
-            share()
+            shareReplay(1)
         );
 
-        this.totalKkal$ = combineLatest([dishExt$,this.weight$.asObservable()
-        ]).pipe(
+        this.totalKkal$ = combineLatest([dishExt$,this.weight$.asObservable()]).pipe(
             map(([dishExt, myWeight]) => dishExt.kkalTotal * myWeight)
         );
 
-        this.totalProtein$ = combineLatest([dishExt$,this.weight$.asObservable()
-        ]).pipe(
+        this.totalProtein$ = combineLatest([dishExt$,this.weight$.asObservable()]).pipe(
             map(([dishExt, myWeight]) => dishExt.proteinTotal * myWeight)
         );
 
-        this.totalCarbon$ = combineLatest([dishExt$,this.weight$.asObservable()
-        ]).pipe(
+        this.totalCarbon$ = combineLatest([dishExt$,this.weight$.asObservable()]).pipe(
             map(([dishExt, myWeight]) => dishExt.carbonTotal * myWeight)
         );
 
-        this.totalFat$ = combineLatest([dishExt$,this.weight$.asObservable()
-        ]).pipe(
+        this.totalFat$ = combineLatest([dishExt$,this.weight$.asObservable()]).pipe(
             map(([dishExt, myWeight]) => dishExt.fatTotal * myWeight)
         );
     }
