@@ -1,26 +1,28 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { MealExt } from 'src/app/models/meal-ext';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { MealModel } from 'src/app/models/meal.model';
+import { MealType } from 'src/app/dtos/meal-type';
+import { NutrientModel } from 'src/app/models/nutrient.model';
 
 @Component({
   selector: 'rg-alt-meal-nutrients',
   templateUrl: './alt-meal-nutrients.component.html',
   styleUrls: ['./alt-meal-nutrients.component.scss']
 })
-export class AltMealNutrientsComponent implements OnInit {
-  private _model: MealModel;
-  @Input() mealExt: MealExt;
-  @Input()
-  public get model(): MealModel {
-    return this._model;
-  }
-  public set model(value: MealModel) {
-    this._model = value;
-  }
+export class AltMealNutrientsComponent implements OnInit, OnChanges {
+
+  @Input() model: MealModel;
+  @Input() mealType: MealType;
+  nutrient: NutrientModel;
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  ngOnChanges() {
+    if (this.model && this.mealType) {
+      this.nutrient = new NutrientModel(this.model, this.mealType);
+    }
   }
 
   round(n: number): number {

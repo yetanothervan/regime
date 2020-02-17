@@ -34,7 +34,7 @@ export class RationDayFormComponent implements OnInit {
     }
   }
 
-  @Input()  
+  @Input()
   public get dayModel(): DayModel {
     return this._dayModel;
   }

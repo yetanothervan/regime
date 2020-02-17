@@ -1,5 +1,5 @@
 import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
-import { map, mergeAll } from 'rxjs/operators';
+import { map, mergeAll, mergeMap, share } from 'rxjs/operators';
 import { Meal } from '../dtos/meal';
 import { DayModel } from './day.model';
 import { MealItemModel } from './meal-item.model';
@@ -10,16 +10,36 @@ export class MealModel {
         this.mealTypeId = meal.mealTypeId;
         const mealItemArray = meal.mealItems.map(m => new MealItemModel(m.dishId, m.weight, this));
         this.mealItems$ = new BehaviorSubject(mealItemArray);
+
         this.totalKkal$ = this.mealItems$.asObservable().pipe(
             map((items) => Array.from(items, item => item.totalKkal$)),
-            map((items2) => combineLatest(items2)
-                .pipe(
-                    map(tt2 => tt2.reduce((a, b) => a + b, 0)))
-            ),
-            mergeAll()
+            mergeMap((items2) => combineLatest(items2)
+                .pipe(map(tt2 => tt2.reduce((a, b) => a + b, 0)))),
+                share()
+        );
+        this.totalProtein$ = this.mealItems$.asObservable().pipe(
+            map((items) => Array.from(items, item => item.totalProtein$)),
+            mergeMap((items2) => combineLatest(items2)
+                .pipe(map(tt2 => tt2.reduce((a, b) => a + b, 0)))),
+            share()
+        );
+        this.totalFat$ = this.mealItems$.asObservable().pipe(
+            map((items) => Array.from(items, item => item.totalFat$)),
+            mergeMap((items2) => combineLatest(items2)
+                .pipe(map(tt2 => tt2.reduce((a, b) => a + b, 0)))),
+            share()
+        );
+        this.totalCarbon$ = this.mealItems$.asObservable().pipe(
+            map((items) => Array.from(items, item => item.totalCarbon$)),
+            mergeMap((items2) => combineLatest(items2)
+                .pipe(map(tt2 => tt2.reduce((a, b) => a + b, 0)))),
+            share()
         );
     }
     public totalKkal$: Observable<number>;
+    public totalProtein$: Observable<number>;
+    public totalFat$: Observable<number>;
+    public totalCarbon$: Observable<number>;
     public mealId: string;
     public mealTypeId: string;
     public mealItems$: BehaviorSubject<MealItemModel[]>;
