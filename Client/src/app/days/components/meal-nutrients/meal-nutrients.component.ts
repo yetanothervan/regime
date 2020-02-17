@@ -15,9 +15,16 @@ export class MealNutrientsComponent implements OnInit, OnChanges, OnDestroy {
   @Input() mealType: MealType;
 
   kkPercent = 0;
+  kkClass = '';
   proteinPercent = 0;
+  proteinDisplay = 0;
+  proteinClass = '';
   fatPercent = 0;
+  fatDisplay = 0;
+  fatClass = '';
   carbonPercent = 0;
+  carbonDisplay = 0;
+  carbonClass = '';
 
   active = true;
 
@@ -30,14 +37,46 @@ export class MealNutrientsComponent implements OnInit, OnChanges, OnDestroy {
     if (this.model && this.mealType) {
       const nutrient = new NutrientModel(this.model, this.mealType);
       nutrient.kkPercent$.pipe(takeWhile(() => this.active))
-        .subscribe(v => {this.kkPercent = v ? v : 0; this.cdr.detectChanges();});
+        .subscribe(v => {
+          this.kkPercent = v ? v : 0;
+          this.kkClass = this.getClass(v);
+          this.cdr.detectChanges();
+        });
       nutrient.proteinPercent$.pipe(takeWhile(() => this.active))
-        .subscribe(v => {this.proteinPercent = v ? v : 0; this.cdr.detectChanges();});
+        .subscribe(v => {
+          this.proteinPercent = this.getNutrientValue(v, this.mealType.proteinPart);
+          this.proteinDisplay = v ? v : 0;
+          this.proteinClass = this.getClass(this.proteinPercent);
+          this.cdr.detectChanges();});
       nutrient.fatPercent$.pipe(takeWhile(() => this.active))
-        .subscribe(v => {this.fatPercent = v ? v : 0; this.cdr.detectChanges();});
+        .subscribe(v => {
+          this.fatPercent = this.getNutrientValue(v, this.mealType.fatPart);
+          this.fatDisplay = v ? v : 0;
+          this.fatClass = this.getClass(this.fatPercent);
+          this.cdr.detectChanges();});
       nutrient.carbonPercent$.pipe(takeWhile(() => this.active))
-        .subscribe(v => {this.carbonPercent = v ? v : 0; this.cdr.detectChanges();});
+        .subscribe(v => {
+          this.carbonPercent = this.getNutrientValue(v, this.mealType.carbonPart);
+          this.carbonDisplay = v ? v : 0;
+          this.carbonClass = this.getClass(this.carbonPercent);
+          this.cdr.detectChanges();});
     }
+  }
+
+  getNutrientValue(n: number, part: number) {
+    if (!n || !part) return 0;
+    return this.round(n / part);
+  }
+
+  private round(n: number): number {
+    return Math.round((n + Number.EPSILON) * 100);
+  }
+
+  getClass (n: number): string {
+    if (!n) return '';
+    if (n < 75 || n > 115) return 'bad';
+    if (n < 90 || n > 105) return 'average';
+    return 'good';
   }
 
   ngOnDestroy() {

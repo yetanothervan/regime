@@ -1,12 +1,43 @@
+
+
 .nutrients {
+    
+    .good {
+        background-color: lightgreen;
+    }
+    .average {
+        background-color: yellow;        
+    }
+    .bad {
+        background-color: red;
+    }
+
     display: flex;
     .nutrient-kk{
         flex: 2 1 0px;
         position: relative;
+        .good {
+            @extend .good;
+        }
+        .bad {
+            @extend .bad;
+        }
+        .average {
+            @extend .average;
+        }
     }
     .nutrient {
         flex: 1 1 0px;
         margin-left: 5px;
         position: relative;
+        .good {
+            @extend .good;
+        }
+        .bad {
+            @extend .bad;
+        }
+        .average {
+            @extend .average;
+        }
     }
 }

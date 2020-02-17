@@ -1,22 +1,22 @@
 <div class="nutrients">
     <div class="nutrient-kk progress">
-        <div class="progress-bar bg-danger" role="progressbar" [style.width.%]="kkPercent > 100 ? 100 : kkPercent">
+        <div class="progress-bar" [ngClass]="kkClass" role="progressbar" [style.width.%]="kkPercent > 100 ? 100 : kkPercent">
             <div style="position: absolute; left: 0; width: 100%; text-align: center; color: black">{{kkPercent}}%</div>
         </div>        
     </div>
     <div class="nutrient progress">
-        <div class="progress-bar bg-danger" role="progressbar" [style.width.%]="proteinPercent > 100 ? 100 : proteinPercent">
-            <div style="position: absolute; left: 0; width: 100%; text-align: center; color: black">{{proteinPercent}}%</div>
+        <div class="progress-bar" [ngClass]="proteinClass" role="progressbar" [style.width.%]="proteinPercent > 100 ? 100 : proteinPercent">
+            <div style="position: absolute; left: 0; width: 100%; text-align: center; color: black">{{proteinDisplay}}%</div>
         </div>        
     </div>
     <div class="nutrient progress">
-        <div class="progress-bar bg-danger" role="progressbar" [style.width.%]="fatPercent > 100 ? 100 : fatPercent">
-            <div style="position: absolute; left: 0; width: 100%; text-align: center; color: black">{{fatPercent}}%</div>
+        <div class="progress-bar" [ngClass]="fatClass" role="progressbar" [style.width.%]="fatPercent > 100 ? 100 : fatPercent">
+            <div style="position: absolute; left: 0; width: 100%; text-align: center; color: black">{{fatDisplay}}%</div>
         </div>        
     </div>
     <div class="nutrient progress">
-        <div class="progress-bar bg-danger" role="progressbar" [style.width.%]="carbonPercent > 100 ? 100 : carbonPercent">
-            <div style="position: absolute; left: 0; width: 100%; text-align: center; color: black">{{carbonPercent}}%</div>
+        <div class="progress-bar" [ngClass]="carbonClass" role="progressbar" [style.width.%]="carbonPercent > 100 ? 100 : carbonPercent">
+            <div style="position: absolute; left: 0; width: 100%; text-align: center; color: black">{{carbonDisplay}}%</div>
         </div>        
     </div>
 </div>
