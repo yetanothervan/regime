@@ -8,12 +8,14 @@ import { of } from 'rxjs';
 import { RationDay } from 'src/app/dtos/ration-day';
 import { Store, select } from '@ngrx/store';
 import { DayModel } from 'src/app/models/day.model';
+import { CurrentDayService } from '../service/current-day.service';
 
 @Injectable()
 export class DaysEffects {
     constructor(private actions$: Actions,
         private daysService: DaysService,
-        private store: Store<root.RootState>) { }
+        private store: Store<root.RootState>,
+        private currenDayService: CurrentDayService) { }
 
     updateRationDay$ = createEffect(() =>
         this.actions$.pipe(
@@ -55,18 +57,12 @@ export class DaysEffects {
     setForEditing$ = createEffect(() =>
         this.actions$.pipe(
             ofType(me.DaysActions.daySelected),
-            withLatestFrom(this.store.pipe(select(me.getRationDayCurrentMutable))),
+            withLatestFrom(this.store.pipe(select(root.getEntitiesDays))),
             mergeMap(
-                ([action, current]) => {
-                    if (!current || action.id !== current.id) {
-                        return this.store.pipe(
-                            select(root.getRationDayById(action.id)),
-                            map(day => {
-                                const dayModel = new DayModel(day, this.store);
-                                return me.DaysActions.daysSetCurrentEditing({ day, dayModel })
-                            })
-                        );
-                    }
+                ([action, days]) => {
+                    const day = days.find(d => d.id === action.id);
+                    const dayModel = new DayModel(day, this.store);
+                    this.currenDayService.currentDay$.next(dayModel);
                     return of(me.DaysActions.daysEmptyAction());
                 }
             )

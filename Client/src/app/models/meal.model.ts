@@ -6,7 +6,7 @@ import { MealItemModel } from './meal-item.model';
 
 export class MealModel {
     constructor(meal: Meal, readonly day: DayModel) {
-        this.mealId = meal.id;
+        this.id = meal.id;
         this.mealTypeId = meal.mealTypeId;
         const mealItemArray = meal.mealItems.map(m => new MealItemModel(m.dishId, m.weight, this));
         this.mealItems$ = new BehaviorSubject(mealItemArray);
@@ -38,7 +38,14 @@ export class MealModel {
     public totalProtein$: Observable<number>;
     public totalFat$: Observable<number>;
     public totalCarbon$: Observable<number>;
-    public mealId: string;
+    public id: string;
     public mealTypeId: string;
     public mealItems$: BehaviorSubject<MealItemModel[]>;
+
+    public addMeal() {
+
+    };
+    public removeMeal(n: number) {
+
+    };
 }

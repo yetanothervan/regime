@@ -1,12 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { RationDay } from 'src/app/dtos/ration-day';
 import { MealType } from 'src/app/dtos/meal-type';
-import { copyRationDay, isRationDayEqual, newMeal } from 'src/app/dtos';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
-import { Subject, Observable, interval } from 'rxjs';
+import { Subject, interval, Observable } from 'rxjs';
 import { map, debounce } from 'rxjs/operators';
 import { MealExt } from 'src/app/models/meal-ext';
 import { DayModel } from 'src/app/models/day.model';
+import { MealModel } from 'src/app/models/meal.model';
 
 @Component({
   selector: 'rg-ration-day-form',
@@ -14,17 +14,32 @@ import { DayModel } from 'src/app/models/day.model';
   styleUrls: ['./ration-day-form.component.scss']
 })
 export class RationDayFormComponent implements OnInit {
-  @Input() dayModel: DayModel;
-  @Input() mealTypes: MealType[];
+  private _dayModel: DayModel;
+
+  @Input() public get dayModel(): DayModel {
+    return this._dayModel;
+  }
+  public set dayModel(value: DayModel) {
+    this._dayModel = value;
+    if (this.dayModel?.caption$ && this.dayModel?.totalKkal$ ) this.patchForm(this.dayModel.caption$.value, this.dayModel.totalKkal$.value);
+    if (this.dayModel?.meals$) this.mealTypeArray$ = this.dayModel.meals$.pipe(
+      map(items => {
+        const array = this.form.get('mealTypeArray') as FormArray;
+        array.controls.splice(0);
+        items.forEach(i => array.push(this.getMealGroup(i.mealTypeId, i.id, i)));
+        return array;
+      })
+    );
+
+  }
+  @Input() mealTypes$: Observable<MealType[]>;
   @Input() selectedMealId: string;
   @Output() mealSelected: EventEmitter<string> = new EventEmitter();
 
   form: FormGroup;
   errorMessages = ''; // TODO
 
-  get mealTypeArray(): FormArray {
-    return this.form.get('mealTypeArray') as FormArray;
-  }
+  mealTypeArray$: Observable<FormArray>;
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
@@ -44,10 +59,10 @@ export class RationDayFormComponent implements OnInit {
   ngOnInit() {
   }
 
-  patchForm(day: RationDay) {
+  patchForm(caption: string, totalKkal: number) {
     this.form.patchValue({
-      caption: day.caption,
-      kkal: day.totalKkal
+      caption,
+      kkal: totalKkal
     });
   }
 
@@ -55,13 +70,11 @@ export class RationDayFormComponent implements OnInit {
     this.dayModel.addNewMealType();
   }
 
-  getMealGroup(mealType: MealType, id: string): FormGroup {
+  getMealGroup(mealTypeId: string, id: string, mealModel: MealModel): FormGroup {
     return this.fb.group({
       id,
-      mealType,
-      mealExt$: new Subject<MealExt>(),
-      dayModel: this.dayModel,
-      meal$: this.dayModel ? this.dayModel.meals$.pipe(map(ms => ms.find(m => m.mealId === id))) : null
+      mealTypeId,
+      mealModel
     });
   }
 

@@ -1,46 +1,37 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import * as me from '../../state';
 import * as root from 'src/app/root-store';
-import { Meal } from 'src/app/dtos/meal';
-import { Observable, combineLatest, pipe, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Dish } from 'src/app/dtos/dish';
 import { Store, select } from '@ngrx/store';
-import { map, mergeAll, mergeMap } from 'rxjs/operators';
-import { Ingredient } from 'src/app/dtos/ingredient';
-import { DayModel } from 'src/app/models/day.model';
+import { map, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { MealModel } from 'src/app/models/meal.model';
+import { CurrentDayService } from '../../service/current-day.service';
 
 @Component({
   selector: 'rg-meal-item',
   template: `<rg-meal-form
-  [meal]="meal$ | async"
   [dishes]="dishes$ | async"
-  [ingredients]="ingredients$ | async"
-  [mealModel]="mealModel$ | async"
-  (changed)="onChanged()">
+  [mealModel]="mealModel$ | async">
 </rg-meal-form>`,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MealItemComponent implements OnInit {
 
-  meal$: Observable<Meal>;
   dishes$: Observable<Dish[]>;
-  ingredients$: Observable<Ingredient[]>;
-  mealId: string;
   mealModel$: Observable<MealModel>;
 
-  constructor(private store: Store<me.DaysState>) {
+  constructor(private store: Store<me.DaysState>, private currendDayService: CurrentDayService) {
 
-    this.meal$ = combineLatest([
-      this.store.select(me.getRationDayCurrentMutable),
-      this.store.select(me.getCurrentMealId)
-    ]).pipe(
-      map(([day, mealId]) => {
-        this.mealId = mealId;
-        if (day && day.meals) {
-          return day.meals.find(m => m.id === mealId)
-        } else return null;
+    this.mealModel$ = this.store.pipe(
+      select(me.getCurrentMealId),
+      withLatestFrom(this.currendDayService.currentDay$),
+      mergeMap(([mealId, day]) => {
+        if (!day || !day.meals$) return of(null);
+        return day.meals$.asObservable().pipe(
+          map(meals => meals.find(m => m.id === mealId))
+        )
       })
     );
 
@@ -55,17 +46,7 @@ export class MealItemComponent implements OnInit {
         return dishes;
       })
     );
-
-    this.ingredients$ = this.store.select(root.getEntitiesIngredients);
-
-    this.mealModel$ = this.store.pipe(
-      select(me.getMealCurrentModel),
-      mergeAll()
-    );
-  }
-
-  onChanged() {
-    this.store.dispatch(me.DaysActions.mealMutableMutated({mealId: this.mealId }));
+   
   }
 
   ngOnInit() {

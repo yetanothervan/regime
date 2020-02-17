@@ -24,7 +24,7 @@ export class MealFormComponent {
   }
   public set mealModel(value: MealModel) {
     this._mealModel = value;
-    if (value) this.dishArray$ = this.mealModel.mealItems$.pipe(
+    if (this._mealModel?.mealItems$) this.dishArray$ = this.mealModel.mealItems$.pipe(
       map(items => {
         const array = this.form.get('dishArray') as FormArray;
         array.controls.splice(0);
@@ -49,7 +49,7 @@ export class MealFormComponent {
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
       caption: ['', Validators.required],
-      dishAltArray: this.fb.array([])
+      dishArray: this.fb.array([])
     });
   }
 

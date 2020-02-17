@@ -18,13 +18,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { DaysComposeComponent } from './components/days-compose/days-compose.component';
-import { MealItemRowComponent } from './components/meal-item-row/meal-item-row.component';
 import { MealItemComponent } from './containers/meal-item/meal-item.component';
 import { MealFormComponent } from './components/meal-form/meal-form.component';
 import { DaySaverComponent } from './containers/day-saver/day-saver.component';
+import { MealItemRowComponent } from './components/meal-item-row/meal-item-row.component';
 import { MealNutrientsComponent } from './components/meal-nutrients/meal-nutrients.component';
-import { AltMealItemRowComponent } from './components/alt-meal-item-row/alt-meal-item-row.component';
-import { AltMealNutrientsComponent } from './components/alt-meal-nutrients/alt-meal-nutrients.component';
+import { CurrentDayServiceModule } from './service/current-day-service.module';
 
 @NgModule({
   declarations: [DaysShellComponent,
@@ -35,12 +34,10 @@ import { AltMealNutrientsComponent } from './components/alt-meal-nutrients/alt-m
     DaysItemComponent,
     DaysComposeComponent,
     MealItemRowComponent,
-    AltMealItemRowComponent,
     MealItemComponent,
     MealFormComponent,
     DaySaverComponent,
-    MealNutrientsComponent,
-    AltMealNutrientsComponent
+    MealNutrientsComponent
   ],
   imports: [
     CommonModule,
@@ -51,7 +48,8 @@ import { AltMealNutrientsComponent } from './components/alt-meal-nutrients/alt-m
     MatSelectModule,
     StoreModule.forFeature(me.daysFeatureKey, reducer),
     EffectsModule.forFeature([DaysEffects]),
-    DaysServiceModule
+    DaysServiceModule,
+    CurrentDayServiceModule
   ]
 })
 export class DaysModule { }
