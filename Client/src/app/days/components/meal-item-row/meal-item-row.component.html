@@ -13,18 +13,20 @@
 
     <!-- Gramm -->
     <div class="col-sm-1">
-        <input class="form-control form-control-sm" [(ngModel)]="weight" placeholder="Вес..." type="number" />
+        <input class="form-control form-control-sm" [(ngModel)]="weight" 
+            placeholder="Вес..." type="number" />
     </div>
 
     <!-- Range -->
     <div class="col-sm-2">
-        <input type="range" class="form-control form-control-sm form-control-range" [(ngModel)]="weight" min="0"
+        <input type="range" class="form-control form-control-sm form-control-range" 
+        [(ngModel)]="weight" min="0"
             max="4" step="0.25">
     </div>
 
     <!-- Nutrients -->
-    <rg-dish-nutrients class="col-sm-4" [kkal]="dishExt?.kkalTotal*weight"
-        [protein]="dishExt?.proteinTotal*weight" [fat]="dishExt?.fatTotal*weight"
-        [carbon]="dishExt?.carbonTotal*weight"></rg-dish-nutrients>
+    <rg-dish-nutrients class="col-sm-4" [kkal]="model?.totalKkal$ | async"
+        [protein]="model?.totalProtein$ | async" [fat]="model?.totalFat$ | async"
+        [carbon]="model?.totalCarbon$ | async"></rg-dish-nutrients>
         
 </div>

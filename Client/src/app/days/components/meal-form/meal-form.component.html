@@ -1,45 +1,26 @@
-<div *ngIf="meal">
-    <div class="card border-primary m-3">
-        <div class="card-body text-primary">
-            <div class="card-text pr-3">
-                <form novalidate [formGroup]="form">
-                    
-                    <!-- <div formArrayName="dishArray" *ngFor="let group of dishArray.controls; let i = index">
-                        <div [formGroupName]="i" class="d-flex align-items-start">
+<div class="card border-primary m-3">
+    <div class="card-body text-primary">
+        <div class="card-text pr-3">
+            <form novalidate [formGroup]="form">
+                
+                <div formArrayName="dishArray" *ngFor="let group of (dishArray$ | async)?.controls; let i = index">
+                    <div [formGroupName]="i" class="d-flex align-items-start">
+                        
+                        <rg-meal-item-row class="flex-grow-1" [model]="group.value.model" [dishes]="dishes">
+                        </rg-meal-item-row>
 
-                    
-                            <rg-meal-item-row class="flex-grow-1" [dishes]="dishes" [ingredients]="ingredients" 
-                                [currentDish]="group.value.dish" [weight]="group.value.weight"
-                                (dishChanged)="onDishChanged(i, $event)" (weightChanged)="onWeightChanged(i, $event)">
-                            </rg-meal-item-row>
-
-                    
-                            <button type="button" class="btn btn-primary btn-sm ml-3" (click)="removeDish(i)">
-                                <i class="fas fa-folder-minus"></i>
-                            </button>
-                        </div>
-                    </div> -->
-
-                    <div formArrayName="dishAltArray" *ngFor="let group of (dishAltArray$ | async).controls; let i = index">
-                        <div [formGroupName]="i" class="d-flex align-items-start">
-                            
-                            <rg-alt-meal-item-row class="flex-grow-1" [model]="group.value.model" [dishes]="dishes">
-                            </rg-alt-meal-item-row>
-
-                            <button type="button" class="btn btn-primary btn-sm ml-3" (click)="removeDish(i)">
-                                <i class="fas fa-folder-minus"></i>
-                            </button>
-                        </div>
+                        <button type="button" class="btn btn-primary btn-sm ml-3" (click)="removeDish(i)">
+                            <i class="fas fa-folder-minus"></i>
+                        </button>
                     </div>
+                </div>
 
-                    <!-- Add dish button -->
-                    <button type="button" class="btn btn-primary ml-3 btn-sm" (click)="addNewDish()"
-                        [disabled]="addNewButtonDisabled">
-                        <i class="fas fa-folder-plus mr-1"></i>Добавить ингредиент
-                    </button>
+                <!-- Add dish button -->
+                <button type="button" class="btn btn-primary ml-3 btn-sm" (click)="addNewDish()">
+                    <i class="fas fa-folder-plus mr-1"></i>Добавить блюдо
+                </button>
 
-                </form>
-            </div>
+            </form>
         </div>
     </div>
 </div>

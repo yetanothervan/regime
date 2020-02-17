@@ -14,72 +14,13 @@ import { DayModel } from 'src/app/models/day.model';
   styleUrls: ['./ration-day-form.component.scss']
 })
 export class RationDayFormComponent implements OnInit {
-  private _dayOriginal: RationDay;
-  private _dayMutable: RationDay;
-  private _mealTypes: MealType[];
-  private _mealMutated: MealExt;
-  private _dayModel: DayModel;
-
-  @Input() public get dayMutable(): RationDay {
-    return this._dayMutable;
-  }
-  public set dayMutable(value: RationDay) {
-    if (!this._dayMutable && value // if set for the first time
-      || value && this._dayMutable && value.id !== this._dayMutable.id) { // or id != this.id
-      this._dayMutable = value;
-      this._dayOriginal = copyRationDay(value);
-      this.daySub.next(this._dayMutable);
-      this.form.markAsPristine();
-      this.form.markAsUntouched();
-    }
-  }
-
-  @Input()
-  public get dayModel(): DayModel {
-    return this._dayModel;
-  }
-  public set dayModel(value: DayModel) {
-    this._dayModel = value;
-    this.daySub.next(this._dayMutable);
-  }
-
-  @Input() public get mealTypes(): MealType[] {
-    return this._mealTypes;
-  }
-  public set mealTypes(value: MealType[]) {
-    this._mealTypes = value;
-    if (this.dayMutable) { this.daySub.next(this.dayMutable); }
-  }
-
-  @Input() deleteStatus: string;
-
-  @Output() saved: EventEmitter<RationDay> = new EventEmitter();
-  @Output() deleted: EventEmitter<string> = new EventEmitter();
-
+  @Input() dayModel: DayModel;
+  @Input() mealTypes: MealType[];
   @Input() selectedMealId: string;
-  @Input()
-  public get mealMutated(): MealExt {
-    return this._mealMutated;
-  }
-  public set mealMutated(value: MealExt) {
-    this._mealMutated = value;
-    const array = this.mealTypeArray;
-    array.controls.forEach( c => {
-      if (c.value.id === value.id) {
-        c.value.mealExt$.next(value);
-      }
-    });
-  }
   @Output() mealSelected: EventEmitter<string> = new EventEmitter();
 
   form: FormGroup;
   errorMessages = ''; // TODO
-  mealExt: MealExt;
-
-  daySub: Subject<RationDay>;
-  day$: Observable<RationDay>;
-
-  addNewButtonDisabled = false;
 
   get mealTypeArray(): FormArray {
     return this.form.get('mealTypeArray') as FormArray;
@@ -92,19 +33,11 @@ export class RationDayFormComponent implements OnInit {
       mealTypeArray: this.fb.array([])
     });
 
-    this.daySub = new Subject<RationDay>();
-    this.day$ = this.daySub.asObservable().pipe(map(d => d));
-    this.day$.subscribe( day => {
-      this.patchForm(day);
-      this.recalculateFormChanges(day);
-    });
-
     this.form.valueChanges.pipe(
       debounce(() => interval(500))
     ).subscribe((value) => {
-      this.dayMutable.caption = value.caption;
-      this.dayMutable.totalKkal = value.kkal;
-      this.recalculateFormChanges(this.dayMutable);
+      this.dayModel.caption$.next(value.caption);
+      this.dayModel.totalKkal$.next(value.kkal);
     });
   }
 
@@ -116,19 +49,10 @@ export class RationDayFormComponent implements OnInit {
       caption: day.caption,
       kkal: day.totalKkal
     });
-    if (!this.mealTypes) return;
-    const array = this.mealTypeArray;
-    array.controls.splice(0);
-    day.meals.forEach(i => {
-      const mealType = this.mealTypes.find(m => m.id === i.mealTypeId);
-      array.push(this.getMealGroup(mealType, i.id));
-    });
   }
 
   addNewMealType(): void {
-    const meal = newMeal();
-    this.dayMutable.meals.push(meal);
-    this.daySub.next(this.dayMutable);
+    this.dayModel.addNewMealType();
   }
 
   getMealGroup(mealType: MealType, id: string): FormGroup {
@@ -142,37 +66,11 @@ export class RationDayFormComponent implements OnInit {
   }
 
   removeMealType(n: number): void {
-    this.dayMutable.meals.splice(n, 1);
-    this.daySub.next(this.dayMutable);
-  }
-
-  mealTypeChanged(i: number, mealType: MealType) {
-    this.dayMutable.meals[i].mealTypeId = mealType.id;
-    this.daySub.next(this.dayMutable);
-  }
-
-  saveRationDay() {
-    if (this.form.valid) {
-      if (this.form.dirty) {
-        this.saved.next(this.dayMutable);
-      } else { // valid
-        this.errorMessages = 'Проверьте корректность заполнения';
-      }
-    } // dirty
-  }
-
-  deleteClicked() {
-    this.deleted.next(this.dayMutable.id);
+    this.dayModel.removeMealType(n);
   }
 
   selectMeal(id: string) {
     this.mealSelected.next(id);
   }
 
-  recalculateFormChanges(day: RationDay) {
-    this.addNewButtonDisabled = day.meals.some(item => !item.mealTypeId);
-    const equalToOriginal = isRationDayEqual(this.dayMutable, this._dayOriginal);
-    if (equalToOriginal && this.form.dirty) { this.form.markAsPristine(); }
-    if (!equalToOriginal && this.form.pristine) { this.form.markAsDirty(); }
-  }
 }
