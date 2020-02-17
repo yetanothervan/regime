@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { MealType } from 'src/app/dtos/meal-type';
 import { MealExt } from 'src/app/models/meal-ext';
+import { DayModel } from 'src/app/models/day.model';
+import { MealModel } from 'src/app/models/meal.model';
 
 @Component({
   selector: 'rg-ration-day-item-row',
@@ -10,6 +12,7 @@ import { MealExt } from 'src/app/models/meal-ext';
 })
 export class RationDayItemRowComponent implements OnInit {
   private _mealExt: MealExt;
+  private _model: MealModel;
   @Input() mealTypes: MealType[];
   @Input() currentMealType: MealType;
   @Input()
@@ -18,6 +21,13 @@ export class RationDayItemRowComponent implements OnInit {
   }
   public set mealExt(value: MealExt) {
     this._mealExt = value;
+  }
+  @Input() dayModel: DayModel;
+  @Input() public get model(): MealModel {
+    return this._model;
+  }
+  public set model(value: MealModel) {
+    this._model = value;
   }
   @Output() mealTypeChanged: EventEmitter<MealType> = new EventEmitter();
 

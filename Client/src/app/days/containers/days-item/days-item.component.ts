@@ -9,11 +9,13 @@ import { Store, select } from '@ngrx/store';
 import { map, takeWhile } from 'rxjs/operators';
 import { SharedFuncService } from 'src/app/shared/services/shared-func.service';
 import { MealExt } from 'src/app/models/meal-ext';
+import { DayModel } from 'src/app/models/day.model';
 
 @Component({
   selector: 'rg-days-item',
   template: `<rg-ration-day-form
     [dayMutable]="day$ | async"
+    [dayModel]="dayModel$ | async"
     [mealMutated]="mealMutated$ | async"
     [mealTypes]="mealTypes$ | async"
     [deleteStatus]="deleteStatus$ | async"
@@ -27,6 +29,7 @@ import { MealExt } from 'src/app/models/meal-ext';
 })
 export class DaysItemComponent implements OnInit, OnDestroy {
   day$: Observable<RationDay>;
+  dayModel$: Observable<DayModel>;
   currentMealId$: Observable<string>;
   mealTypes$: Observable<MealType[]>;
   deleteStatus$: Observable<string>;
@@ -38,6 +41,10 @@ export class DaysItemComponent implements OnInit, OnDestroy {
 
     this.day$ = this.store.pipe(
       select(me.getRationDayCurrentMutable)
+    );
+
+    this.dayModel$ = this.store.pipe(
+      select(me.getRationDayCurrentModel)
     );
 
     this.mealTypes$ = this.store.pipe(

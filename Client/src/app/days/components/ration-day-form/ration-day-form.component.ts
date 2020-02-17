@@ -6,6 +6,7 @@ import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { Subject, Observable, interval } from 'rxjs';
 import { map, debounce } from 'rxjs/operators';
 import { MealExt } from 'src/app/models/meal-ext';
+import { DayModel } from 'src/app/models/day.model';
 
 @Component({
   selector: 'rg-ration-day-form',
@@ -17,6 +18,7 @@ export class RationDayFormComponent implements OnInit {
   private _dayMutable: RationDay;
   private _mealTypes: MealType[];
   private _mealMutated: MealExt;
+  private _dayModel: DayModel;
 
   @Input() public get dayMutable(): RationDay {
     return this._dayMutable;
@@ -30,6 +32,15 @@ export class RationDayFormComponent implements OnInit {
       this.form.markAsPristine();
       this.form.markAsUntouched();
     }
+  }
+
+  @Input()  
+  public get dayModel(): DayModel {
+    return this._dayModel;
+  }
+  public set dayModel(value: DayModel) {
+    this._dayModel = value;
+    this.daySub.next(this._dayMutable);
   }
 
   @Input() public get mealTypes(): MealType[] {
@@ -124,7 +135,9 @@ export class RationDayFormComponent implements OnInit {
     return this.fb.group({
       id,
       mealType,
-      mealExt$: new Subject<MealExt>()
+      mealExt$: new Subject<MealExt>(),
+      dayModel: this.dayModel,
+      meal$: this.dayModel ? this.dayModel.meals$.pipe(map(ms => ms.find(m => m.mealId === id))) : null
     });
   }
 

@@ -20,6 +20,18 @@
                         </div>
                     </div>
 
+                    <div formArrayName="dishAltArray" *ngFor="let group of (dishAltArray$ | async).controls; let i = index">
+                        <div [formGroupName]="i" class="d-flex align-items-start">
+                            
+                            <rg-alt-meal-item-row class="flex-grow-1" [model]="group.value.model" [dishes]="dishes">
+                            </rg-alt-meal-item-row>
+
+                            <button type="button" class="btn btn-primary btn-sm ml-3" (click)="removeDish(i)">
+                                <i class="fas fa-folder-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+
                     <!-- Add dish button -->
                     <button type="button" class="btn btn-primary ml-3 btn-sm" (click)="addNewDish()"
                         [disabled]="addNewButtonDisabled">

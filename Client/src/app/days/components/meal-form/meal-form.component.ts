@@ -7,16 +7,18 @@ import { map, debounce } from 'rxjs/operators';
 import { MealItem } from 'src/app/dtos/meal-item';
 import { v4 as uuid } from 'uuid';
 import { Ingredient } from 'src/app/dtos/ingredient';
+import { MealModel } from 'src/app/models/meal.model';
 
 @Component({
   selector: 'rg-meal-form',
   templateUrl: './meal-form.component.html',
   styleUrls: ['./meal-form.component.scss']
 })
-export class MealFormComponent implements OnInit {
+export class MealFormComponent {
 
   private _dishes: Dish[];
   private _meal: Meal;
+  private _mealModel: MealModel;
   addNewButtonDisabled: boolean;
 
   @Input() public get meal(): Meal {
@@ -37,6 +39,28 @@ export class MealFormComponent implements OnInit {
 
   @Input() ingredients: Ingredient[];
 
+  @Input() public get mealModel(): MealModel {
+    return this._mealModel;
+  }
+  public set mealModel(value: MealModel) {
+    this._mealModel = value;
+    if (value) this.dishAltArray$ = this.mealModel.mealItems$.pipe(
+      map(items => {
+        const array = this.form.get('dishAltArray') as FormArray;
+        array.controls.splice(0);
+        items.forEach(i => {
+          const dish$ = i.dishId$.pipe(map(dishId => this.dishes.find(d => d.id === dishId)));
+          array.push(this.fb.group({
+            model: i,
+            dish$,
+            weight$: i.weight$
+          }))
+        });
+        return array;
+      })
+    );
+  }
+
   @Output() public changed: EventEmitter<boolean> = new EventEmitter();
 
   form: FormGroup;
@@ -49,10 +73,13 @@ export class MealFormComponent implements OnInit {
     return this.form.get('dishArray') as FormArray;
   }
 
+  dishAltArray$: Observable<FormArray>;
+
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
       caption: ['', Validators.required],
-      dishArray: this.fb.array([])
+      dishArray: this.fb.array([]),
+      dishAltArray: this.fb.array([])
     });
 
     this.mealSub = new Subject<Meal>();
@@ -68,9 +95,7 @@ export class MealFormComponent implements OnInit {
       this.notifyParentAndRecalculate();
     });
   }
-
-  ngOnInit() {
-  }
+ 
 
   notifyParentAndRecalculate() {
     this.changed.emit(true);

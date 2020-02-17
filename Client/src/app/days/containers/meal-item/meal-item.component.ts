@@ -2,11 +2,13 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import * as me from '../../state';
 import * as root from 'src/app/root-store';
 import { Meal } from 'src/app/dtos/meal';
-import { Observable, combineLatest, pipe } from 'rxjs';
+import { Observable, combineLatest, pipe, of } from 'rxjs';
 import { Dish } from 'src/app/dtos/dish';
 import { Store, select } from '@ngrx/store';
-import { map } from 'rxjs/operators';
+import { map, mergeAll, mergeMap } from 'rxjs/operators';
 import { Ingredient } from 'src/app/dtos/ingredient';
+import { DayModel } from 'src/app/models/day.model';
+import { MealModel } from 'src/app/models/meal.model';
 
 @Component({
   selector: 'rg-meal-item',
@@ -14,6 +16,7 @@ import { Ingredient } from 'src/app/dtos/ingredient';
   [meal]="meal$ | async"
   [dishes]="dishes$ | async"
   [ingredients]="ingredients$ | async"
+  [mealModel]="mealModel$ | async"
   (changed)="onChanged()">
 </rg-meal-form>`,
   styles: [],
@@ -25,6 +28,7 @@ export class MealItemComponent implements OnInit {
   dishes$: Observable<Dish[]>;
   ingredients$: Observable<Ingredient[]>;
   mealId: string;
+  mealModel$: Observable<MealModel>;
 
   constructor(private store: Store<me.DaysState>) {
 
@@ -53,6 +57,11 @@ export class MealItemComponent implements OnInit {
     );
 
     this.ingredients$ = this.store.select(root.getEntitiesIngredients);
+
+    this.mealModel$ = this.store.pipe(
+      select(me.getMealCurrentModel),
+      mergeAll()
+    );
   }
 
   onChanged() {

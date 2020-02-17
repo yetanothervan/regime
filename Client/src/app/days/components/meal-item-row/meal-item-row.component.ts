@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Dish } from 'src/app/dtos/dish';
 import { DishExt } from 'src/app/models/dish-ext';
 import { Ingredient } from 'src/app/dtos/ingredient';
+import { MealItemModel } from 'src/app/models/meal-item.model';
 
 @Component({
   selector: 'rg-meal-item-row',
@@ -15,6 +16,7 @@ export class MealItemRowComponent implements OnInit {
 
   @Input() dishes: Dish[];
   @Input() ingredients: Ingredient[];
+  @Input() mealItemModel: MealItemModel;
 
   @Input() public get currentDish(): Dish {
     return this._currentDish;

@@ -10,13 +10,14 @@ export class MealModel {
         this.mealTypeId = meal.mealTypeId;
         const mealItemArray = meal.mealItems.map(m => new MealItemModel(m.dishId, m.weight, this));
         this.mealItems$ = new BehaviorSubject(mealItemArray);
-        this.totalKkal$ = this.mealItems$.pipe(
-            map((items) => Array.from(items, item => item.totalKkal$.asObservable())),
+        this.totalKkal$ = this.mealItems$.asObservable().pipe(
+            map((items) => Array.from(items, item => item.totalKkal$)),
             map((items2) => combineLatest(items2)
                 .pipe(
-                    map(tt2 => tt2.reduce((a, b) => a + b, 0)))), 
-                    mergeAll()
-                );
+                    map(tt2 => tt2.reduce((a, b) => a + b, 0)))
+            ),
+            mergeAll()
+        );
     }
     public totalKkal$: Observable<number>;
     public mealId: string;
