@@ -26,7 +26,7 @@ export class RationDayFormComponent implements OnInit {
       map(items => {
         const array = this.form.get('mealTypeArray') as FormArray;
         array.controls.splice(0);
-        items.forEach(i => array.push(this.getMealGroup(i.mealTypeId, i.id, i)));
+        items.forEach(i => array.push(this.getMealGroup(i.mealTypeId$.value, i.id, i)));
         return array;
       })
     );

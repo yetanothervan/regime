@@ -3,6 +3,7 @@ import { MealType } from 'src/app/dtos/meal-type';
 import { MealExt } from 'src/app/models/meal-ext';
 import { DayModel } from 'src/app/models/day.model';
 import { MealModel } from 'src/app/models/meal.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'rg-ration-day-item-row',
@@ -10,7 +11,7 @@ import { MealModel } from 'src/app/models/meal.model';
   styleUrls: ['./ration-day-item-row.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class RationDayItemRowComponent implements OnInit, OnChanges {
+export class RationDayItemRowComponent implements OnInit {
 
   private _model: MealModel;
   @Input() mealTypes: MealType[];
@@ -20,9 +21,9 @@ export class RationDayItemRowComponent implements OnInit, OnChanges {
   }
   public set model(value: MealModel) {
     this._model = value;
+    this.currentMealType$ = this._model?.mealType$;
   }
-  @Output() mealTypeChanged: EventEmitter<MealType> = new EventEmitter();
-  currentMealType: MealType;
+  currentMealType$: Observable<MealType>;
 
   compareFn: ((i1: MealType, i2: MealType) => boolean) | null = this.compareByValue;
   compareByValue(i1: MealType, i2: MealType) {
@@ -34,14 +35,8 @@ export class RationDayItemRowComponent implements OnInit, OnChanges {
   ngOnInit(): void {
   }
 
-  ngOnChanges(): void {
-    if (this.currentMealTypeId && this.mealTypes) {
-      this.currentMealType = this.mealTypes.find(m => m.id = this.currentMealTypeId);
-    }
-  }
-
   selectionChanged(mealType: MealType) {
-    this.mealTypeChanged.emit(mealType);
+    this.model.mealTypeId$.next(mealType.id);
   }
 
 }

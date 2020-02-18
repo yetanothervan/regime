@@ -1,13 +1,18 @@
-import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
-import { map, mergeAll, mergeMap, share } from 'rxjs/operators';
+import { Observable, BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { map, mergeAll, mergeMap, share, withLatestFrom } from 'rxjs/operators';
 import { Meal } from '../dtos/meal';
 import { DayModel } from './day.model';
 import { MealItemModel } from './meal-item.model';
+import { MealType } from '../dtos/meal-type';
 
 export class MealModel {
     constructor(meal: Meal, readonly day: DayModel) {
         this.id = meal.id;
-        this.mealTypeId = meal.mealTypeId;
+        this.mealTypeId$ = new BehaviorSubject(meal.mealTypeId);
+        this.mealType$ = this.mealTypeId$.pipe(
+            withLatestFrom(day.mealTypes$),
+            map(([mealTypeId, mealTypes])=>mealTypes.find(mt => mt.id === mealTypeId))
+        );
         const mealItemArray = meal.mealItems.map(m => new MealItemModel(m.dishId, m.weight, this));
         this.mealItems$ = new BehaviorSubject(mealItemArray);
 
@@ -39,7 +44,8 @@ export class MealModel {
     public totalFat$: Observable<number>;
     public totalCarbon$: Observable<number>;
     public id: string;
-    public mealTypeId: string;
+    public mealTypeId$: BehaviorSubject<string>;
+    public mealType$: Observable<MealType>;
     public mealItems$: BehaviorSubject<MealItemModel[]>;
 
     public addMeal() {

@@ -2,7 +2,7 @@
     <!-- MealType -->
     <div class="list-group col-sm-3">
         <mat-form-field>
-            <mat-select [compareWith]="compareFn" [value]="currentMealType"
+            <mat-select [compareWith]="compareFn" [value]="currentMealType$ | async"
                 (selectionChange)="selectionChanged($event.value)">
                 <mat-option *ngFor="let mealType of mealTypes" [value]="mealType">
                     {{mealType?.caption}}
@@ -12,6 +12,6 @@
     </div>
 
     <div class="col-sm-9 pr-3">        
-        <rg-meal-nutrients [model]="model" [mealType]="currentMealType"></rg-meal-nutrients>
+        <rg-meal-nutrients [model]="model" [mealType]="currentMealType$ | async"></rg-meal-nutrients>
     </div>
 </div>
