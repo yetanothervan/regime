@@ -1,10 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
-import { RationDay } from 'src/app/dtos/ration-day';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MealType } from 'src/app/dtos/meal-type';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
-import { Subject, interval, Observable } from 'rxjs';
+import { interval, Observable } from 'rxjs';
 import { map, debounce } from 'rxjs/operators';
-import { MealExt } from 'src/app/models/meal-ext';
 import { DayModel } from 'src/app/models/day.model';
 import { MealModel } from 'src/app/models/meal.model';
 

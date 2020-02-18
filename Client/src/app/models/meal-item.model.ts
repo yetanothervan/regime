@@ -4,10 +4,11 @@ import { DishExt } from './dish-ext';
 import { MealModel } from './meal.model';
 
 export class MealItemModel {
-    constructor(dishId: string, weight: number, private _meal: MealModel) {
+    constructor(dishId: string, weight: number, id: string, private _meal: MealModel) {
 
         this.dishId$ = new BehaviorSubject(dishId);
         this.weight$ = new BehaviorSubject(weight);
+        this.id = id;
 
         const dishExt$ = combineLatest([
             _meal.day.dishes$,
@@ -37,6 +38,7 @@ export class MealItemModel {
             map(([dishExt, myWeight]) => dishExt.fatTotal * myWeight)
         );
     }
+    public id: string;
     public totalKkal$: Observable<number>;
     public totalProtein$: Observable<number>;
     public totalFat$: Observable<number>;

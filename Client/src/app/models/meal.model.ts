@@ -4,6 +4,7 @@ import { Meal } from '../dtos/meal';
 import { DayModel } from './day.model';
 import { MealItemModel } from './meal-item.model';
 import { MealType } from '../dtos/meal-type';
+import { v4 as uuid } from 'uuid';
 
 export class MealModel {
     constructor(meal: Meal, readonly day: DayModel) {
@@ -14,7 +15,7 @@ export class MealModel {
             map(([mealTypeId, mealTypes]) => mealTypes.find(mt => mt.id === mealTypeId))
         );
 
-        const mealItemArray = meal.mealItems.map(m => new MealItemModel(m.dishId, m.weight, this));
+        const mealItemArray = meal.mealItems.map(m => new MealItemModel(m.dishId, m.weight, m.id, this));
         this.mealItems$ = new BehaviorSubject(mealItemArray);
 
         this.totalKkal$ = this.mealItems$.asObservable().pipe(
@@ -62,7 +63,7 @@ export class MealModel {
     public mealItems$: BehaviorSubject<MealItemModel[]>;
 
     public addMeal() {
-        this.mealItems$.next([...this.mealItems$.value, new MealItemModel('', 0, this)]);
+        this.mealItems$.next([...this.mealItems$.value, new MealItemModel('', 0, uuid(), this)]);
     };
     public removeMeal(n: number) {
         const ms = this.mealItems$.value;

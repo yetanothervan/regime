@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import * as me from '../../state';
 import * as root from 'src/app/root-store';
-import { Observable, of } from 'rxjs';
+import { Observable, of, combineLatest } from 'rxjs';
 import { Dish } from 'src/app/dtos/dish';
 import { Store, select } from '@ngrx/store';
 import { map, mergeMap, withLatestFrom } from 'rxjs/operators';
@@ -24,16 +24,17 @@ export class MealItemComponent implements OnInit {
 
   constructor(private store: Store<me.DaysState>, private currendDayService: CurrentDayService) {
 
-    this.mealModel$ = this.store.pipe(
-      select(me.getCurrentMealId),
-      withLatestFrom(this.currendDayService.currentDay$),
-      mergeMap(([mealId, day]) => {
-        if (!day || !day.meals$) return of(null);
-        return day.meals$.asObservable().pipe(
-          map(meals => meals.find(m => m.id === mealId))
-        )
-      })
-    );
+    this.mealModel$ = combineLatest([
+      this.store.pipe(select(me.getCurrentMealId)),
+      this.currendDayService.currentDay$.asObservable()])
+      .pipe(
+        mergeMap(([mealId, day]) => {
+          if (!day || !day.meals$) return of(null);
+          return day.meals$.asObservable().pipe(
+            map(meals => meals.find(m => m.id === mealId))
+          )
+        })
+      );
 
     this.dishes$ = this.store.pipe(
       select(root.getEntitiesDishes),
@@ -46,7 +47,7 @@ export class MealItemComponent implements OnInit {
         return dishes;
       })
     );
-   
+
   }
 
   ngOnInit() {

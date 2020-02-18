@@ -9,6 +9,7 @@ import * as root from './../root-store'
 import { MealModel } from './meal.model';
 import { Meal } from '../dtos/meal';
 import { v4 as uuid } from 'uuid';
+import { MealItem } from '../dtos/meal-item';
 
 export class DayModel {
     constructor(day: RationDay, store: Store<RootState>) {
@@ -46,6 +47,29 @@ export class DayModel {
         const ms = this.meals$.value;
         ms.splice(n, 1);
         this.meals$.next(ms);
+    }
+    
+    getDto(): RationDay {
+        const dto = new RationDay();
+        dto.id = this.id;
+        dto.caption = this.caption$.value;
+        dto.totalKkal = this.totalKkal$.value;
+        dto.meals = [];
+        this.meals$.value.forEach(m => {
+            const meal = new Meal();
+            meal.id = m.id;
+            meal.mealTypeId = m.mealTypeId$.value;
+            meal.mealItems = [];
+            m.mealItems$.value.forEach(mi => {
+                const item = new MealItem();
+                item.id = mi.id;
+                item.dishId = mi.dishId$.value;
+                item.weight = mi.weight$.value;
+                meal.mealItems.push(item);
+            });
+            dto.meals.push(meal);
+        });
+        return dto;
     }
 }
 
