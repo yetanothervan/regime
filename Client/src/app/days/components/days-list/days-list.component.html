@@ -1,24 +1,33 @@
-<div style="max-height: 45vh; overflow-y: auto;">
-    <a *ngFor="let day of days; let i=index;" class="list-group-item list-group-item-action p-1 px-3"
-        [ngClass]="{ active: day.id == selectedDayId }" (click)="selectDay(day.id)">
+<div class="card border-primary m-3">
+    <div class="card-header">
+        <span>Режимные дни</span>
+    </div>
+    <div class="card-body" style="max-height: 30vh; overflow-y: auto;">
+        <div class="card-text pr-3">
 
-        <div class="d-flex w-100 justify-content-between">
-            <strong class="mb-1">{{day.caption}}</strong>
-            <small>..details..</small>
+            <a *ngFor="let day of days; let i=index;" class="day list-group-item list-group-item-action p-1 px-3"
+                [ngClass]="{ active: day.id == selectedDayId }" (click)="selectDay(day.id)">
 
-            <!-- Delete day button -->
-            <div class="justify-content-center align-items-center">
-                <button type="button" class="btn btn-primary btn-sm" (click)="removeRationDay(i)">
-                    <i class="fas fa-folder-minus"></i>
-                </button>
-            </div>
+                <div class="d-flex w-100 justify-content-between">
+                    <strong class="mb-1">{{day.caption}}</strong>
+                    <small>..details..</small>
+
+                    <!-- Delete day button -->
+                    <div class="justify-content-center align-items-center">
+                        <button type="button" class="btn btn-primary btn-sm" (click)="removeRationDay(i)">
+                            <i class="fas fa-folder-minus"></i>
+                        </button>
+                    </div>
+                </div>
+            </a>
+
         </div>
-    </a>
-</div>
+    </div>
 
-<!-- Add RationDay button -->
-<div class="position-sticky my-2" style="bottom:5px;">
-    <button type="button" class="btn btn-primary btn-sm" (click)="addNewRationDay()">
-        <i class="fas fa-folder-plus mr-1"></i>Добавить RationDay
-    </button>
+    <!-- Add RationDay button -->
+    <div class="position-sticky ml-3 mb-3" style="bottom:15px;">
+        <button type="button" class="btn btn-primary btn-sm" (click)="addNewRationDay()">
+            <i class="fas fa-folder-plus mr-1"></i>Добавить RationDay
+        </button>
+    </div>
 </div>

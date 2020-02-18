@@ -7,6 +7,8 @@ import { Dish } from '../dtos/dish';
 import { MealType } from '../dtos/meal-type';
 import * as root from './../root-store'
 import { MealModel } from './meal.model';
+import { Meal } from '../dtos/meal';
+import { v4 as uuid } from 'uuid';
 
 export class DayModel {
     constructor(day: RationDay, store: Store<RootState>) {
@@ -35,8 +37,15 @@ export class DayModel {
     public meals$: BehaviorSubject<MealModel[]>;
 
     public addNewMealType() {
+        const newMeal = new Meal();
+        newMeal.id = uuid();
+        newMeal.mealItems = [];
+        this.meals$.next([...this.meals$.value, new MealModel(newMeal, this)]);
     }
     public removeMealType(n: number) {
+        const ms = this.meals$.value;
+        ms.splice(n, 1);
+        this.meals$.next(ms);
     }
 }
 
