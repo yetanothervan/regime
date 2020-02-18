@@ -1,12 +1,12 @@
 <div *ngIf="mealModel?.id">
     <div class="card border-primary m-3">
-        <div class="card-body text-primary">
+        <div class="card-body text-primary" style="max-height: 40vh; overflow-y: auto;">
             <div class="card-text pr-3">
                 <form novalidate [formGroup]="form">
-                    
+
                     <div formArrayName="dishArray" *ngFor="let group of (dishArray$ | async)?.controls; let i = index">
                         <div [formGroupName]="i" class="d-flex align-items-start">
-                            
+
                             <rg-meal-item-row class="flex-grow-1" [model]="group.value.model" [dishes]="dishes">
                             </rg-meal-item-row>
 
@@ -16,13 +16,15 @@
                         </div>
                     </div>
 
-                    <!-- Add dish button -->
-                    <button type="button" class="btn btn-primary ml-3 btn-sm" (click)="addNewDish()">
-                        <i class="fas fa-folder-plus mr-1"></i>Добавить блюдо
-                    </button>
-
                 </form>
             </div>
+        </div>
+
+        <!-- Add dish button -->
+        <div class="position-sticky ml-3 mb-3" style="bottom:15px;">
+            <button type="button" class="btn btn-primary ml-3 btn-sm" (click)="addNewDish()">
+                <i class="fas fa-folder-plus mr-1"></i>Добавить блюдо
+            </button>
         </div>
     </div>
 </div>
