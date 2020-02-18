@@ -21,10 +21,10 @@ export class MealExt extends Meal {
                 const dish = dishes.find(d => d.id === mi.dishId);
                 const dishExt = new DishExt(dish, ingredients);
                 this.kkTotal += (dishExt.kkalTotal) * mi.weight;
-                nutrientsTotal += dishExt.nutrientsTotal;
-                proteinTotal += dishExt.proteinTotal;
-                fatTotal += dishExt.fatTotal;
-                carbonTotal += dishExt.carbonTotal;
+                nutrientsTotal += dishExt.nutrientsTotal * mi.weight;
+                proteinTotal += dishExt.proteinTotal * mi.weight;
+                fatTotal += dishExt.fatTotal * mi.weight;
+                carbonTotal += dishExt.carbonTotal * mi.weight;
             });
             this.kkPercent = this.round(this.kkTotal / mealType.kkalTotal);
             const proteinPercent = this.getPart(proteinTotal, nutrientsTotal);
