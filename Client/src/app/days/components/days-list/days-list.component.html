@@ -17,6 +17,10 @@
                         </div>        
                     </div>
 
+                    <div class="nutrient"><i [ngClass]="day.proteinClass" class="fas fa-circle"></i></div>
+                    <div class="nutrient"><i [ngClass]="day.fatClass" class="fas fa-circle"></i></div>
+                    <div class="nutrient"><i [ngClass]="day.carbonClass" class="fas fa-circle"></i></div>
+
                     <!-- Delete day button -->
                     <div class="justify-content-center align-items-center">
                         <button type="button" class="btn btn-primary btn-sm" (click)="removeRationDay(i)">

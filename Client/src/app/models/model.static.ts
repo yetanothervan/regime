@@ -14,5 +14,6 @@ export class ModelService {
         case 2: return 'average';
         case 3: return 'good';
       }
+      return '';
     }
 }

@@ -20,3 +20,18 @@
         background-color: red;
     }  
 }
+
+.nutrient {
+    font-size: x-small;
+    margin-right: 2px;
+    color: grey;
+    .good {
+        color: lightgreen;
+    }
+    .average {
+        color: yellow;        
+    }
+    .bad {
+        color: red;
+    }  
+}

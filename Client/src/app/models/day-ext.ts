@@ -21,8 +21,13 @@ export class RationDayExt extends RationDay {
             this.kkClass = ModelService.getClass(
                 ModelService.getPercentageClass(this.kkPercent)
             );
-
         }
+        const proteinClassNumber = mealsExt.reduce((d, s) => Math.min(d, s.proteinClass), 4);
+        this.proteinClass = ModelService.getClass(proteinClassNumber);
+        const fatClassNumber = mealsExt.reduce((d, s) => Math.min(d, s.fatClass), 4);
+        this.fatClass = ModelService.getClass(fatClassNumber);
+        const carbonClassNumber = mealsExt.reduce((d, s) => Math.min(d, s.carbonClass), 4);
+        this.carbonClass = ModelService.getClass(carbonClassNumber);
     }
 
     public kkPercent: number;
@@ -34,4 +39,5 @@ export class RationDayExt extends RationDay {
     private round(n: number): number {
         return Math.round((n + Number.EPSILON) * 100);
     }
+    
 }

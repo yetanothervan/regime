@@ -20,15 +20,15 @@ export class DishExt extends Dish {
     public itemsExt: DishItemExt[];
 
     public get proteinPer(): number {
-        return this.round(this.proteinTotal / this.getNutrientTotal());
+        return this.round(this.proteinTotal / this.nutrientsTotal);
     }
 
     public get carbonPer(): number {
-        return this.round(this.carbonTotal / this.getNutrientTotal());
+        return this.round(this.carbonTotal / this.nutrientsTotal);
     }
 
     public get fatPer(): number {
-        return this.round(this.fatTotal / this.getNutrientTotal());
+        return this.round(this.fatTotal / this.nutrientsTotal);
     }
 
     public get proteinTotal(): number {
@@ -47,7 +47,7 @@ export class DishExt extends Dish {
         return this.getNutrient(this.nameof<Ingredient>('kkal100'));
     }
 
-    private getNutrientTotal(): number {
+    public get nutrientsTotal(): number {
         return this.proteinTotal + this.fatTotal + this.carbonTotal;
     }
 
