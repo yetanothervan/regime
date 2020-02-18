@@ -1,7 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation, OnChanges } from '@angular/core';
 import { MealType } from 'src/app/dtos/meal-type';
-import { MealExt } from 'src/app/models/meal-ext';
-import { DayModel } from 'src/app/models/day.model';
 import { MealModel } from 'src/app/models/meal.model';
 import { Observable } from 'rxjs';
 

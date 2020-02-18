@@ -73,6 +73,7 @@ export class MealNutrientsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getClass (n: number): string {
+    if (n === 0) return 'bad';
     if (!n) return '';
     if (n < 75 || n > 115) return 'bad';
     if (n < 90 || n > 105) return 'average';
