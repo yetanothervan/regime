@@ -28,8 +28,8 @@ namespace Infrastructure.GitStorage
                 var toUpdate = mealTypes.FirstOrDefault(i => i.Id == mealType.Id);
                 if (toUpdate != null)
                 {
-                    mealTypes.Remove(toUpdate);
-                    mealTypes.Add(mealType);
+                    int index = mealTypes.IndexOf(toUpdate);
+                    mealTypes[index] = mealType;
                 }
 
                 SaveMealTypes(mealTypes);

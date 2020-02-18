@@ -27,8 +27,8 @@ namespace Infrastructure.GitStorage
                 var toUpdate = ingredients.FirstOrDefault(i => i.Id == ingredient.Id);
                 if (toUpdate != null)
                 {
-                    ingredients.Remove(toUpdate);
-                    ingredients.Add(ingredient);
+                    int index = ingredients.IndexOf(toUpdate);
+                    ingredients[index] = ingredient;
                 }
 
                 SaveIngredients(ingredients);

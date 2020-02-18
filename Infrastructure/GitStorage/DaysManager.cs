@@ -28,8 +28,8 @@ namespace Infrastructure.GitStorage
                 var toUpdate = days.FirstOrDefault(i => i.Id == day.Id);
                 if (toUpdate != null)
                 {
-                    days.Remove(toUpdate);
-                    days.Add(day);
+                    int index = days.IndexOf(toUpdate);
+                    days[index] = day;
                 }
 
                 SaveDays(days);

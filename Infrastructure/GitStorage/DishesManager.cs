@@ -26,8 +26,8 @@ namespace Infrastructure.GitStorage
                 var toUpdate = dishes.FirstOrDefault(i => i.Id == dish.Id);
                 if (toUpdate != null)
                 {
-                    dishes.Remove(toUpdate);
-                    dishes.Add(dish);
+                    int index = dishes.IndexOf(toUpdate);
+                    dishes[index] = dish;
                 }
 
                 SaveDishes(dishes);
