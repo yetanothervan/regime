@@ -8,9 +8,14 @@
             <a *ngFor="let day of days; let i=index;" class="day list-group-item list-group-item-action p-1 px-3"
                 [ngClass]="{ active: day.id == selectedDayId }" (click)="selectDay(day.id)">
 
-                <div class="d-flex w-100 justify-content-between">
-                    <strong class="mb-1">{{day.caption}}</strong>
-                    <small>..details..</small>
+                <div class="d-flex w-100">                    
+                    <strong class="mb-1 mr-auto">{{day.caption}}</strong>
+                    
+                    <div class="nutrient-kk progress mr-1" style="width: 60px;">
+                        <div class="progress-bar" [ngClass]="day.kkClass" role="progressbar" [style.width.%]="day.kkPercent > 100 ? 100 : day.kkPercent">
+                            <div style="position: absolute; left: 0; width: 100%; text-align: center; color: black">{{day.kkPercent}}%</div>
+                        </div>        
+                    </div>
 
                     <!-- Delete day button -->
                     <div class="justify-content-center align-items-center">

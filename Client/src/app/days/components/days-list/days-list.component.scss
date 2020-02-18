@@ -7,3 +7,16 @@
     border-radius: 3px;
     color: black;
 }
+
+.nutrient-kk {    
+    position: relative;
+    .good {
+        background-color: lightgreen;
+    }
+    .average {
+        background-color: yellow;        
+    }
+    .bad {
+        background-color: red;
+    }  
+}

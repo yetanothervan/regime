@@ -3,6 +3,7 @@ import { MealModel } from 'src/app/models/meal.model';
 import { MealType } from 'src/app/dtos/meal-type';
 import { NutrientModel } from 'src/app/models/nutrient.model';
 import { takeWhile } from 'rxjs/operators';
+import { ModelService } from 'src/app/models/model.static';
 
 @Component({
   selector: 'rg-meal-nutrients',
@@ -39,26 +40,26 @@ export class MealNutrientsComponent implements OnInit, OnChanges, OnDestroy {
       nutrient.kkPercent$.pipe(takeWhile(() => this.active))
         .subscribe(v => {
           this.kkPercent = v ? v : 0;
-          this.kkClass = this.getClass(v);
+          this.kkClass = ModelService.getClass(ModelService.getPercentageClass(v));
           this.cdr.detectChanges();
         });
       nutrient.proteinPercent$.pipe(takeWhile(() => this.active))
         .subscribe(v => {
           this.proteinPercent = this.getNutrientValue(v, this.mealType.proteinPart);
           this.proteinDisplay = v ? v : 0;
-          this.proteinClass = this.getClass(this.proteinPercent);
+          this.proteinClass = ModelService.getClass(ModelService.getPercentageClass(this.proteinPercent));
           this.cdr.detectChanges();});
       nutrient.fatPercent$.pipe(takeWhile(() => this.active))
         .subscribe(v => {
           this.fatPercent = this.getNutrientValue(v, this.mealType.fatPart);
           this.fatDisplay = v ? v : 0;
-          this.fatClass = this.getClass(this.fatPercent);
+          this.fatClass = ModelService.getClass(ModelService.getPercentageClass(this.fatPercent));
           this.cdr.detectChanges();});
       nutrient.carbonPercent$.pipe(takeWhile(() => this.active))
         .subscribe(v => {
           this.carbonPercent = this.getNutrientValue(v, this.mealType.carbonPart);
           this.carbonDisplay = v ? v : 0;
-          this.carbonClass = this.getClass(this.carbonPercent);
+          this.carbonClass = ModelService.getClass(ModelService.getPercentageClass(this.carbonPercent));
           this.cdr.detectChanges();});
     }
   }
@@ -70,14 +71,6 @@ export class MealNutrientsComponent implements OnInit, OnChanges, OnDestroy {
 
   private round(n: number): number {
     return Math.round((n + Number.EPSILON) * 100);
-  }
-
-  getClass (n: number): string {
-    if (n === 0) return 'bad';
-    if (!n) return '';
-    if (n < 75 || n > 115) return 'bad';
-    if (n < 90 || n > 105) return 'average';
-    return 'good';
   }
 
   ngOnDestroy() {

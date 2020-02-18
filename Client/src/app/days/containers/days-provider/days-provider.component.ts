@@ -1,17 +1,18 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { RationDay } from 'src/app/dtos/ration-day';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as root from 'src/app/root-store';
 import * as me from './../../state';
 import { SharedFuncService } from 'src/app/shared/services/shared-func.service';
+import { RationDayExt } from 'src/app/models/day-ext';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'rg-days-provider',
   template: `<rg-days-list
     [days]="days$ | async"
     [selectedDayId]="currentDayId$ | async"
-    (saved)="onSaved($event)"
     (added)="onAdded()"
     (deleted)="onDeleted($event)"
     (selected)="onSelected($event)"></rg-days-list>`,
@@ -20,23 +21,29 @@ import { SharedFuncService } from 'src/app/shared/services/shared-func.service';
 })
 export class DaysProviderComponent implements OnInit {
 
-  days$: Observable<RationDay[]>;
+  days$: Observable<RationDayExt[]>;
   currentDayId$: Observable<string>;
 
   constructor(private store: Store<root.RootState>, private shared: SharedFuncService) {
-    this.days$ = this.store.select(root.getEntitiesDays);
+    this.days$ = combineLatest([
+      this.store.select(root.getEntitiesDays),
+      this.store.select(root.getEntitiesDishes),
+      this.store.select(root.getEntitiesIngredients),
+      this.store.select(root.getEntitiesMealTypes)
+      ]).pipe(
+        map(([days, dishes, ingredients, mealTypes]) => {
+          const daysExt: RationDayExt[] = [];
+          days.forEach(day => {
+            const dayExt = new RationDayExt(day, ingredients, dishes, mealTypes);
+            daysExt.push(dayExt);
+          });
+          return daysExt;
+        })
+      );
     this.currentDayId$ = this.store.select(me.getCurrentDayId);
   }
 
   ngOnInit(): void {
-  }
-
-  onSaved(day: RationDay) {
-    if (!this.shared.ifEmpty(day.id)) { // update
-      this.store.dispatch(me.DaysActions.dayUpdate({ day }));
-    } else { // create
-      this.store.dispatch(me.DaysActions.dayCreate({ day }));
-    }
   }
 
   onDeleted(id: string) {
@@ -51,6 +58,6 @@ export class DaysProviderComponent implements OnInit {
   }
 
   onSelected(id: string) {
-    this.store.dispatch(me.DaysActions.daySelected({id}));
+    this.store.dispatch(me.DaysActions.daySelected({ id }));
   }
 }

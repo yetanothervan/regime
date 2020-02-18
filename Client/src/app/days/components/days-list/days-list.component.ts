@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { RationDay } from 'src/app/dtos/ration-day';
+import { RationDayExt } from 'src/app/models/day-ext';
 
 @Component({
   selector: 'rg-days-list',
@@ -8,9 +8,8 @@ import { RationDay } from 'src/app/dtos/ration-day';
 })
 export class DaysListComponent implements OnInit {
 
-  @Input() days: RationDay[];
+  @Input() days: RationDayExt[];
   @Input() selectedDayId: string;
-  @Output() saved: EventEmitter<RationDay> = new EventEmitter();
   @Output() added: EventEmitter<boolean> = new EventEmitter();
   @Output() deleted: EventEmitter<string> = new EventEmitter();
   @Output() selected: EventEmitter<string> = new EventEmitter();
@@ -18,10 +17,6 @@ export class DaysListComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-  }
-
-  onSaved(day: RationDay) {
-    this.saved.next(day);
   }
   removeRationDay(index: number) {
     this.deleted.next(this.days[index].id);
