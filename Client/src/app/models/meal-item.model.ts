@@ -22,20 +22,36 @@ export class MealItemModel {
             shareReplay(1)
         );
 
-        this.totalKkal$ = combineLatest([dishExt$,this.weight$.asObservable()]).pipe(
+        this.totalKkal$ = combineLatest([dishExt$, this.weight$.asObservable()]).pipe(
             map(([dishExt, myWeight]) => dishExt.kkalTotal * myWeight)
         );
 
-        this.totalProtein$ = combineLatest([dishExt$,this.weight$.asObservable()]).pipe(
+        this.totalProtein$ = combineLatest([dishExt$, this.weight$.asObservable()]).pipe(
             map(([dishExt, myWeight]) => dishExt.proteinTotal * myWeight)
         );
 
-        this.totalCarbon$ = combineLatest([dishExt$,this.weight$.asObservable()]).pipe(
+        this.totalCarbon$ = combineLatest([dishExt$, this.weight$.asObservable()]).pipe(
             map(([dishExt, myWeight]) => dishExt.carbonTotal * myWeight)
         );
 
-        this.totalFat$ = combineLatest([dishExt$,this.weight$.asObservable()]).pipe(
+        this.totalFat$ = combineLatest([dishExt$, this.weight$.asObservable()]).pipe(
             map(([dishExt, myWeight]) => dishExt.fatTotal * myWeight)
+        );
+
+        this.ingredientsString$ = combineLatest([dishExt$, this.weight$.asObservable()]).pipe(
+            map(([dishExt, myWeight]) => {
+                const ings = [];
+                if (!dishExt?.itemsExt) return '';
+                if (dishExt.itemsExt.length === 0) return '';
+                dishExt.itemsExt.forEach(ing => {
+                    ings.push({
+                        caption: ing.ingredient.caption,
+                        weight: this.round(ing.weight * myWeight)
+                    });
+                });
+                ings.sort((a, b) => a.weight - b.weight);
+                return '(' + ings.map(s => `${s.caption}: ${s.weight}`).join(', ') + ')';
+            })
         );
     }
     public id: string;
@@ -43,6 +59,10 @@ export class MealItemModel {
     public totalProtein$: Observable<number>;
     public totalFat$: Observable<number>;
     public totalCarbon$: Observable<number>;
+    public ingredientsString$: Observable<string>;
     dishId$: BehaviorSubject<string>;
     weight$: BehaviorSubject<number>;
+    private round(n: number): number {
+        return Math.round((n + Number.EPSILON) * 100) / 100;
+    }
 }

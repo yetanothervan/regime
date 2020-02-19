@@ -48,10 +48,11 @@
         </div>
 
         <!-- Add RationDay button -->
-        <div class="position-sticky ml-3 mb-3" style="bottom:15px;">
-            <button type="button" class="btn btn-primary btn-sm" (click)="addNewMealType()">
+        <div class="d-flex position-sticky m-3" style="bottom:15px; padding-right: 60px;">
+            <button type="button" class="btn btn-primary btn-sm mr-5" (click)="addNewMealType()">
                 <i class="fas fa-folder-plus mr-1"></i>Добавить прием пищи
             </button>
+            <rg-day-nutrients class = "flex-grow-1 align-self-end" [model]="dayModel.dayIndicator$ | async"></rg-day-nutrients>
         </div>
     </div>
 </div>

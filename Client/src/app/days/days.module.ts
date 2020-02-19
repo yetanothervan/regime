@@ -24,6 +24,7 @@ import { DaySaverComponent } from './containers/day-saver/day-saver.component';
 import { MealItemRowComponent } from './components/meal-item-row/meal-item-row.component';
 import { MealNutrientsComponent } from './components/meal-nutrients/meal-nutrients.component';
 import { CurrentDayServiceModule } from './service/current-day-service.module';
+import { DayNutrientsComponent } from './components/day-nutrients/day-nutrients.component';
 
 @NgModule({
   declarations: [DaysShellComponent,
@@ -37,7 +38,8 @@ import { CurrentDayServiceModule } from './service/current-day-service.module';
     MealItemComponent,
     MealFormComponent,
     DaySaverComponent,
-    MealNutrientsComponent
+    MealNutrientsComponent,
+    DayNutrientsComponent
   ],
   imports: [
     CommonModule,

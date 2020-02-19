@@ -1,0 +1,26 @@
+<div class="nutrients">
+    <div>Итого:</div>
+    <div class="nutrient-kk progress">
+        <div class="progress-bar" [ngClass]="model?.kkClass" role="progressbar" 
+            [style.width.%]="model?.kkPercent > 100 ? 100 : model?.kkPercent">
+            <div style="position: absolute; left: 0; width: 100%; text-align: center; color: black">{{model?.kkPercent}}%</div>
+        </div>        
+    </div>
+    <div class="nutrient progress">
+        <div class="progress-bar" [ngClass]="model?.proteinClass" role="progressbar" 
+            [style.width.%]="model?.proteinPercent > 100 ? 100 : model?.proteinPercent">
+            <div style="position: absolute; left: 0; width: 100%; text-align: center; color: black">{{model?.proteinDisplay}}%</div>
+        </div>        
+    </div>
+    <div class="nutrient progress">
+        <div class="progress-bar" [ngClass]="model?.fatClass" role="progressbar" [style.width.%]="model?.fatPercent > 100 ? 100 : model?.fatPercent">
+            <div style="position: absolute; left: 0; width: 100%; text-align: center; color: black">{{model?.fatDisplay}}%</div>
+        </div>        
+    </div>
+    <div class="nutrient progress">
+        <div class="progress-bar" [ngClass]="model?.carbonClass" role="progressbar" [style.width.%]="model?.carbonPercent > 100 ? 100 : model?.carbonPercent">
+            <div style="position: absolute; left: 0; width: 100%; text-align: center; color: black">{{model?.carbonDisplay}}%</div>
+        </div>        
+    </div>
+</div>
+

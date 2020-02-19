@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  useFakeback: true,
+  useFakeback: false,
   apiBaseUrl: 'http://localhost:5000/api/',
 
   get dishesUrl() { return this.apiBaseUrl + 'dishes/'; },
