@@ -1,4 +1,4 @@
-import { Observable, pipe, BehaviorSubject, combineLatest, of } from 'rxjs';
+import { Observable, BehaviorSubject, combineLatest, of } from 'rxjs';
 import { RationDay } from '../dtos/ration-day';
 import { Store } from '@ngrx/store';
 import { RootState } from '../root-store';
@@ -10,8 +10,9 @@ import { MealModel } from './meal.model';
 import { Meal } from '../dtos/meal';
 import { v4 as uuid } from 'uuid';
 import { MealItem } from '../dtos/meal-item';
-import { map, mergeAll, mergeMap } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 import { ModelService } from './model.static';
+import { WholeDayNutrientTargetPercent, WholeDayNutrientTotals, WholeDayNutrientIndicator } from './day-indicator.model';
 
 export class DayModel {
     constructor(day: RationDay, store: Store<RootState>) {
@@ -30,21 +31,7 @@ export class DayModel {
         this.dayTargets$ = this.meals$.asObservable().pipe(
             mergeMap(meals => {
                 return combineLatest(meals.map(m => m.mealType$)).pipe(
-                    map(mt => {
-                        const result = new WholeDayNutrientTargetPercent();
-                        mt.forEach(el => {
-                            if (el) {
-                                result.proteinTargetPercent += el.kkalTotal * el.proteinPart / 100;
-                                result.fatTargetPercent += el.kkalTotal * el.fatPart / 100;
-                                result.carbonTargetPercent += el.kkalTotal * el.carbonPart / 100;
-                                result.kkTargetPercent += el.kkalTotal;
-                            }
-                        });
-                        result.proteinTargetPercent = result.proteinTargetPercent / result.kkTargetPercent;
-                        result.fatTargetPercent = result.fatTargetPercent / result.kkTargetPercent;
-                        result.carbonTargetPercent = result.carbonTargetPercent / result.kkTargetPercent;
-                        return result;
-                    })
+                    map(mt => ModelService.getDayTargets(mt))
                 );
             })
         )
@@ -79,20 +66,7 @@ export class DayModel {
 
         this.dayIndicator$ = combineLatest([this.dayTargets$, this.dayTotals$, this.totalKkal$]).pipe(
             map(([targets, totals, totalKk]) => {
-                const result = new WholeDayNutrientIndicator();
-                result.kkPercent = this.round(totals.kkalTotal / totalKk /*(!)*/);
-                const nutrientsTotal = totals.proteinTotal + totals.fatTotal + totals.carbonTotal;
-                result.proteinDisplay = this.round(totals.proteinTotal / nutrientsTotal);
-                result.fatDisplay = this.round(totals.fatTotal / nutrientsTotal);
-                result.carbonDisplay = this.round(totals.carbonTotal / nutrientsTotal);
-                result.proteinPercent = result.proteinDisplay / targets.proteinTargetPercent;
-                result.fatPercent = result.fatDisplay / targets.fatTargetPercent;
-                result.carbonPercent = result.carbonDisplay / targets.carbonTargetPercent;
-                result.proteinClass = ModelService.getClass(ModelService.getPercentageClass(result.proteinPercent));
-                result.fatClass = ModelService.getClass(ModelService.getPercentageClass(result.fatPercent));
-                result.carbonClass = ModelService.getClass(ModelService.getPercentageClass(result.carbonPercent));
-                result.kkClass = ModelService.getClass(ModelService.getPercentageClass(result.kkPercent));
-                return result;
+                return ModelService.getDayIndicator(targets, totals, totalKk);
             })
         )
     }
@@ -125,10 +99,6 @@ export class DayModel {
         this.meals$.next(ms);
     }
 
-    private round(n: number): number {
-        return Math.round((n + Number.EPSILON) * 100);
-    }
-
     getDto(): RationDay {
         const dto = new RationDay();
         dto.id = this.id;
@@ -151,32 +121,4 @@ export class DayModel {
         });
         return dto;
     }
-}
-
-export class WholeDayNutrientIndicator {
-    public kkPercent = 0;
-    public kkClass = '';
-    public proteinPercent = 0;
-    public proteinDisplay = 0;
-    public proteinClass = '';
-    public fatPercent = 0;
-    public fatDisplay = 0;
-    public fatClass = '';
-    public carbonPercent = 0;
-    public carbonDisplay = 0;
-    public carbonClass = '';
-}
-
-export class WholeDayNutrientTargetPercent {
-    public kkTargetPercent = 0;
-    public proteinTargetPercent = 0;
-    public fatTargetPercent = 0;
-    public carbonTargetPercent = 0;
-}
-
-export class WholeDayNutrientTotals {
-    public proteinTotal = 0;
-    public fatTotal = 0;
-    public carbonTotal = 0;
-    public kkalTotal = 0;
 }

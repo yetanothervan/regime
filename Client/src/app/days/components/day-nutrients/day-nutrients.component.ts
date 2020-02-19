@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges, OnDestroy, ChangeDetectorRef, SimpleChanges } from '@angular/core';
-import { WholeDayNutrientIndicator } from 'src/app/models/day.model';
+import { WholeDayNutrientIndicator } from 'src/app/models/day-indicator.model';
 
 @Component({
   selector: 'rg-day-nutrients',
@@ -25,8 +25,7 @@ export class DayNutrientsComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit(): void {
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    let a = 0;
+  ngOnChanges() {
   }
 
   ngOnDestroy() {

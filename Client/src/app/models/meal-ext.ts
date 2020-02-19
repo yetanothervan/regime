@@ -10,33 +10,31 @@ export class MealExt extends Meal {
         super();
         Object.assign(this, meal);
         if (ingredients && dishes && meal && mealTypes) {
-            const mealType = mealTypes.find(mt => mt.id === meal.mealTypeId);
-            if (!mealType) return;
+            this.mealType = mealTypes.find(mt => mt.id === meal.mealTypeId);
+            if (!this.mealType) return;
             this.kkTotal = 0;
             let nutrientsTotal = 0;
-            let proteinTotal = 0;
-            let fatTotal = 0;
-            let carbonTotal = 0;
+
             this.mealItems.forEach(mi => {
                 const dish = dishes.find(d => d.id === mi.dishId);
                 const dishExt = new DishExt(dish, ingredients);
                 this.kkTotal += (dishExt.kkalTotal) * mi.weight;
                 nutrientsTotal += dishExt.nutrientsTotal * mi.weight;
-                proteinTotal += dishExt.proteinTotal * mi.weight;
-                fatTotal += dishExt.fatTotal * mi.weight;
-                carbonTotal += dishExt.carbonTotal * mi.weight;
+                this.proteinTotal += dishExt.proteinTotal * mi.weight;
+                this.fatTotal += dishExt.fatTotal * mi.weight;
+                this.carbonTotal += dishExt.carbonTotal * mi.weight;
             });
-            this.kkPercent = this.round(this.kkTotal / mealType.kkalTotal);
-            const proteinPercent = this.getPart(proteinTotal, nutrientsTotal);
-            const proteinPercentNorm = this.getPart(proteinPercent, mealType.proteinPart);
+            this.kkPercent = this.round(this.kkTotal / this.mealType.kkalTotal);
+            const proteinPercent = this.getPart(this.proteinTotal, nutrientsTotal);
+            const proteinPercentNorm = this.getPart(proteinPercent, this.mealType.proteinPart);
             this.proteinClass = ModelService.getPercentageClass(proteinPercentNorm);
 
-            const fatPercent = this.getPart(fatTotal, nutrientsTotal);
-            const fatPercentNorm = this.getPart(fatPercent, mealType.fatPart);
+            const fatPercent = this.getPart(this.fatTotal, nutrientsTotal);
+            const fatPercentNorm = this.getPart(fatPercent, this.mealType.fatPart);
             this.fatClass = ModelService.getPercentageClass(fatPercentNorm);
 
-            const carbonPercent = this.getPart(carbonTotal, nutrientsTotal);
-            const carbonPercentNorm = this.getPart(carbonPercent, mealType.carbonPart);
+            const carbonPercent = this.getPart(this.carbonTotal, nutrientsTotal);
+            const carbonPercentNorm = this.getPart(carbonPercent, this.mealType.carbonPart);
             this.carbonClass = ModelService.getPercentageClass(carbonPercentNorm);
 
             this.kkWidth = this.kkPercent > 100 ? 100 : this.kkPercent;
@@ -49,6 +47,10 @@ export class MealExt extends Meal {
     public proteinClass: number;
     public fatClass: number;
     public carbonClass: number;
+    public proteinTotal = 0;
+    public fatTotal = 0;
+    public carbonTotal = 0;
+    public mealType: MealType;
 
     private round(n: number): number {
         return Math.round((n + Number.EPSILON) * 100);
