@@ -13,6 +13,9 @@ import { EffectsModule } from '@ngrx/effects';
 import { MealTypesEffects } from './state/meal-types.effects';
 import { MealTypesServiceModule } from './service/meal-types-service.module';
 import { reducer } from './state/meal-types.reducer';
+import { MealTypesInterceptor } from './service/fakeback.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 
 @NgModule({
@@ -24,6 +27,9 @@ import { reducer } from './state/meal-types.reducer';
     StoreModule.forFeature(me.mealTypesFeatureKey, reducer),
     EffectsModule.forFeature([MealTypesEffects]),
     MealTypesServiceModule
+  ],
+  providers: [
+    environment.useFakeback ? { provide: HTTP_INTERCEPTORS, useClass: MealTypesInterceptor, multi: true } : []
   ]
 })
 export class MealTypesModule { }

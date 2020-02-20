@@ -15,6 +15,12 @@ export class EntitiesInterceptor implements HttpInterceptor {
         } else
         if (req.url.endsWith(environment.dishesUrl) && req.method === 'GET') {
             return this.ok(this.fakeback.getDishes());
+        } else
+        if (req.url.endsWith(environment.mealTypesUrl) && req.method === 'GET') {
+            return this.ok(this.fakeback.getMealTypes());
+        } else
+        if (req.url.endsWith(environment.daysUrl) && req.method === 'GET') {
+            return this.ok(this.fakeback.getDays());
         } else {
             return next.handle(req);
         }

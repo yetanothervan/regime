@@ -25,6 +25,9 @@ import { MealItemRowComponent } from './components/meal-item-row/meal-item-row.c
 import { MealNutrientsComponent } from './components/meal-nutrients/meal-nutrients.component';
 import { CurrentDayServiceModule } from './service/current-day-service.module';
 import { DayNutrientsComponent } from './components/day-nutrients/day-nutrients.component';
+import { environment } from 'src/environments/environment';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { DaysInterceptor } from './service/fakeback.interceptor';
 
 @NgModule({
   declarations: [DaysShellComponent,
@@ -52,6 +55,9 @@ import { DayNutrientsComponent } from './components/day-nutrients/day-nutrients.
     EffectsModule.forFeature([DaysEffects]),
     DaysServiceModule,
     CurrentDayServiceModule
-  ]
+  ],
+  providers: [
+    environment.useFakeback ? { provide: HTTP_INTERCEPTORS, useClass: DaysInterceptor, multi: true } : []
+  ],
 })
 export class DaysModule { }
