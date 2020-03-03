@@ -15,7 +15,9 @@ const routes: Routes = [
     { path: 'meal-types',
     loadChildren: () => import('./meal-types/meal-types.module').then(m => m.MealTypesModule) },
     { path: 'days',
-    loadChildren: () => import('./days/days.module').then(m => m.DaysModule) }
+    loadChildren: () => import('./days/days.module').then(m => m.DaysModule) },
+    { path: 'report',
+    loadChildren: () => import('./report/report.module').then(m => m.ReportModule) }
   ]}
 ];
 
