@@ -30,14 +30,18 @@
             <input formControlName="carbon" type="number" class="form-control form-control-sm" [attr.id]="'carbonCtrl'+index"/>
         </div>
     </div>
-    <div class="form-row justify-content-end">
+    <div class="form-row justify-content-end" [hidden]="!form.dirty">        
+        <small class="text-danger mr-auto align-self-start ml-3 mb-3">
+            <div *ngIf="form.get('caption')?.errors?.required">Необходимо ввести наимeнование</div>
+            <div *ngIf="form?.errors?.sumvalidator">Сумма процентов белков, жиров и углеводов должна точно равнятся 100</div>
+        </small>
         <div class="col-auto">
-            <button type="submit" class="btn btn-primary" [disabled]="!form.valid" [hidden]="!form.dirty">
+            <button type="submit" class="btn btn-primary" [disabled]="!form.valid">
                 Save
             </button>
         </div>
         <div class="col-auto">
-            <button class="btn btn-secondary" [hidden]="!form.dirty" (click)="resetClicked()">
+            <button class="btn btn-secondary" (click)="resetClicked()">
                 Reset
             </button>
         </div>

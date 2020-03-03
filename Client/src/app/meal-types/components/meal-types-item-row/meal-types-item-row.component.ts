@@ -2,7 +2,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { MealType } from 'src/app/dtos/meal-type';
 import { copyMealType, isMealTypeEqual } from 'src/app/dtos';
 import { Subject, Observable, interval } from 'rxjs';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { map, debounce } from 'rxjs/operators';
 
 @Component({
@@ -34,6 +34,7 @@ export class MealTypesItemRowComponent implements OnInit {
 
   @Output() saved: EventEmitter<MealType> = new EventEmitter();
   form: FormGroup;
+
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
       caption: ['', Validators.required],
@@ -41,7 +42,7 @@ export class MealTypesItemRowComponent implements OnInit {
       protein: 0,
       fat: 0,
       carbon: 0
-    });
+    }, { validators: [this.validatorSumIs100] });
 
     this._mealTypeSub = new Subject<MealType>();
     this._mealType$ = this._mealTypeSub.asObservable().pipe(map(d => d));
@@ -74,6 +75,16 @@ export class MealTypesItemRowComponent implements OnInit {
       fat: mealType.fatPart,
       carbon: mealType.carbonPart
     });
+  }
+
+  validatorSumIs100(c: AbstractControl) {
+    const nutrientSum = c?.get('protein')?.value +
+      c?.get('fat')?.value +
+      c?.get('carbon')?.value;
+    if (nutrientSum !== 100) {
+      return { sumvalidator: true };
+    }
+    return null;
   }
 
   recalculateFormChanges(mealType: MealType) {
