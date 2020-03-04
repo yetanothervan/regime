@@ -1,1 +1,11 @@
-<p>report-ingredients-list works!</p>
+<div class="container">
+    <div *ngFor="let day of reportDays">
+        <h3>{{day.caption}}:</h3>
+        <div class="report">
+            <div *ngFor="let item of day.items" class="report-item-row row d-flex w-50">
+                <a class="flex-grow-1">{{item.caption}}</a>
+                <a>{{item.weight}}</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ReportDay } from '../../models/report-day';
 
 @Component({
   selector: 'rg-report-ingredients-list',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./report-ingredients-list.component.scss']
 })
 export class ReportIngredientsListComponent implements OnInit {
+
+  @Input() reportDays: ReportDay[];
 
   constructor() { }
 
