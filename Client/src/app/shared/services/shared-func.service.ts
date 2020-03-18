@@ -22,8 +22,11 @@ export class SharedFuncService {
 
     sortMatTable(arr: any[], field: string, dirAsc: boolean ) {
         arr.sort((a, b) => {
-            const keyA = a[field];
-            const keyB = b[field];
+            let keyA = a[field] ?? '';
+            let keyB = b[field] ?? '';
+
+            if (typeof(keyA) === 'string') { keyA = (keyA ?? '' as string).toLowerCase(); }
+            if (typeof(keyB) === 'string') { keyB = (keyB ?? '' as string).toLowerCase(); }
 
             if (dirAsc) {
                 if (keyA < keyB) { return -1; }

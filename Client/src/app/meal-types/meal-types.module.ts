@@ -14,14 +14,18 @@ import { MealTypesEffects } from './state/meal-types.effects';
 import { MealTypesServiceModule } from './service/meal-types-service.module';
 import { reducer } from './state/meal-types.reducer';
 import { MealTypesInterceptor } from './service/fakeback.interceptor';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
 
 @NgModule({
-  declarations: [MealTypesShellComponent, MealTypesProviderComponent, MealTypesListComponent, MealTypesItemRowComponent],
+  declarations: [MealTypesShellComponent,
+     MealTypesProviderComponent,
+     MealTypesListComponent,
+     MealTypesItemRowComponent],
   imports: [
     CommonModule,
+    HttpClientModule,
     MealTypesRoutingModule,
     ReactiveFormsModule,
     StoreModule.forFeature(me.mealTypesFeatureKey, reducer),

@@ -9,6 +9,7 @@ import { RationDay } from 'src/app/dtos/ration-day';
 import { Ingredient } from 'src/app/dtos/ingredient';
 import { Dish } from 'src/app/dtos/dish';
 import { ReportDay } from '../../models/report-day';
+import { SharedFuncService } from 'src/app/shared/services/shared-func.service';
 
 @Component({
   selector: 'rg-report-provider',
@@ -22,7 +23,7 @@ export class ReportProviderComponent implements OnInit {
 
   reportDays$: Observable<ReportDay[]>;
 
-  constructor(private store: Store<RootState>) {
+  constructor(private store: Store<RootState>, private shared: SharedFuncService) {
     this.reportDays$ = combineLatest([
       this.store.select(root.getEntitiesDays),
       this.store.select(root.getEntitiesDishes),
@@ -58,6 +59,9 @@ export class ReportProviderComponent implements OnInit {
         exist.weight += item.weight;
       });
     });
+    if (result && result.items) {
+      this.shared.sortMatTable(result.items, 'caption', true);
+    }
     return result;
   }
 
@@ -87,6 +91,10 @@ export class ReportProviderComponent implements OnInit {
         });
       });
     });
+
+    if (result && result.items) {
+      this.shared.sortMatTable(result.items, 'caption', true);
+    }
 
     return result;
   }

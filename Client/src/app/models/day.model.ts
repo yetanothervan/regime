@@ -25,7 +25,7 @@ export class DayModel {
         this.mealTypes$ = store.select(root.getEntitiesMealTypes);
 
         const mealArray: MealModel[] =
-            day.meals.map(m => new MealModel(m, this));
+            day.meals?.map(m => new MealModel(m, this)) ?? [];
         this.meals$ = new BehaviorSubject(mealArray);
 
         this.dayTargets$ = this.meals$.asObservable().pipe(
